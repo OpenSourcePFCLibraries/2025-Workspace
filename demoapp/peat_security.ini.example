@@ -1,0 +1,33 @@
+; PEAT demo: OpenID Connect logon and PFC security
+;
+; The PEAT demo runs without a logon. To try OpenID Connect logon with the PFC security
+; service, copy this file to peat_security.ini (next to peat.ini) and fill in the values.
+; peat_security.ini is ignored by git, so its passwords stay local.
+
+; PFC security database (tables security_apps, security_users, security_info, ...)
+[Security]
+DBMS=
+ServerName=
+Database=
+LogID=
+LogPassword=
+DBParm=
+; Group used when none of the user's identity provider groups is known to PFC security
+; (empty = refuse the logon)
+DefaultGroup=
+
+; OpenID Connect identity provider (read by n_cst_appmanager.of_OpenIDLogonDlg)
+[OpenID]
+TokenEndpoint=http://localhost:9000/application/o/token/
+UserInfoEndpoint=http://localhost:9000/application/o/userinfo/
+ClientID=
+Scope=openid profile
+; OAuthClient or HTTPClient
+Client=OAuthClient
+; 1 = show the identity provider responses and the client choice (demonstration)
+ShowResponses=1
+
+; Identity provider group=PFC security group
+[GroupMap]
+peat-user-group=peat_user_group
+peat-admin-group=peat_admin_group

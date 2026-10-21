@@ -14,7 +14,7 @@ n_pfcsecurity_appmanager gnv_app
 end variables
 
 global type pfcsecurity_admin from application
- string appruntimeversion = "25.0.0.3376"
+ string appruntimeversion = "25.1.0.6430"
 integer highdpimode = 0
 end type
 global pfcsecurity_admin pfcsecurity_admin

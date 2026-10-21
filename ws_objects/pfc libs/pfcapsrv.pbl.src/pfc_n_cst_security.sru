@@ -37,6 +37,8 @@ boolean	ib_initsecurity = false
 n_tr	itr_trans
 boolean	ib_precache = false
 string	is_currfilter
+string	is_groups[]
+boolean	ib_externalgroups = false
 
 // unused
 string 	is_enabledborder = '1'
@@ -80,6 +82,11 @@ private function integer of_setcontrolstatus_datawindow (graphicobject ago_item,
 private function integer of_scancontrolarray_datawindow (string as_win_name, windowobject ao_object, string as_object_name)
 private function integer of_scancontrolarray_userobject (string as_win_name, windowobject ao_object, string as_object_name)
 private function integer of_scancontrolarray_tab (string as_win_name, windowobject ao_object, string as_object_name)
+public function integer of_initsecurity (n_tr atr_trans, string as_appname, string as_userid, string as_groups[], string as_defaultgroup)
+public function integer of_initsecurity (n_tr atr_trans, string as_appname, string as_userid, string as_groups[], string as_defaultgroup, boolean ab_precache)
+protected function integer of_inititems (n_tr atr_trans, string as_appname, string as_userid, string as_defaultgroup, boolean ab_precache)
+public function integer of_getgroups (ref string as_groups[])
+public function boolean of_isexternalgroups ()
 end prototypes
 
 protected function integer of_setmenustatus (ref menu am_item, string as_window, boolean ab_override);//////////////////////////////////////////////////////////////////////////////
@@ -377,7 +384,7 @@ If Not ib_precache Then
 		
 		// read in the setting for all the groups the the user belongs to - appending to the datastore
 		For li_idx = 1 To ii_numgroups 
-			li_rc = ids_items.Retrieve(is_app, ls_object, ids_groups.object.group_name[li_idx] )
+			li_rc = ids_items.Retrieve(is_app, ls_object, is_groups[li_idx] )
 			If li_rc = -1 Then
 				Return -1
 			Else
@@ -1051,6 +1058,7 @@ public function integer of_initsecurity (n_tr atr_trans, string as_appname, stri
 //	5.0.03 Added additional error checking for retrieve statements
 //	5.0.03 Fixed problem where is_defaultgroup was used instead of as_defaultgroup
 //	6.0 Added ab_precache option
+//	2025	Group membership stored in is_groups; item setup moved to of_InitItems
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1077,6 +1085,7 @@ public function integer of_initsecurity (n_tr atr_trans, string as_appname, stri
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_rc, li_idx
+string	ls_empty[]
 
 // transaction not connected
 if NOT atr_trans.of_isconnected() then return -1
@@ -1117,6 +1126,69 @@ elseif ii_numgroups < 0 then
 	return -6
 end if 
 
+// remember the groups the user belongs to
+is_groups = ls_empty
+For li_idx = 1 To ii_numgroups
+	is_groups[li_idx] = ids_groups.GetItemString(li_idx, 'group_name')
+Next
+ib_externalgroups = False
+
+Return of_InitItems(atr_trans, as_appname, as_userid, as_defaultgroup, ab_precache)
+
+end function
+
+protected function integer of_inititems (n_tr atr_trans, string as_appname, string as_userid, string as_defaultgroup, boolean ab_precache);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_InitItems
+//
+//	Access:  protected
+//
+//	Arguments :
+//	atr_trans 			used to connect to the database
+//	as_appname			application id (lower case)
+//	as_userid			user id (lower case)
+//	as_defaultgroup	group to be used if the user does not belong to one (lower case)
+//	ab_precache			preload all settings for the user
+//
+//	Returns:  Integer. 1 = OK
+//							-1 = Error retrieving information
+//
+//	Description:	Sets up the item list and stores the settings once the groups
+//						the user belongs to (is_groups / ii_numgroups) have been determined.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version.  Split out of of_InitSecurity
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_rc, li_idx
+
 // set up item list
 ids_items.dataobject = 'd_pfcsecurity_controllist'
 ids_items.of_settransobject(atr_trans)
@@ -1137,7 +1209,7 @@ If ab_precache Then
 	li_rc = ids_items.retrieve(as_appname, as_userid)
 	// read in the setting for all the groups the the user belongs to
 	For li_idx = 1 To ii_numgroups 
-		li_rc = ids_items.Retrieve(is_app, ids_groups.object.group_name[li_idx] )
+		li_rc = ids_items.Retrieve(is_app, is_groups[li_idx] )
 		If li_rc = -1 Then
 			Return -1
 		Else 
@@ -1209,6 +1281,8 @@ If (as_control = '') or (as_object = '') Then Return '!'
 
 // remember what we were looking at before
 ls_origfilter = ids_items.Describe("DataWindow.Table.Filter")
+// Describe returns "?" when there is no filter
+If ls_origfilter = "?" Then ls_origfilter = ""
 
 is_currfilter = "window=~""+as_object+"~" AND control=~""+as_control+"~""
 IF ids_items.SetFilter(is_currfilter) <> 1 then return '!'
@@ -1782,7 +1856,7 @@ protected function integer of_setcontrolstatus (graphicobject ago_item, string a
 //	5.0   Initial version
 //	5.0.03 Added support for drawobjects. These only have a visible attribute
 //	6.0 Added new parameter (as_itemname) to support standalone objects
-// 7.0 Added support for new controls: vprogressbar, vtrackbar, hprogressbar, 
+// 7.0 Added support for new controls: vprogressbar, vtrackbar, hprogressbar,
 //		 htrackbar, picturehyperlink, statictexthyperlink
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -2257,6 +2331,9 @@ choose case typeof(a_object)
 		as_desc = l_st.text
 		if as_desc = '' then as_desc = of_GetTag(l_st.tag)
 		return 'StaticText'
+	case ribbonbar!
+		as_desc = of_GetTag(a_object.tag)
+		return 'RibbonBar'
 	case tab!
 		as_desc = of_GetTag(a_object.tag)
 		return 'Tab'
@@ -2318,6 +2395,8 @@ l_dw = ago_item
 li_numset = of_SetState(as_window, ls_itemname, l_dw.enabled, l_dw.visible)
 ls_datawindow = trim(ls_itemname)
 ls_orig_filter = ids_items.Describe("DataWindow.Table.Filter")
+// Describe returns "?" when there is no filter
+If ls_orig_filter = "?" Then ls_orig_filter = ""
 // this filter will keep any columns that have a datawindow reference in it
 is_currfilter = "window=~""+as_window+"~" AND pos(control, ~""+ls_datawindow+"~")"
 IF ids_items.SetFilter("window=~""+as_window+"~" AND pos(control, ~""+ls_datawindow+"~") > 0") <> 1 then return -1
@@ -2394,6 +2473,281 @@ for li_tab_idx = 1 to li_tab_cnt
 next
 
 Return 1
+end function
+
+public function integer of_initsecurity (n_tr atr_trans, string as_appname, string as_userid, string as_groups[], string as_defaultgroup);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_InitSecurity
+//
+//	Access:  public
+//
+//	Arguments :
+//	atr_trans 			used to connect to the database
+//	as_appname			application id
+//	as_userid			user id
+//	as_groups[]			groups the user belongs to, as supplied by an external
+//							identity provider (e.g. the groups/roles claim of an OpenID Connect token)
+//	as_defaultgroup	group to be used if the user does not belong to any known group
+//
+//	Returns:  Integer.  See of_InitSecurity (n_tr, string, string, string[], string, boolean)
+//
+//	Description:	Initialize security using externally supplied group membership.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+return of_initsecurity(atr_trans, as_appname, as_userid, as_groups, as_defaultgroup, False)
+
+end function
+
+public function integer of_initsecurity (n_tr atr_trans, string as_appname, string as_userid, string as_groups[], string as_defaultgroup, boolean ab_precache);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_InitSecurity
+//
+//	Access:  public
+//
+//	Arguments :
+//	atr_trans 			used to connect to the database
+//	as_appname			application id
+//	as_userid			user id
+//	as_groups[]			groups the user belongs to, as supplied by an external
+//							identity provider (e.g. the groups/roles claim of an OpenID Connect token)
+//	as_defaultgroup	group to be used if the user does not belong to any known group
+//	ab_precache			preload all settings for the user - Default is false
+//
+//	Returns:  Integer. 1 = OK
+//							-1 = Transaction not connected or error retrieving settings
+//							-2 = Application not in database
+//							-4 = None of the groups are defined and default group does not exist
+//							-5 = None of the groups are defined and default group not supplied
+//							-6 = Error retrieving information
+//
+//	Description:	Initialize security when group membership is managed by an external
+//						identity provider (single sign-on).  The identity provider is the only
+//						source of truth for membership: the security_groupings table is not
+//						read and the user does not need to exist in security_users.
+//						The security database still supplies the group definitions (name and
+//						priority) and the control settings for each group and user.
+//						Groups that are not defined in security_users are ignored.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_rc, li_idx, li_check, li_count
+string	ls_group, ls_empty[]
+boolean	lb_found
+
+// transaction not connected
+if NOT atr_trans.of_isconnected() then return -1
+
+as_defaultgroup = lower(as_defaultgroup)
+as_appname = lower(as_appname)
+as_userid = lower(as_userid)
+
+ // Is this a valid application?
+ids_groups.dataobject = 'd_pfcsecurity_applookup'
+ids_groups.of_settransobject(atr_trans)
+li_rc = ids_groups.retrieve(as_appname)
+if li_rc = 0 then return -2
+if li_rc < 0 then return -6
+
+// keep only the supplied groups that are defined in the security database
+is_groups = ls_empty
+ii_numgroups = 0
+ids_groups.dataobject = 'd_pfcsecurity_groupverify'
+ids_groups.of_settransobject(atr_trans)
+li_count = UpperBound(as_groups)
+For li_idx = 1 To li_count
+	ls_group = lower(trim(as_groups[li_idx]))
+	If IsNull(ls_group) or len(ls_group) = 0 Then Continue
+	// skip duplicates
+	lb_found = False
+	For li_check = 1 To ii_numgroups
+		If is_groups[li_check] = ls_group Then
+			lb_found = True
+			Exit
+		End If
+	Next
+	If lb_found Then Continue
+	li_rc = ids_groups.retrieve(ls_group)
+	If li_rc < 0 Then Return -6
+	If li_rc > 0 Then
+		ii_numgroups++
+		is_groups[ii_numgroups] = ls_group
+	End If
+Next
+
+if ii_numgroups = 0 then
+	 // Is default group valid ?
+	if len(as_defaultgroup) > 0 then
+		li_rc = ids_groups.retrieve(as_defaultgroup)
+		if li_rc = 0 then return -4
+		if li_rc < 0 then return -6
+		ii_numgroups = 1
+		is_groups[1] = as_defaultgroup
+	else
+		return -5
+	end if
+end if
+
+ib_externalgroups = True
+
+Return of_InitItems(atr_trans, as_appname, as_userid, as_defaultgroup, ab_precache)
+
+end function
+
+public function integer of_getgroups (ref string as_groups[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetGroups
+//
+//	Access:  public
+//
+//	Arguments :
+//	as_groups[]		(by ref) the groups whose settings are applied for the current user
+//
+//	Returns:  Integer.  The number of groups
+//
+//	Description:	Returns the groups determined by of_InitSecurity, whether they came
+//						from the security database or an external identity provider.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+as_groups = is_groups
+Return ii_numgroups
+
+end function
+
+public function boolean of_isexternalgroups ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsExternalGroups
+//
+//	Access:  public
+//
+//	Arguments : None
+//
+//	Returns:  Boolean.  True if group membership was supplied by an external
+//					identity provider rather than read from the security database
+//
+//	Description:	Reports where the current group membership came from.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+Return ib_externalgroups
+
 end function
 
 on pfc_n_cst_security.create
