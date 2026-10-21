@@ -8,6 +8,10 @@ Once you have forked the project your copy will show you when we have made addit
 
 <img width="1157" height="80" alt="image" src="https://github.com/user-attachments/assets/1a708200-0ddc-4355-9afe-9800447323bf" />
 
+## Documentation
+
+The PFC documentation (the User's Guide and the Object Reference, converted to Markdown and kept up to date) is in the [docs](https://github.com/OpenSourcePFCLibraries/docs) repository.
+
 If you would like to contribute to the project, please watch this video:
 
 https://vimeo.com/478243534
