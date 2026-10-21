@@ -327,6 +327,10 @@ event resize;call w_sheet::resize;IF IsValid(inv_explorer) THEN
 END IF
 end event
 
+event pfc_preopen;call super::pfc_preopen;// PFC security is only on when peat_security.ini is present
+If IsValid(gnv_app.inv_security) Then gnv_app.inv_security.of_SetSecurity(This)
+end event
+
 type tv_project_list from u_tv within w_s_projectlist
 integer y = 24
 integer width = 905

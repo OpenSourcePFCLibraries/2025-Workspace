@@ -48,6 +48,7 @@ END IF
 
 end event
 
-event pfc_postopen;call super::pfc_postopen;OpenSheet(w_s_projectlist, this, 0, layered!)
+event pfc_postopen;call super::pfc_postopen;// With PFC security on (peat_security.ini), n_cst_peat opens the project list after the logon
+If Not IsValid(gnv_app.inv_security) Then OpenSheet(w_s_projectlist, this, 0, layered!)
 end event
 
