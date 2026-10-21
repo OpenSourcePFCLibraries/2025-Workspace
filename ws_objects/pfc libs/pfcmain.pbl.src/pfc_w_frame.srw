@@ -5,6 +5,10 @@ global type pfc_w_frame from w_master
 end type
 type mdi_1 from mdiclient within pfc_w_frame
 end type
+type mditbb_1 from tabbedbar within pfc_w_frame
+end type
+type mdirbb_1 from ribbonbar within pfc_w_frame
+end type
 end forward
 
 global type pfc_w_frame from w_master
@@ -21,6 +25,8 @@ event type integer pfc_minimizeall ( )
 event type integer pfc_undoarrange ( )
 event type integer pfc_layer ( )
 mdi_1 mdi_1
+mditbb_1 mditbb_1
+mdirbb_1 mdirbb_1
 end type
 global pfc_w_frame pfc_w_frame
 
@@ -705,14 +711,20 @@ int iCurrent
 call w_master::create
 if this.MenuName = "m_frame" then this.MenuID = create m_frame
 this.mdi_1=create mdi_1
+this.mditbb_1=create mditbb_1
+this.mdirbb_1=create mdirbb_1
 iCurrent=UpperBound(this.Control)
-this.Control[iCurrent+1]=mdi_1
+this.Control[iCurrent+1]=this.mdi_1
+this.Control[iCurrent+2]=this.mditbb_1
+this.Control[iCurrent+3]=this.mdirbb_1
 end on
 
 on pfc_w_frame.destroy
 call w_master::destroy
 if IsValid(MenuID) then destroy(MenuID)
 destroy(this.mdi_1)
+destroy(this.mditbb_1)
+destroy(this.mdirbb_1)
 end on
 
 event resize;call super::resize;//////////////////////////////////////////////////////////////////////////////
@@ -989,5 +1001,19 @@ end event
 
 type mdi_1 from mdiclient within pfc_w_frame
 long BackColor=276856960
+end type
+
+type mditbb_1 from tabbedbar within pfc_w_frame
+int X=0
+int Y=0
+int Width=0
+int Height=104
+end type
+
+type mdirbb_1 from ribbonbar within pfc_w_frame
+int X=0
+int Y=0
+int Width=0
+int Height=596
 end type
 
