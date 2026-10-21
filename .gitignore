@@ -3,3 +3,6 @@
 demoapp/peat_security.ini
 *.pbd
 *.exe
+
+# Output of tools/build.ps1
+/build/
