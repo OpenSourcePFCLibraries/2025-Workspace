@@ -16304,6 +16304,7 @@ public function integer of_object (string as_source, ref object ae_object);/////
 //
 //	Version
 //	12.5   Initial version
+//	2025	All object types in PowerBuilder 2025 (same set as of_string)
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -16357,6 +16358,9 @@ Choose Case as_source
 	Case "arraybounds"
 		ae_object = arraybounds! 
 	
+	Case "batchdataobjects"
+		ae_object = batchdataobjects! 
+	
 	Case "blob"
 		ae_object = blob! 
 	
@@ -16375,8 +16379,14 @@ Choose Case as_source
 	Case "classdefinitionobject"
 		ae_object = classdefinitionobject! 
 	
+	Case "coderobject"
+		ae_object = coderobject! 
+	
 	Case "commandbutton"
 		ae_object = commandbutton! 
+	
+	Case "compressorobject"
+		ae_object = compressorobject! 
 	
 	Case "connection"
 		ae_object = connection! 
@@ -16405,6 +16415,9 @@ Choose Case as_source
 	Case "cplusplus"
 		ae_object = cplusplus! 
 	
+	Case "crypterobject"
+		ae_object = crypterobject! 
+	
 	Case "datastore"
 		ae_object = datastore! 
 	
@@ -16425,6 +16438,12 @@ Choose Case as_source
 	
 	Case "decimal"
 		ae_object = decimal! 
+	
+	Case "dotnetassembly"
+		ae_object = dotnetassembly! 
+	
+	Case "dotnetobject"
+		ae_object = dotnetobject! 
 	
 	Case "double"
 		ae_object = double! 
@@ -16471,6 +16490,9 @@ Choose Case as_source
 	Case "extobject"
 		ae_object = extobject! 
 	
+	Case "extractorobject"
+		ae_object = extractorobject! 
+	
 	Case "functionobject"
 		ae_object = functionobject! 
 	
@@ -16498,6 +16520,9 @@ Choose Case as_source
 	Case "htrackbar"
 		ae_object = htrackbar! 
 	
+	Case "httpclient"
+		ae_object = httpclient! 
+	
 	Case "inet"
 		ae_object = inet! 
 	
@@ -16515,6 +16540,18 @@ Choose Case as_source
 	
 	Case "jaguarorb"
 		ae_object = jaguarorb! 
+	
+	Case "jsongenerator"
+		ae_object = jsongenerator! 
+	
+	Case "jsonpackage"
+		ae_object = jsonpackage! 
+	
+	Case "jsonparser"
+		ae_object = jsonparser! 
+	
+	Case "jwtgenerator"
+		ae_object = jwtgenerator! 
 	
 	Case "line"
 		ae_object = line! 
@@ -16555,6 +16592,9 @@ Choose Case as_source
 	Case "message"
 		ae_object = message! 
 	
+	Case "mimemessage"
+		ae_object = mimemessage! 
+	
 	Case "mlsync"
 		ae_object = mlsync! 
 	
@@ -16572,6 +16612,12 @@ Choose Case as_source
 	
 	Case "notype"
 		ae_object = notype! 
+	
+	Case "oauthclient"
+		ae_object = oauthclient! 
+	
+	Case "oauthrequest"
+		ae_object = oauthrequest! 
 	
 	Case "objhandle"
 		ae_object = objhandle! 
@@ -16621,6 +16667,120 @@ Choose Case as_source
 	Case "pbtocppobject"
 		ae_object = pbtocppobject! 
 	
+	Case "pdfaction"
+		ae_object = pdfaction! 
+	
+	Case "pdfactionjavascript"
+		ae_object = pdfactionjavascript! 
+	
+	Case "pdfactionnamed"
+		ae_object = pdfactionnamed! 
+	
+	Case "pdfactionresetform"
+		ae_object = pdfactionresetform! 
+	
+	Case "pdfattachment"
+		ae_object = pdfattachment! 
+	
+	Case "pdfcolor"
+		ae_object = pdfcolor! 
+	
+	Case "pdfcontent"
+		ae_object = pdfcontent! 
+	
+	Case "pdfcontext"
+		ae_object = pdfcontext! 
+	
+	Case "pdfdocextractor"
+		ae_object = pdfdocextractor! 
+	
+	Case "pdfdocument"
+		ae_object = pdfdocument! 
+	
+	Case "pdfdocumentproperties"
+		ae_object = pdfdocumentproperties! 
+	
+	Case "pdffont"
+		ae_object = pdffont! 
+	
+	Case "pdfformfield"
+		ae_object = pdfformfield! 
+	
+	Case "pdfformfieldcheckbox"
+		ae_object = pdfformfieldcheckbox! 
+	
+	Case "pdfformfieldcombobox"
+		ae_object = pdfformfieldcombobox! 
+	
+	Case "pdfformfieldgroup"
+		ae_object = pdfformfieldgroup! 
+	
+	Case "pdfformfieldlistbox"
+		ae_object = pdfformfieldlistbox! 
+	
+	Case "pdfformfieldpushbutton"
+		ae_object = pdfformfieldpushbutton! 
+	
+	Case "pdfformfieldradiobutton"
+		ae_object = pdfformfieldradiobutton! 
+	
+	Case "pdfformfieldradiobuttongroup"
+		ae_object = pdfformfieldradiobuttongroup! 
+	
+	Case "pdfformfieldtext"
+		ae_object = pdfformfieldtext! 
+	
+	Case "pdfimage"
+		ae_object = pdfimage! 
+	
+	Case "pdfimportcontent"
+		ae_object = pdfimportcontent! 
+	
+	Case "pdfinvisiblecontent"
+		ae_object = pdfinvisiblecontent! 
+	
+	Case "pdfmodel"
+		ae_object = pdfmodel! 
+	
+	Case "pdfmultilinetext"
+		ae_object = pdfmultilinetext! 
+	
+	Case "pdfobject"
+		ae_object = pdfobject! 
+	
+	Case "pdfpage"
+		ae_object = pdfpage! 
+	
+	Case "pdfrichtext"
+		ae_object = pdfrichtext! 
+	
+	Case "pdfsecurity"
+		ae_object = pdfsecurity! 
+	
+	Case "pdfsharedtext"
+		ae_object = pdfsharedtext! 
+	
+	Case "pdftableofcontents"
+		ae_object = pdftableofcontents! 
+	
+	Case "pdftableofcontentsitem"
+		ae_object = pdftableofcontentsitem! 
+	
+	Case "pdftext"
+		ae_object = pdftext! 
+	
+	Case "pdftextblock"
+		ae_object = pdftextblock! 
+	
+	Case "pdftextlayout"
+		ae_object = pdftextlayout! 
+	
+	Case "pdfvisiblecontent"
+		ae_object = pdfvisiblecontent! 
+	
+	Case "pdfwatermark"
+		ae_object = pdfwatermark! 
+	
 	Case "picture"
 		ae_object = picture! 
 	
@@ -16638,6 +16798,12 @@ Choose Case as_source
 	
 	Case "powerobject"
 		ae_object = powerobject! 
+	
+	Case "powerserverlabel"
+		ae_object = powerserverlabel! 
+	
+	Case "powerserverresult"
+		ae_object = powerserverresult! 
 	
 	Case "profilecall"
 		ae_object = profilecall! 
@@ -16666,11 +16832,59 @@ Choose Case as_source
 	Case "remoteobject"
 		ae_object = remoteobject! 
 	
+	Case "resourceresponse"
+		ae_object = resourceresponse! 
+	
+	Case "restclient"
+		ae_object = restclient! 
+	
 	Case "resultset"
 		ae_object = resultset! 
 	
 	Case "resultsets"
 		ae_object = resultsets! 
+	
+	Case "ribbonapplicationbuttonitem"
+		ae_object = ribbonapplicationbuttonitem! 
+	
+	Case "ribbonapplicationmenu"
+		ae_object = ribbonapplicationmenu! 
+	
+	Case "ribbonbar"
+		ae_object = ribbonbar! 
+	
+	Case "ribboncategoryitem"
+		ae_object = ribboncategoryitem! 
+	
+	Case "ribboncheckboxitem"
+		ae_object = ribboncheckboxitem! 
+	
+	Case "ribboncomboboxitem"
+		ae_object = ribboncomboboxitem! 
+	
+	Case "ribbongroupitem"
+		ae_object = ribbongroupitem! 
+	
+	Case "ribbonlargebuttonitem"
+		ae_object = ribbonlargebuttonitem! 
+	
+	Case "ribbonmenu"
+		ae_object = ribbonmenu! 
+	
+	Case "ribbonmenuitem"
+		ae_object = ribbonmenuitem! 
+	
+	Case "ribbonpanelitem"
+		ae_object = ribbonpanelitem! 
+	
+	Case "ribbonsmallbuttonitem"
+		ae_object = ribbonsmallbuttonitem! 
+	
+	Case "ribbonspinitem"
+		ae_object = ribbonspinitem! 
+	
+	Case "ribbontabbuttonitem"
+		ae_object = ribbontabbuttonitem! 
 	
 	Case "richtextedit"
 		ae_object = richtextedit! 
@@ -16690,6 +16904,9 @@ Choose Case as_source
 	Case "singlelineedit"
 		ae_object = singlelineedit! 
 	
+	Case "smtpclient"
+		ae_object = smtpclient! 
+	
 	Case "sslcallback"
 		ae_object = sslcallback! 
 	
@@ -16701,6 +16918,9 @@ Choose Case as_source
 	
 	Case "statictext"
 		ae_object = statictext! 
+	
+	Case "statusbar"
+		ae_object = statusbar! 
 	
 	Case "string"
 		ae_object = string! 
@@ -16717,11 +16937,29 @@ Choose Case as_source
 	Case "tab"
 		ae_object = tab! 
 	
+	Case "tabbedbar"
+		ae_object = tabbedbar! 
+	
+	Case "tabbedbaritem"
+		ae_object = tabbedbaritem! 
+	
+	Case "tabbedbarmenu"
+		ae_object = tabbedbarmenu! 
+	
+	Case "tabbedbarmenuitem"
+		ae_object = tabbedbarmenuitem! 
+	
 	Case "time"
 		ae_object = time! 
 	
 	Case "timing"
 		ae_object = timing! 
+	
+	Case "tokenrequest"
+		ae_object = tokenrequest! 
+	
+	Case "tokenresponse"
+		ae_object = tokenresponse! 
 	
 	Case "traceactivitynode"
 		ae_object = traceactivitynode! 
@@ -16822,6 +17060,9 @@ Choose Case as_source
 	Case "vtrackbar"
 		ae_object = vtrackbar! 
 	
+	Case "webbrowser"
+		ae_object = webbrowser! 
+	
 	Case "window"
 		ae_object = window! 
 	
@@ -16830,8 +17071,8 @@ Choose Case as_source
 	
 	Case "wsconnection"
 		ae_object = wsconnection! 
+	
 
-			
 	
 	Case Else
 		// Wrong Parameter Value
@@ -16866,6 +17107,7 @@ public function string of_string (object ae_object);////////////////////////////
 //	Version
 //	12.5   Initial version
 //	2019 R2	Additional datatypes
+//	2025	All object types in PowerBuilder 2025 (same set as of_object)
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -16915,6 +17157,9 @@ Choose Case ae_object
 	Case arraybounds!
 		Return "arraybounds"  
 	
+	Case batchdataobjects!
+		Return "batchdataobjects"  
+	
 	Case blob!
 		Return "blob"  
 	
@@ -16932,13 +17177,13 @@ Choose Case ae_object
 	
 	Case classdefinitionobject!
 		Return "classdefinitionobject"  
-		
+	
 	Case coderobject!
 		Return "coderobject"  
 	
 	Case commandbutton!
 		Return "commandbutton"  
-				
+	
 	Case compressorobject!
 		Return "compressorobject"  
 	
@@ -16968,7 +17213,7 @@ Choose Case ae_object
 	
 	Case cplusplus!
 		Return "cplusplus"  
-				
+	
 	Case crypterobject!
 		Return "crypterobject"  
 	
@@ -16992,6 +17237,12 @@ Choose Case ae_object
 	
 	Case decimal!
 		Return "decimal"  
+	
+	Case dotnetassembly!
+		Return "dotnetassembly"  
+	
+	Case dotnetobject!
+		Return "dotnetobject"  
 	
 	Case double!
 		Return "double"  
@@ -17037,7 +17288,7 @@ Choose Case ae_object
 	
 	Case extobject!
 		Return "extobject"  
-								
+	
 	Case extractorobject!
 		Return "extractorobject"  
 	
@@ -17067,7 +17318,7 @@ Choose Case ae_object
 	
 	Case htrackbar!
 		Return "htrackbar"  
-				
+	
 	Case httpclient!
 		Return "httpclient"  
 	
@@ -17088,16 +17339,16 @@ Choose Case ae_object
 	
 	Case jaguarorb!
 		Return "jaguarorb"  
-								
+	
 	Case jsongenerator!
 		Return "jsongenerator"  
-								
+	
 	Case jsonpackage!
 		Return "jsonpackage"  
-								
+	
 	Case jsonparser!
 		Return "jsonparser"  
-								
+	
 	Case jwtgenerator!
 		Return "jwtgenerator"  
 	
@@ -17140,6 +17391,9 @@ Choose Case ae_object
 	Case message!
 		Return "message"  
 	
+	Case mimemessage!
+		Return "mimemessage"  
+	
 	Case mlsync!
 		Return "mlsync"  
 	
@@ -17157,10 +17411,10 @@ Choose Case ae_object
 	
 	Case notype!
 		Return "notype"  
-								
+	
 	Case oauthclient!
 		Return "oauthclient"  
-								
+	
 	Case oauthrequest!
 		Return "oauthrequest"  
 	
@@ -17212,6 +17466,120 @@ Choose Case ae_object
 	Case pbtocppobject!
 		Return "pbtocppobject"  
 	
+	Case pdfaction!
+		Return "pdfaction"  
+	
+	Case pdfactionjavascript!
+		Return "pdfactionjavascript"  
+	
+	Case pdfactionnamed!
+		Return "pdfactionnamed"  
+	
+	Case pdfactionresetform!
+		Return "pdfactionresetform"  
+	
+	Case pdfattachment!
+		Return "pdfattachment"  
+	
+	Case pdfcolor!
+		Return "pdfcolor"  
+	
+	Case pdfcontent!
+		Return "pdfcontent"  
+	
+	Case pdfcontext!
+		Return "pdfcontext"  
+	
+	Case pdfdocextractor!
+		Return "pdfdocextractor"  
+	
+	Case pdfdocument!
+		Return "pdfdocument"  
+	
+	Case pdfdocumentproperties!
+		Return "pdfdocumentproperties"  
+	
+	Case pdffont!
+		Return "pdffont"  
+	
+	Case pdfformfield!
+		Return "pdfformfield"  
+	
+	Case pdfformfieldcheckbox!
+		Return "pdfformfieldcheckbox"  
+	
+	Case pdfformfieldcombobox!
+		Return "pdfformfieldcombobox"  
+	
+	Case pdfformfieldgroup!
+		Return "pdfformfieldgroup"  
+	
+	Case pdfformfieldlistbox!
+		Return "pdfformfieldlistbox"  
+	
+	Case pdfformfieldpushbutton!
+		Return "pdfformfieldpushbutton"  
+	
+	Case pdfformfieldradiobutton!
+		Return "pdfformfieldradiobutton"  
+	
+	Case pdfformfieldradiobuttongroup!
+		Return "pdfformfieldradiobuttongroup"  
+	
+	Case pdfformfieldtext!
+		Return "pdfformfieldtext"  
+	
+	Case pdfimage!
+		Return "pdfimage"  
+	
+	Case pdfimportcontent!
+		Return "pdfimportcontent"  
+	
+	Case pdfinvisiblecontent!
+		Return "pdfinvisiblecontent"  
+	
+	Case pdfmodel!
+		Return "pdfmodel"  
+	
+	Case pdfmultilinetext!
+		Return "pdfmultilinetext"  
+	
+	Case pdfobject!
+		Return "pdfobject"  
+	
+	Case pdfpage!
+		Return "pdfpage"  
+	
+	Case pdfrichtext!
+		Return "pdfrichtext"  
+	
+	Case pdfsecurity!
+		Return "pdfsecurity"  
+	
+	Case pdfsharedtext!
+		Return "pdfsharedtext"  
+	
+	Case pdftableofcontents!
+		Return "pdftableofcontents"  
+	
+	Case pdftableofcontentsitem!
+		Return "pdftableofcontentsitem"  
+	
+	Case pdftext!
+		Return "pdftext"  
+	
+	Case pdftextblock!
+		Return "pdftextblock"  
+	
+	Case pdftextlayout!
+		Return "pdftextlayout"  
+	
+	Case pdfvisiblecontent!
+		Return "pdfvisiblecontent"  
+	
+	Case pdfwatermark!
+		Return "pdfwatermark"  
+	
 	Case picture!
 		Return "picture"  
 	
@@ -17229,6 +17597,12 @@ Choose Case ae_object
 	
 	Case powerobject!
 		Return "powerobject"  
+	
+	Case powerserverlabel!
+		Return "powerserverlabel"  
+	
+	Case powerserverresult!
+		Return "powerserverresult"  
 	
 	Case profilecall!
 		Return "profilecall"  
@@ -17256,10 +17630,10 @@ Choose Case ae_object
 	
 	Case remoteobject!
 		Return "remoteobject"  
-								
+	
 	Case resourceresponse!
 		Return "resourceresponse"  
-								
+	
 	Case restclient!
 		Return "restclient"  
 	
@@ -17269,47 +17643,50 @@ Choose Case ae_object
 	Case resultsets!
 		Return "resultsets"  
 	
-	Case richtextedit!
-		Return "richtextedit"  
-																
 	Case ribbonapplicationbuttonitem!
 		Return "ribbonapplicationbuttonitem"  
-								
+	
 	Case ribbonapplicationmenu!
 		Return "ribbonapplicationmenu"  
-								
+	
 	Case ribbonbar!
 		Return "ribbonbar"  
-								
+	
 	Case ribboncategoryitem!
 		Return "ribboncategoryitem"  
-								
+	
 	Case ribboncheckboxitem!
 		Return "ribboncheckboxitem"  
-								
+	
 	Case ribboncomboboxitem!
 		Return "ribboncomboboxitem"  
-								
+	
 	Case ribbongroupitem!
 		Return "ribbongroupitem"  
-								
+	
 	Case ribbonlargebuttonitem!
 		Return "ribbonlargebuttonitem"  
-								
+	
 	Case ribbonmenu!
 		Return "ribbonmenu"  
-								
+	
 	Case ribbonmenuitem!
 		Return "ribbonmenuitem"  
-								
+	
 	Case ribbonpanelitem!
 		Return "ribbonpanelitem"  
-								
+	
 	Case ribbonsmallbuttonitem!
 		Return "ribbonsmallbuttonitem"  
-								
+	
+	Case ribbonspinitem!
+		Return "ribbonspinitem"  
+	
 	Case ribbontabbuttonitem!
 		Return "ribbontabbuttonitem"  
+	
+	Case richtextedit!
+		Return "richtextedit"  
 	
 	Case roundrectangle!
 		Return "roundrectangle"  
@@ -17326,6 +17703,9 @@ Choose Case ae_object
 	Case singlelineedit!
 		Return "singlelineedit"  
 	
+	Case smtpclient!
+		Return "smtpclient"  
+	
 	Case sslcallback!
 		Return "sslcallback"  
 	
@@ -17337,6 +17717,9 @@ Choose Case ae_object
 	
 	Case statictext!
 		Return "statictext"  
+	
+	Case statusbar!
+		Return "statusbar"  
 	
 	Case string!
 		Return "string"  
@@ -17353,15 +17736,27 @@ Choose Case ae_object
 	Case tab!
 		Return "tab"  
 	
+	Case tabbedbar!
+		Return "tabbedbar"  
+	
+	Case tabbedbaritem!
+		Return "tabbedbaritem"  
+	
+	Case tabbedbarmenu!
+		Return "tabbedbarmenu"  
+	
+	Case tabbedbarmenuitem!
+		Return "tabbedbarmenuitem"  
+	
 	Case time!
 		Return "time"  
 	
 	Case timing!
 		Return "timing"  
-								
+	
 	Case tokenrequest!
 		Return "tokenrequest"  
-								
+	
 	Case tokenresponse!
 		Return "tokenresponse"  
 	
@@ -17463,7 +17858,7 @@ Choose Case ae_object
 	
 	Case vtrackbar!
 		Return "vtrackbar"  
-		
+	
 	Case webbrowser!
 		Return "webbrowser"  
 	
@@ -17475,7 +17870,7 @@ Choose Case ae_object
 	
 	Case wsconnection!
 		Return "wsconnection"  
-		
+	
 	Case Else
 		Return "!"
 		
