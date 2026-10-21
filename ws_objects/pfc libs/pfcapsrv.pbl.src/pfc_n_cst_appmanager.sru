@@ -72,6 +72,8 @@ public function string of_getappkey ()
 public function string of_getuserkey ()
 public function w_frame of_getframe ()
 public function integer of_logondlg ()
+public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattrib)
+public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattrib, string as_inifile, string as_inisection)
 public function integer of_setdebug (boolean ab_switch)
 public function integer of_setdwcache (boolean ab_switch)
 public function integer of_seterror (boolean ab_switch)
@@ -1896,6 +1898,145 @@ end if
 
 return lnv_logonattrib.ii_rc
 
+end function
+
+public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattrib);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_OpenIDLogonDlg
+//
+//	Access:  public
+//
+//	Arguments:
+//	anv_openidattrib (by ref)	logon settings in, results out (user ID, access token, groups)
+//
+//	Returns:  integer
+//	 1 = successful logon
+//	 0 = User cancelled from the logon dialog
+//	-1 = an error occurred
+//
+//	Description:  Logs the user on with an OpenID Connect identity provider (w_openid_logon).
+//		Settings left empty in anv_openidattrib are read from the [OpenID] section of the
+//		application INI file: TokenEndpoint, UserInfoEndpoint, ClientID, Scope,
+//		Client (OAuthClient or HTTPClient) and ShowResponses (1 shows the provider's responses).
+//		On success the user ID is set with of_SetUserID; the groups the provider reports are in
+//		anv_openidattrib.is_groups, for example to pass to inv_security.of_InitSecurity.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c) 
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+// Settings come from the [OpenID] section of the application INI file
+return of_OpenIDLogonDlg (anv_openidattrib, of_GetAppIniFile(), "OpenID")
+end function
+
+public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattrib, string as_inifile, string as_inisection);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_OpenIDLogonDlg
+//
+//	Access:  public
+//
+//	Arguments:
+//	anv_openidattrib (by ref)	logon settings in, results out (user ID, access token, groups)
+//	as_inifile			INI file with the identity provider settings
+//	as_inisection		section of as_inifile with the settings
+//
+//	Returns:  integer
+//	 1 = successful logon
+//	 0 = User cancelled from the logon dialog
+//	-1 = an error occurred
+//
+//	Description:  Logs the user on with an OpenID Connect identity provider (w_openid_logon).
+//		Settings left empty in anv_openidattrib are read from section as_inisection of
+//		as_inifile: TokenEndpoint, UserInfoEndpoint, ClientID, Scope,
+//		Client (OAuthClient or HTTPClient) and ShowResponses (1 shows the provider's responses).
+//		On success the user ID is set with of_SetUserID; the groups the provider reports are in
+//		anv_openidattrib.is_groups, for example to pass to inv_security.of_InitSecurity.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c) 
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If Len (as_inifile) > 0 Then
+	If Len (anv_openidattrib.is_tokenendpoint) = 0 Then anv_openidattrib.is_tokenendpoint = ProfileString (as_inifile, as_inisection, "TokenEndpoint", "")
+	If Len (anv_openidattrib.is_userinfoendpoint) = 0 Then anv_openidattrib.is_userinfoendpoint = ProfileString (as_inifile, as_inisection, "UserInfoEndpoint", "")
+	If Len (anv_openidattrib.is_clientid) = 0 Then anv_openidattrib.is_clientid = ProfileString (as_inifile, as_inisection, "ClientID", "")
+	anv_openidattrib.is_scope = ProfileString (as_inifile, as_inisection, "Scope", anv_openidattrib.is_scope)
+	anv_openidattrib.is_client = ProfileString (as_inifile, as_inisection, "Client", anv_openidattrib.is_client)
+	If ProfileInt (as_inifile, as_inisection, "ShowResponses", 0) = 1 Then anv_openidattrib.ib_showresponses = True
+End If
+
+If Len (anv_openidattrib.is_appname) = 0 Then anv_openidattrib.is_appname = iapp_object.DisplayName
+
+if OpenWithParm (w_openid_logon, anv_openidattrib) < 0 then
+	return -1
+end if
+
+If IsValid (Message.PowerObjectParm) Then
+	If Message.PowerObjectParm.ClassName() = anv_openidattrib.ClassName() Then
+		anv_openidattrib = Message.PowerObjectParm
+	End If
+End If
+
+// Closed with the close box: the return code was never set
+If anv_openidattrib.ii_rc = -99 Then anv_openidattrib.ii_rc = 0
+
+If anv_openidattrib.ii_rc = 1 Then of_SetUserID (anv_openidattrib.is_userid)
+
+return anv_openidattrib.ii_rc
 end function
 
 public function integer of_setdebug (boolean ab_switch);//////////////////////////////////////////////////////////////////////////////
