@@ -248,6 +248,16 @@ string ls_user
 ls_user = this.text(index)
 ls_user = trim(left(ls_user,pos(ls_user,':') - 1))
 
+// The report adds the settings of the user's groups from security_groupings.  When group
+// membership comes from an identity provider those rows do not apply, so show only the
+// user's own settings.
+if gnv_app.of_IsExternalGroupMembership() then
+	dw_report.SetFilter("user_group_name = '" + ls_user + "'")
+else
+	dw_report.SetFilter("")
+end if
+dw_report.Filter()
+
 dw_report.retrieve(ls_user)
 end event
 
