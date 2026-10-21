@@ -39,6 +39,10 @@ boolean	ib_precache = false
 string	is_currfilter
 string	is_groups[]
 boolean	ib_externalgroups = false
+// True while of_ApplyRestrictions runs: 'D' and 'I' are applied, but nothing is enabled or shown
+boolean	ib_restrictonly = false
+// Objects whose settings have been retrieved (non-precache mode), as "|name|name|"
+string	is_loadedobjects
 
 // unused
 string 	is_enabledborder = '1'
@@ -90,6 +94,15 @@ public function integer of_initsecurity (n_tr atr_trans, string as_appname, stri
 protected function integer of_inititems (n_tr atr_trans, string as_appname, string as_userid, string as_defaultgroup, boolean ab_precache)
 public function integer of_getgroups (ref string as_groups[])
 public function boolean of_isexternalgroups ()
+public function boolean of_applyrestrictions (window aw_obj)
+public function boolean of_applyrestrictions (graphicobject ago_obj)
+public function integer of_applyrestrictions (window aw_window, menu am_menu)
+public function boolean of_isenabledallowed (string as_window, string as_control)
+public function boolean of_isvisibleallowed (string as_window, string as_control)
+public function boolean of_isenabledallowed (dragobject ado_control)
+public function boolean of_isvisibleallowed (dragobject ado_control)
+protected function string of_getstatus (string as_window, string as_control)
+protected function integer of_getcontrolname (dragobject ado_control, ref window aw_window, ref string as_name)
 end prototypes
 
 protected function integer of_setmenustatus (ref menu am_item, string as_window, boolean ab_override);//////////////////////////////////////////////////////////////////////////////
@@ -378,8 +391,8 @@ End If
 // Check if items are already cached or is object has been retrieved before.  
 //	If so, no need to re-retrieve them
 If Not ib_precache Then 
-	// first time for this object
-	If (il_numberofrows = 0) Then  
+	// first time for this object (an object with no settings is only retrieved once)
+	If (il_numberofrows = 0) And Pos(is_loadedobjects, "|" + ls_object + "|") = 0 Then
 		il_numberofrows = ids_items.Retrieve(is_app, ls_object, is_userID )
 		If il_numberofrows = -1 Then
 			Return -1
@@ -396,6 +409,7 @@ If Not ib_precache Then
 				il_numberofrows += li_rc
 			End If
 		Next
+		is_loadedobjects += "|" + ls_object + "|"
 	End If
 End If
 
@@ -554,9 +568,11 @@ If il_numberofrows > 0 Then
 								 ls_column + ".protect=~"1~" "
 		end if
 		// if column becomes enabled then enable by unprotecting the column and make it visible
-		If ls_currentstatus = "E" Then
+		// (not in restrict-only mode, which never enables or shows anything)
+		If ls_currentstatus = "E" And Not ib_restrictonly Then
 			ls_modstring = ls_column + ".protect=~"0~" "+ ls_column + ".visible=~"1~" "
 		end if
+		If ls_modstring = "" Then Continue
 		// If column becomes invisible then make it invisible
 		If ls_currentstatus = "I" Then 
 			ls_modstring += ls_column + ".visible=~"0~" "
@@ -1193,6 +1209,7 @@ protected function integer of_inititems (n_tr atr_trans, string as_appname, stri
 integer	li_rc, li_idx
 
 // set up item list
+is_loadedobjects = ""
 ids_items.dataobject = 'd_pfcsecurity_controllist'
 ids_items.of_settransobject(atr_trans)
 ids_items.of_setappend(true)
@@ -1692,7 +1709,7 @@ IF len(ls_status) = 1 THEN
 	if not isnull(ab_enabled) then // if ab_enabled is null then do not change the attribute
 		IF ab_enabled AND (ls_status = DISABLE OR ls_status = INVISIBLE) THEN
 			ab_enabled = false
-		ELSEIF NOT ab_enabled AND (ls_status = ENABLE) THEN
+		ELSEIF NOT ab_enabled AND (ls_status = ENABLE) AND NOT ib_restrictonly THEN
 			ab_enabled = true
 		Else
 			//No Action
@@ -1702,7 +1719,7 @@ IF len(ls_status) = 1 THEN
 	//  otherwise if enabled and invisible then make visible
 	IF ls_status = INVISIBLE AND ab_visible THEN 
 		ab_visible = false
-	ELSEIF (ls_status = ENABLE or ls_status = DISABLE) AND NOT ab_visible THEN 
+	ELSEIF (ls_status = ENABLE or ls_status = DISABLE) AND NOT ab_visible AND NOT ib_restrictonly THEN
 		ab_visible = true
 	ELSE
 		//No Action
@@ -2957,6 +2974,526 @@ public function boolean of_isexternalgroups ();/////////////////////////////////
 
 Return ib_externalgroups
 
+end function
+
+public function boolean of_applyrestrictions (window aw_obj);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ApplyRestrictions
+//
+//	Access:  public
+//
+//	Arguments:
+//	aw_obj		window to apply the restrictions to
+//
+//	Returns:  Boolean.  True if there are settings for the window
+//
+//	Description:  Applies the disable (D) and invisible (I) settings to the window, its
+//		controls and its menu, but never enables or shows anything, unlike of_SetSecurity,
+//		which also enables and shows controls with an enable (E) setting.  Call it after
+//		application code changes Enabled or Visible, to put the restrictions back without
+//		undoing the application's own state.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+boolean	lb_rc
+
+ib_restrictonly = True
+TRY
+	lb_rc = of_SetSecurity(aw_obj)
+FINALLY
+	ib_restrictonly = False
+END TRY
+
+Return lb_rc
+end function
+
+public function boolean of_applyrestrictions (graphicobject ago_obj);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ApplyRestrictions
+//
+//	Access:  public
+//
+//	Arguments:
+//	ago_obj		object (user object, tab, menu, ...) to apply the restrictions to
+//
+//	Returns:  Boolean.  True if there are settings for the object
+//
+//	Description:  Like of_ApplyRestrictions(window), for an object secured on its own.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+boolean	lb_rc
+
+ib_restrictonly = True
+TRY
+	lb_rc = of_SetSecurity(ago_obj)
+FINALLY
+	ib_restrictonly = False
+END TRY
+
+Return lb_rc
+end function
+
+public function integer of_applyrestrictions (window aw_window, menu am_menu);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ApplyRestrictions
+//
+//	Access:  public
+//
+//	Arguments:
+//	aw_window	window whose settings apply (the window the menu belongs to)
+//	am_menu		menu or menu item to apply the restrictions to (with its items)
+//
+//	Returns:  Integer.  The number of menu items set; -1 if an argument is not valid
+//
+//	Description:  Applies the disable (D) and invisible (I) settings to one menu, but never
+//		enables or shows anything.  For code that enables or shows menu items at run time
+//		(such as the Window menu and the MRU service), so the whole window does not have to
+//		be processed.  As in of_SetSecurity, the settings stored for the menu itself are
+//		used when the window has none for it.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_numset
+string	ls_window, ls_menu
+
+If IsNull(aw_window) Or Not IsValid(aw_window) Then Return -1
+If IsNull(am_menu) Or Not IsValid(am_menu) Then Return -1
+If Not ib_initsecurity Then Return 0
+
+ls_window = Lower(aw_window.ClassName())
+ls_menu = Lower(aw_window.MenuName)
+
+ib_restrictonly = True
+TRY
+	If of_LoadSecurity(ls_window) = 1 Then li_numset = of_SetMenu(ls_window, am_menu)
+	If li_numset = 0 And Len(ls_menu) > 0 Then
+		If of_LoadSecurity(ls_menu) = 1 Then li_numset = of_SetMenu(ls_menu, am_menu)
+	End If
+FINALLY
+	ib_restrictonly = False
+END TRY
+
+Return li_numset
+end function
+
+public function boolean of_isenabledallowed (string as_window, string as_control);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsEnabledAllowed
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_window	window (or object) name, as in the security tables
+//	as_control	control name, as in the security tables (for example "cb_save" or "uo_1.cb_save")
+//
+//	Returns:  Boolean.  False if the user's settings disable (D) or hide (I) the control
+//
+//	Description:  For application code that enables controls at run time, for example
+//			cb_save.Enabled = lb_changed And gnv_app.inv_security.of_IsEnabledAllowed("w_order", "cb_save")
+//		Controls without settings, and all controls before of_InitSecurity, are allowed.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_status
+
+ls_status = of_GetStatus(as_window, as_control)
+Return Not (ls_status = DISABLE Or ls_status = INVISIBLE)
+end function
+
+public function boolean of_isvisibleallowed (string as_window, string as_control);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsVisibleAllowed
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_window	window (or object) name, as in the security tables
+//	as_control	control name, as in the security tables
+//
+//	Returns:  Boolean.  False if the user's settings hide (I) the control
+//
+//	Description:  For application code that shows controls at run time.  Controls without
+//		settings, and all controls before of_InitSecurity, are allowed.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+Return of_GetStatus(as_window, as_control) <> INVISIBLE
+end function
+
+public function boolean of_isenabledallowed (dragobject ado_control);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsEnabledAllowed
+//
+//	Access:  public
+//
+//	Arguments:
+//	ado_control		control on a window (directly or inside user objects and tabs)
+//
+//	Returns:  Boolean.  False if the user's settings disable (D) or hide (I) the control
+//
+//	Description:  Like of_IsEnabledAllowed(string, string), with the window and the control
+//		name worked out from the control, for example  of_IsEnabledAllowed(cb_save)
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+window	lw_window
+string	ls_name
+
+If of_GetControlName(ado_control, lw_window, ls_name) <> 1 Then Return True
+Return of_IsEnabledAllowed(lw_window.ClassName(), ls_name)
+end function
+
+public function boolean of_isvisibleallowed (dragobject ado_control);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsVisibleAllowed
+//
+//	Access:  public
+//
+//	Arguments:
+//	ado_control		control on a window (directly or inside user objects and tabs)
+//
+//	Returns:  Boolean.  False if the user's settings hide (I) the control
+//
+//	Description:  Like of_IsVisibleAllowed(string, string), with the window and the control
+//		name worked out from the control.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+window	lw_window
+string	ls_name
+
+If of_GetControlName(ado_control, lw_window, ls_name) <> 1 Then Return True
+Return of_IsVisibleAllowed(lw_window.ClassName(), ls_name)
+end function
+
+protected function string of_getstatus (string as_window, string as_control);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetStatus
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_window	window (or object) name
+//	as_control	control name
+//
+//	Returns:  String.  The status that applies to the user (ENABLE, DISABLE, INVISIBLE), or
+//		NOTSET if there is none, security is not initialized or the lookup fails.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_status
+
+If Not ib_initsecurity Then Return NOTSET
+If IsNull(as_window) Or IsNull(as_control) Then Return NOTSET
+
+as_window = Lower(as_window)
+as_control = Lower(as_control)
+
+// Make sure the settings for the window are loaded (only retrieved once per window)
+If of_LoadSecurity(as_window) < 1 Then Return NOTSET
+
+ls_status = of_GetPermissions(as_window, as_control)
+If ls_status = "!" Then Return NOTSET
+Return ls_status
+end function
+
+protected function integer of_getcontrolname (dragobject ado_control, ref window aw_window, ref string as_name);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetControlName
+//
+//	Access:  protected
+//
+//	Arguments:
+//	ado_control		control
+//	aw_window		(by ref) the window the control is on
+//	as_name			(by ref) the control's name as of_SetSecurity names it: the names of the
+//						user objects, tabs and tab pages it is inside, then its own name, joined
+//						with "." (for example "tab_1.tabpage_1.cb_save")
+//
+//	Returns:  Integer.  1, or -1 if the control is not on a window
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+powerobject	lpo_parent
+string		ls_name
+
+If IsNull(ado_control) Or Not IsValid(ado_control) Then Return -1
+
+ls_name = Lower(ado_control.ClassName())
+lpo_parent = ado_control.GetParent()
+Do While IsValid(lpo_parent)
+	If lpo_parent.TypeOf() = window! Then
+		aw_window = lpo_parent
+		as_name = ls_name
+		Return 1
+	End If
+	ls_name = Lower(lpo_parent.ClassName()) + "." + ls_name
+	lpo_parent = lpo_parent.GetParent()
+Loop
+
+Return -1
 end function
 
 on pfc_n_cst_security.create
