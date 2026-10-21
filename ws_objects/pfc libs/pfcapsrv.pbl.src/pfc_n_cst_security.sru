@@ -43,6 +43,12 @@ boolean	ib_externalgroups = false
 boolean	ib_restrictonly = false
 // Objects whose settings have been retrieved (non-precache mode), as "|name|name|"
 string	is_loadedobjects
+// Deny by default: status for controls and menu items without a setting (NOTSET = off)
+string	is_defaultstatus = ""
+// While the default is applied: the status of_SetState uses instead of looking it up
+string	is_forcedstatus = ""
+// Controls and menu items that received a setting in the current call (when a default is set)
+powerobject	ipo_settled[]
 
 // unused
 string 	is_enabledborder = '1'
@@ -103,6 +109,14 @@ public function boolean of_isenabledallowed (dragobject ado_control)
 public function boolean of_isvisibleallowed (dragobject ado_control)
 protected function string of_getstatus (string as_window, string as_control)
 protected function integer of_getcontrolname (dragobject ado_control, ref window aw_window, ref string as_name)
+public function integer of_setdefaultstatus (string as_status)
+public function string of_getdefaultstatus ()
+protected function boolean of_isdefaulteligible (powerobject apo_object)
+protected subroutine of_marksettled (powerobject apo_object)
+protected function boolean of_issettled (powerobject apo_object)
+protected function integer of_applydefault (string as_window, graphicobject ao_objects[], string as_objectname)
+protected function integer of_applydefaultmenu (string as_window, menu am_menu)
+protected function string of_getstatus (string as_window, string as_control, boolean ab_default)
 end prototypes
 
 protected function integer of_setmenustatus (ref menu am_item, string as_window, boolean ab_override);//////////////////////////////////////////////////////////////////////////////
@@ -167,7 +181,8 @@ If ab_override Then
 	If am_item.toolbaritemvisible Then am_item.toolbaritemvisible = False
 Else
 	li_numset = of_SetState(as_window,ls_itemname,am_item.enabled,am_item.visible)
-	If li_numset > 0 Then 
+	If li_numset > 0 Then
+		of_MarkSettled(am_item)
 		// OK, we set something so lets do some other checks
 		If Not am_item.visible Then 
 			// OK, lets see if it has a toolbar and make it invisible as well
@@ -1432,6 +1447,8 @@ public function boolean of_setsecurity (window aw_obj);/////////////////////////
 //
 //	Description:  Sets the security for the passed window. For this function to work properly
 // 		the of_init function MUST have been called first.
+//		When a default status is set (of_SetDefaultStatus), the controls and leaf menu items
+//		that have no setting get the default status, also when the window has no settings.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1440,6 +1457,7 @@ public function boolean of_setsecurity (window aw_obj);/////////////////////////
 //	Version
 //	5.0   Initial version
 //	6.0	Cleanup code
+//	2025	Default status (deny by default)
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1466,7 +1484,9 @@ public function boolean of_setsecurity (window aw_obj);/////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 string	ls_winname
-integer	li_rc
+integer	li_rc, li_load
+boolean	lb_default
+powerobject	lpo_none[]
 
 // check arguments
 If IsNull(aw_obj) or Not IsValid(aw_obj) Then Return False
@@ -1475,22 +1495,37 @@ If IsNull(aw_obj) or Not IsValid(aw_obj) Then Return False
 If Not ib_initsecurity Then Return False
 
 ls_winname = lower( aw_obj.classname() )
-If of_LoadSecurity(ls_winname) < 1 Then Return False
+lb_default = (is_defaultstatus <> NOTSET)
+ipo_settled = lpo_none
 
-il_numberofrows = ids_items.RowCount()
+li_load = of_LoadSecurity(ls_winname)
+// Without a default status, a window that has no settings is left as it is
+If li_load < 1 And Not lb_default Then Return False
 
-li_rc = of_SetControlArray(ls_winname, aw_obj.control, '')
+If li_load >= 0 Then
+	il_numberofrows = ids_items.RowCount()
 
-// check for menu items
-If len(aw_obj.menuname) > 0 Then
-	if of_setmenu(ls_winname, aw_obj.menuid) = 0 then 
-		// no security on the menu when associated with the window
-		of_LoadSecurity(aw_obj.menuname)
-		of_setmenu(aw_obj.menuname, aw_obj.menuid)  // so let's check the menu by it's self
-	end if
+	li_rc = of_SetControlArray(ls_winname, aw_obj.control, '')
+
+	// check for menu items
+	If len(aw_obj.menuname) > 0 Then
+		if of_setmenu(ls_winname, aw_obj.menuid) = 0 then
+			// no security on the menu when associated with the window
+			of_LoadSecurity(aw_obj.menuname)
+			of_setmenu(aw_obj.menuname, aw_obj.menuid)  // so let's check the menu by it's self
+		end if
+	End If
 End If
 
-Return True
+// Deny by default: controls and menu items that received no setting above get the
+// default status (also when the settings could not be loaded)
+If lb_default Then
+	of_ApplyDefault(ls_winname, aw_obj.control, '')
+	If len(aw_obj.menuname) > 0 Then of_ApplyDefaultMenu(ls_winname, aw_obj.menuid)
+	ipo_settled = lpo_none
+End If
+
+Return li_load >= 0
 
 
 end function
@@ -1683,26 +1718,31 @@ integer	li_idx, li_count
 string	ls_control, ls_win
 string	ls_desiredfilter
 
-ls_orig_filter = ids_items.Describe("DataWindow.Table.Filter")
+If is_forcedstatus <> "" Then
+	// Applying the default status (deny by default) instead of a setting
+	ls_status = is_forcedstatus
+Else
+	ls_orig_filter = ids_items.Describe("DataWindow.Table.Filter")
 
-ls_desiredfilter = "window='"+as_win+"'"
-If is_currfilter <> ls_desiredfilter Then
-	is_currfilter = ls_desiredfilter
-	ids_items.SetFilter(is_currfilter)
-	ids_items.Filter()
-	// resort in case the filter reordered things
-	ids_items.sort() 
-	il_numberofrows = ids_items.RowCount()
+	ls_desiredfilter = "window='"+as_win+"'"
+	If is_currfilter <> ls_desiredfilter Then
+		is_currfilter = ls_desiredfilter
+		ids_items.SetFilter(is_currfilter)
+		ids_items.Filter()
+		// resort in case the filter reordered things
+		ids_items.sort()
+		il_numberofrows = ids_items.RowCount()
+	End If
+
+	ls_findexp = "window=~""+as_win+"~" AND control=~""+as_itemname+"~""
+	ll_rownbr = ids_items.Find(ls_findexp, 0, il_numberofrows)
+
+	IF ll_rownbr = 0 THEN
+		return 0
+	End If
+
+	ls_status = ids_items.GetItemString(ll_rownbr, "status")
 End If
-
-ls_findexp = "window=~""+as_win+"~" AND control=~""+as_itemname+"~""
-ll_rownbr = ids_items.Find(ls_findexp, 0, il_numberofrows)
-
-IF ll_rownbr = 0 THEN 
-	return 0
-End If	
-
-ls_status = ids_items.GetItemString(ll_rownbr, "status")
 
 IF len(ls_status) = 1 THEN
 	//   do not reset the enabled attribute if it is already what we want
@@ -2112,6 +2152,10 @@ Choose Case typeof(ago_item)
 		li_numset = of_SetControlStatus_Generic(ago_item, as_window, ls_itemname)
 
 End Choose
+
+// Remember that the control received a setting (the DataWindow function does this itself,
+// because its count includes columns)
+If li_numset > 0 And TypeOf(ago_item) <> datawindow! Then of_MarkSettled(ago_item)
 
 Return li_numset
 
@@ -2619,6 +2663,9 @@ End If
 
 l_dw = ago_item
 li_numset = of_SetState(as_window, ls_itemname, l_dw.enabled, l_dw.visible)
+If li_numset > 0 Then of_MarkSettled(ago_item)
+// While the default is applied, the columns keep their own settings
+If is_forcedstatus <> "" Then Return li_numset
 ls_datawindow = trim(ls_itemname)
 ls_orig_filter = ids_items.Describe("DataWindow.Table.Filter")
 // Describe returns "?" when there is no filter
@@ -3143,6 +3190,7 @@ public function integer of_applyrestrictions (window aw_window, menu am_menu);//
 
 integer	li_numset
 string	ls_window, ls_menu
+powerobject	lpo_none[]
 
 If IsNull(aw_window) Or Not IsValid(aw_window) Then Return -1
 If IsNull(am_menu) Or Not IsValid(am_menu) Then Return -1
@@ -3150,12 +3198,18 @@ If Not ib_initsecurity Then Return 0
 
 ls_window = Lower(aw_window.ClassName())
 ls_menu = Lower(aw_window.MenuName)
+ipo_settled = lpo_none
 
 ib_restrictonly = True
 TRY
 	If of_LoadSecurity(ls_window) = 1 Then li_numset = of_SetMenu(ls_window, am_menu)
 	If li_numset = 0 And Len(ls_menu) > 0 Then
 		If of_LoadSecurity(ls_menu) = 1 Then li_numset = of_SetMenu(ls_menu, am_menu)
+	End If
+	// Deny by default: menu items without a setting get the default status
+	If is_defaultstatus <> NOTSET Then
+		li_numset += of_ApplyDefaultMenu(ls_window, am_menu)
+		ipo_settled = lpo_none
 	End If
 FINALLY
 	ib_restrictonly = False
@@ -3312,10 +3366,12 @@ public function boolean of_isenabledallowed (dragobject ado_control);///////////
 //////////////////////////////////////////////////////////////////////////////
 
 window	lw_window
-string	ls_name
+string	ls_name, ls_status
 
 If of_GetControlName(ado_control, lw_window, ls_name) <> 1 Then Return True
-Return of_IsEnabledAllowed(lw_window.ClassName(), ls_name)
+// The default status only applies to the controls of_SetSecurity applies it to
+ls_status = of_GetStatus(lw_window.ClassName(), ls_name, of_IsDefaultEligible(ado_control))
+Return Not (ls_status = DISABLE Or ls_status = INVISIBLE)
 end function
 
 public function boolean of_isvisibleallowed (dragobject ado_control);//////////////////////////////////////////////////////////////////////////////
@@ -3367,7 +3423,8 @@ window	lw_window
 string	ls_name
 
 If of_GetControlName(ado_control, lw_window, ls_name) <> 1 Then Return True
-Return of_IsVisibleAllowed(lw_window.ClassName(), ls_name)
+// The default status only applies to the controls of_SetSecurity applies it to
+Return of_GetStatus(lw_window.ClassName(), ls_name, of_IsDefaultEligible(ado_control)) <> INVISIBLE
 end function
 
 protected function string of_getstatus (string as_window, string as_control);//////////////////////////////////////////////////////////////////////////////
@@ -3382,6 +3439,8 @@ protected function string of_getstatus (string as_window, string as_control);///
 //
 //	Returns:  String.  The status that applies to the user (ENABLE, DISABLE, INVISIBLE), or
 //		NOTSET if there is none, security is not initialized or the lookup fails.
+//		When a default status is set, it is returned instead of NOTSET (except when
+//		security is not initialized).
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -3414,20 +3473,8 @@ protected function string of_getstatus (string as_window, string as_control);///
 //
 //////////////////////////////////////////////////////////////////////////////
 
-string	ls_status
-
-If Not ib_initsecurity Then Return NOTSET
-If IsNull(as_window) Or IsNull(as_control) Then Return NOTSET
-
-as_window = Lower(as_window)
-as_control = Lower(as_control)
-
-// Make sure the settings for the window are loaded (only retrieved once per window)
-If of_LoadSecurity(as_window) < 1 Then Return NOTSET
-
-ls_status = of_GetPermissions(as_window, as_control)
-If ls_status = "!" Then Return NOTSET
-Return ls_status
+// Controls without a setting get the default status (deny by default), if one is set
+Return of_GetStatus(as_window, as_control, True)
 end function
 
 protected function integer of_getcontrolname (dragobject ado_control, ref window aw_window, ref string as_name);//////////////////////////////////////////////////////////////////////////////
@@ -3494,6 +3541,525 @@ Do While IsValid(lpo_parent)
 Loop
 
 Return -1
+end function
+
+public function integer of_setdefaultstatus (string as_status);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_SetDefaultStatus
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_status	status for the controls and menu items that have no setting for the user:
+//					DISABLE ('D'), INVISIBLE ('I'), or NOTSET ('') to turn the default off
+//
+//	Returns:  Integer.  1 if it succeeds, -1 if the status is not valid
+//
+//	Description:  Deny by default (least privilege).  By default, controls and menu items
+//		without a setting are left as designed.  With a default status, of_SetSecurity(window)
+//		and of_ApplyRestrictions give it to the interactive controls and the leaf menu items
+//		(items without a submenu) that have no setting, so the settings only need to grant
+//		access ('E').  Labels, lines and shapes, group boxes, pictures, progress bars, frame
+//		chrome (the MDI client, status bar, tabbed bar and ribbon bar), user objects and tabs
+//		(their controls are checked one by one), cascading menus and DataWindow columns are
+//		left as designed.  The checks (of_IsEnabledAllowed and of_IsVisibleAllowed) also
+//		use the default.  Settings stored for an object (of_SetSecurity(graphicobject)) do not.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If IsNull(as_status) Then Return -1
+as_status = Upper(as_status)
+If as_status <> DISABLE And as_status <> INVISIBLE And as_status <> NOTSET Then Return -1
+
+is_defaultstatus = as_status
+Return 1
+end function
+
+public function string of_getdefaultstatus ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetDefaultStatus
+//
+//	Access:  public
+//
+//	Arguments:  None
+//
+//	Returns:  String.  The status for controls and menu items without a setting:
+//		DISABLE, INVISIBLE, or NOTSET (the default: they are left as designed)
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+Return is_defaultstatus
+end function
+
+protected function boolean of_isdefaulteligible (powerobject apo_object);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsDefaultEligible
+//
+//	Access:  protected
+//
+//	Arguments:
+//	apo_object	control or menu item
+//
+//	Returns:  Boolean.  True if the default status (of_SetDefaultStatus) applies to it
+//
+//	Description:  The default status applies to interactive controls (including control
+//		types this service does not list) and to leaf menu items.  Override to change which
+//		objects it applies to.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+menu	lm_item
+
+If IsNull(apo_object) Or Not IsValid(apo_object) Then Return False
+
+Choose Case apo_object.TypeOf()
+	Case menu!
+		// Leaf items only (not cascading menus), and not separators
+		lm_item = apo_object
+		Return UpperBound(lm_item.Item) = 0 And lm_item.Text <> "-"
+	Case statictext!, line!, rectangle!, roundrectangle!, oval!, groupbox!, picture!, &
+			hprogressbar!, vprogressbar!, animation!, mdiclient!, ribbonbar!, &
+			userobject!, tab!, window!
+		// Labels, shapes, pictures, progress, containers
+		Return False
+	Case statusbar!, tabbedbar!
+		// Frame chrome
+		Return False
+End Choose
+
+Return True
+end function
+
+protected subroutine of_marksettled (powerobject apo_object);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_MarkSettled
+//
+//	Access:  protected
+//
+//	Arguments:
+//	apo_object	control or menu item that received a setting
+//
+//	Returns:  None
+//
+//	Description:  Remembers that a control or menu item received a setting in the current
+//		of_SetSecurity or of_ApplyRestrictions call, so the default status is not applied
+//		to it.  Only kept while a default status is set.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If is_defaultstatus = NOTSET Or is_forcedstatus <> "" Then Return
+If of_IsSettled(apo_object) Then Return
+
+ipo_settled[UpperBound(ipo_settled) + 1] = apo_object
+end subroutine
+
+protected function boolean of_issettled (powerobject apo_object);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_IsSettled
+//
+//	Access:  protected
+//
+//	Arguments:
+//	apo_object	control or menu item
+//
+//	Returns:  Boolean.  True if it received a setting in the current call (of_MarkSettled)
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+long	ll_idx, ll_count
+
+ll_count = UpperBound(ipo_settled)
+For ll_idx = 1 To ll_count
+	If ipo_settled[ll_idx] = apo_object Then Return True
+Next
+
+Return False
+end function
+
+protected function integer of_applydefault (string as_window, graphicobject ao_objects[], string as_objectname);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ApplyDefault
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_window		name of window
+//	ao_objects[]	control array
+//	as_objectname	name of the object that owns the control array (blank for the window)
+//
+//	Returns:  Integer.  The number of controls set
+//
+//	Description:  Gives the default status (of_SetDefaultStatus) to the controls in the
+//		array that received no setting, the way of_SetControlArray walks them: the controls
+//		of user objects, tabs and tab pages are checked one by one.  The default only
+//		restricts: a disabled control is not shown and nothing is enabled.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_count, li_idx, li_tab_cnt, li_tab_idx, li_numset
+string	ls_name, ls_tab_name
+boolean	lb_restrictonly
+userobject	lu_uo
+tab 			l_tab
+
+If is_defaultstatus = NOTSET Then Return 0
+
+li_count = UpperBound(ao_objects[])
+For li_idx = 1 To li_count
+	If IsNull(ao_objects[li_idx]) Or Not IsValid(ao_objects[li_idx]) Then Continue
+	Choose Case TypeOf(ao_objects[li_idx])
+		Case userobject!
+			lu_uo = ao_objects[li_idx]
+			If as_objectname = '' Then
+				ls_name = Lower(ClassName(lu_uo))
+			Else
+				ls_name = as_objectname + '.' + Lower(ClassName(lu_uo))
+			End If
+			li_numset += of_ApplyDefault(as_window, lu_uo.Control, ls_name)
+
+		Case tab!
+			l_tab = ao_objects[li_idx]
+			If as_objectname = '' Then
+				ls_tab_name = Lower(ClassName(l_tab))
+			Else
+				ls_tab_name = as_objectname + '.' + Lower(ClassName(l_tab))
+			End If
+			li_tab_cnt = UpperBound(l_tab.Control)
+			For li_tab_idx = 1 To li_tab_cnt
+				lu_uo = l_tab.Control[li_tab_idx]
+				li_numset += of_ApplyDefault(as_window, lu_uo.Control, &
+					ls_tab_name + '.' + Lower(ClassName(lu_uo)))
+			Next
+
+		Case Else
+			If of_IsDefaultEligible(ao_objects[li_idx]) And Not of_IsSettled(ao_objects[li_idx]) Then
+				lb_restrictonly = ib_restrictonly
+				ib_restrictonly = True
+				is_forcedstatus = is_defaultstatus
+				TRY
+					li_numset += of_SetControlStatus(ao_objects[li_idx], as_window, as_objectname, '')
+				FINALLY
+					is_forcedstatus = ""
+					ib_restrictonly = lb_restrictonly
+				END TRY
+			End If
+	End Choose
+Next
+
+Return li_numset
+end function
+
+protected function integer of_applydefaultmenu (string as_window, menu am_menu);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ApplyDefaultMenu
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_window	name of window
+//	am_menu		menu or menu item (with its items)
+//
+//	Returns:  Integer.  The number of menu items set
+//
+//	Description:  Gives the default status (of_SetDefaultStatus) to the leaf menu items
+//		(items without a submenu) that received no setting.  Their toolbar buttons follow
+//		them.  Cascading menus are left as designed.  The default only restricts.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_idx, li_count, li_numset
+boolean	lb_restrictonly
+menu		lm_item
+
+If is_defaultstatus = NOTSET Then Return 0
+If IsNull(am_menu) Or Not IsValid(am_menu) Then Return 0
+
+li_count = UpperBound(am_menu.Item)
+If li_count > 0 Then
+	For li_idx = 1 To li_count
+		li_numset += of_ApplyDefaultMenu(as_window, am_menu.Item[li_idx])
+	Next
+ElseIf of_IsDefaultEligible(am_menu) And Not of_IsSettled(am_menu) Then
+	lm_item = am_menu
+	lb_restrictonly = ib_restrictonly
+	ib_restrictonly = True
+	is_forcedstatus = is_defaultstatus
+	TRY
+		li_numset = of_SetMenuStatus(lm_item, as_window, False)
+	FINALLY
+		is_forcedstatus = ""
+		ib_restrictonly = lb_restrictonly
+	END TRY
+End If
+
+Return li_numset
+end function
+
+protected function string of_getstatus (string as_window, string as_control, boolean ab_default);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetStatus
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_window	window (or object) name
+//	as_control	control name
+//	ab_default	True to return the default status (of_SetDefaultStatus), if one is set,
+//					when there is no setting
+//
+//	Returns:  String.  The status that applies to the user (ENABLE, DISABLE, INVISIBLE), or
+//		NOTSET if there is none, security is not initialized or the lookup fails.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_status, ls_default
+
+If Not ib_initsecurity Then Return NOTSET
+
+If ab_default Then ls_default = is_defaultstatus Else ls_default = NOTSET
+If IsNull(as_window) Or IsNull(as_control) Then Return ls_default
+
+as_window = Lower(as_window)
+as_control = Lower(as_control)
+
+// Make sure the settings for the window are loaded (only retrieved once per window)
+If of_LoadSecurity(as_window) < 1 Then Return ls_default
+
+ls_status = of_GetPermissions(as_window, as_control)
+If ls_status = "!" Or ls_status = NOTSET Or IsNull(ls_status) Then Return ls_default
+Return ls_status
 end function
 
 on pfc_n_cst_security.create
