@@ -1,6 +1,6 @@
 ﻿$PBExportHeader$p_peat.srj
 $PBExportComments$The PEAT Project
-EXE:peat.exe,peat.pbr,0,1,1
+EXE:peat.exe,peat.pbr,0,1,1,0,C:\Program Files (x86)\Appeon\Common\PowerBuilder\Runtime 25.0.0.3626
 CMP:0,0,0,2,0,0,0
 COM:Appeon
 DES:Appeon Product File
@@ -11,7 +11,7 @@ PVN:1,0,0,1
 FVS:1.0.0.1
 FVN:1,0,0,1
 MAN:0,asInvoker,0
-PBD:peat.pbl,,1
+PBD:peat.pbl,,0
 PBD:..\pfeapsrv\pfeapsrv.pbl,,1
 PBD:..\pfedwsrv\pfedwsrv.pbl,,1
 PBD:..\pfemain\pfemain.pbl,,1

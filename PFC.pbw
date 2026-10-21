@@ -9,6 +9,6 @@ Save Format v3.0(19990112)
  4 "security administrator.pbt";
  5 "security scanner.pbt";
 @end;
-DefaultTarget "generic_pfc_app.pbt";
+DefaultTarget "peat demo app.pbt";
 DefaultExportEncode "UTF-8";
-DefaultRemoteTarget "generic_pfc_app.pbt";
+DefaultRemoteTarget "peat demo app.pbt";

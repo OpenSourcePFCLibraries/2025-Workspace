@@ -17,8 +17,27 @@ end variables
 
 global type pfcsecurity_scanner from application
 string appname = "pfcsecurity_scanner"
-string appruntimeversion = "25.0.0.3376"
 integer highdpimode = 0
+string themepath = "C:\Program Files (x86)\Appeon\PowerBuilder 25.0\IDE\theme"
+string themename = "Do Not Use Themes"
+boolean nativepdfvalid = false
+boolean nativepdfincludecustomfont = false
+string nativepdfappname = ""
+long richtextedittype = 5
+long richtexteditx64type = 5
+long richtexteditversion = 3
+string richtexteditkey = ""
+string appicon = ""
+string appruntimeversion = "25.1.0.6430"
+boolean manualsession = false
+boolean unsupportedapierror = false
+boolean ultrafast = false
+boolean bignoreservercertificate = false
+uint ignoreservercertificate = 0
+long webview2distribution = 0
+boolean webview2checkx86 = false
+boolean webview2checkx64 = false
+string webview2url = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 end type
 global pfcsecurity_scanner pfcsecurity_scanner
 
@@ -64,6 +83,7 @@ inv_trans.Lock				= ProfileString(ls_ini_file,"Database","Lock",             " "
 inv_trans.DbParm			= ProfileString(ls_ini_file,"Database","DbParm",           " ")
 
 connect using inv_trans;
+
 IF inv_trans.SQLCode <> 0 then
 	messagebox('Database','Unable to connect')
 	halt close
