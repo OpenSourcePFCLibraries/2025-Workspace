@@ -1,3 +1,5 @@
 
 # PEAT demo local security settings (see demoapp/peat_security.ini.example)
 demoapp/peat_security.ini
+*.pbd
+*.exe
