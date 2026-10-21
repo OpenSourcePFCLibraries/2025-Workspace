@@ -45,6 +45,8 @@ string		is_user
 string		is_group
 window	iw_frame
 m_pfcsecurity_user_mgmt	im_popmenu
+// Group membership comes from an identity provider, so it is not shown or edited here
+boolean	ib_externalgroups
 end variables
 
 event ue_edit_item;call super::ue_edit_item;// editing an existing item, first figure out what we are working with and set up as needed
@@ -272,15 +274,22 @@ integer li_rc
 // Register the datasource for each level of the tree
 // Parameters are: level, datawindow object, transaction object, column to display as the label, 
 // the retrieval arguments, and whether the DW object is to be used recursively.
+ib_externalgroups = gnv_app.of_IsExternalGroupMembership()
+
 li_rc = tv_users.AddPicture("custom076!")
 li_rc = tv_users.of_SetDatasource(1, "d_pfcsecurity_users_update", gnv_app.inv_trans, "description", "", False, li_rc,li_rc)
-li_rc = tv_users.AddPicture("group!")
-li_rc = tv_users.of_SetDatasource(2, "d_pfcsecurity_grouplookup", gnv_app.inv_trans, "description", ":parent.1.name", False, li_rc,li_rc)
-
 li_rc = tv_groups.AddPicture("group!")
 li_rc = tv_groups.of_SetDatasource(1, "d_pfcsecurity_users_update", gnv_app.inv_trans, "description", "", False,  li_rc,li_rc)
-li_rc = tv_groups.AddPicture("custom076!")
-li_rc = tv_groups.of_SetDatasource(2, "d_pfcsecurity_user_lookup_by_group", gnv_app.inv_trans, "description", ":parent.1.name", False,  li_rc,li_rc)
+
+// The second level of each tree is group membership (the groups of a user, the users of a group)
+If ib_externalgroups Then
+	this.title = this.title + " (group membership comes from the identity provider)"
+Else
+	li_rc = tv_users.AddPicture("group!")
+	li_rc = tv_users.of_SetDatasource(2, "d_pfcsecurity_grouplookup", gnv_app.inv_trans, "description", ":parent.1.name", False, li_rc,li_rc)
+	li_rc = tv_groups.AddPicture("custom076!")
+	li_rc = tv_groups.of_SetDatasource(2, "d_pfcsecurity_user_lookup_by_group", gnv_app.inv_trans, "description", ":parent.1.name", False,  li_rc,li_rc)
+End If
 
 dw_groups.insertrow(0)
 dw_users.insertrow(0)
@@ -324,13 +333,17 @@ end if
 end event
 
 event pfc_save;call w_sheet::pfc_save;// update the treeviews
+integer	li_membership = 1
+
 if tv_groups.of_update ( 1, true, false ) = 1 then
 	if tv_users.of_update ( 1, true, false ) = 1 then
-		if tv_groups.of_update ( 2, true, false ) = 1 then
+		// level 2 (group membership) is only there when membership is managed here
+		if not ib_externalgroups then li_membership = tv_groups.of_update ( 2, true, false )
+		if li_membership = 1 then
 			commit using gnv_app.inv_trans;
 			 tv_users.of_ResetUpdate (1)
 			 tv_groups.of_ResetUpdate (1)
-			 tv_groups.of_ResetUpdate (2)
+			 if not ib_externalgroups then tv_groups.of_ResetUpdate (2)
 
 			return 1
 		else
@@ -356,9 +369,11 @@ integer li_cnt
 TreeViewItem	ltvi_This
 n_ds l_ds
 
-tv_groups.of_GetDatastore(2,l_ds) // check user/group combinations
-li_cnt = l_ds.modifiedcount() + l_ds.deletedcount()
-if li_cnt > 0 then return 1
+if not ib_externalgroups then
+	tv_groups.of_GetDatastore(2,l_ds) // check user/group combinations
+	li_cnt = l_ds.modifiedcount() + l_ds.deletedcount()
+	if li_cnt > 0 then return 1
+end if
 
 tv_groups.of_GetDatastore(1,l_ds) // check groups
 li_cnt = l_ds.modifiedcount() + l_ds.deletedcount()
@@ -425,6 +440,11 @@ end event
 
 event begindrag;call u_tv::begindrag;TreeViewItem	ltvi_This
 
+// Users are dragged onto groups to add them; not when membership comes from an identity provider
+if ib_externalgroups then
+	this.drag(cancel!)
+	return
+end if
 
 this.GetItem(handle, ltvi_This)
 if ltvi_this.level <> 1 then 
@@ -548,6 +568,7 @@ u_tv ltv_source
 
 ltv_source = source
 if ltv_source <> tv_users then return
+if ib_externalgroups then return
 
 il_handle = tv_users.finditem ( currenttreeitem!, 0 )
 
