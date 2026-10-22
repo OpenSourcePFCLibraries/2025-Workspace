@@ -1917,7 +1917,8 @@ public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattr
 //	Description:  Logs the user on with an OpenID Connect identity provider (w_openid_logon).
 //		Settings left empty in anv_openidattrib are read from the [OpenID] section of the
 //		application INI file: TokenEndpoint, UserInfoEndpoint, ClientID, Scope,
-//		Client (OAuthClient or HTTPClient) and ShowResponses (1 shows the provider's responses).
+//		Client (OAuthClient or HTTPClient), GroupsClaim (the claim with the groups, "groups"
+//		by default) and ShowResponses (1 shows the provider's responses).
 //		On success the user ID is set with of_SetUserID; the groups the provider reports are in
 //		anv_openidattrib.is_groups, for example to pass to inv_security.of_InitSecurity.
 //
@@ -1975,7 +1976,8 @@ public function integer of_openidlogondlg (ref n_cst_openidattrib anv_openidattr
 //	Description:  Logs the user on with an OpenID Connect identity provider (w_openid_logon).
 //		Settings left empty in anv_openidattrib are read from section as_inisection of
 //		as_inifile: TokenEndpoint, UserInfoEndpoint, ClientID, Scope,
-//		Client (OAuthClient or HTTPClient) and ShowResponses (1 shows the provider's responses).
+//		Client (OAuthClient or HTTPClient), GroupsClaim (the claim with the groups, "groups"
+//		by default) and ShowResponses (1 shows the provider's responses).
 //		On success the user ID is set with of_SetUserID; the groups the provider reports are in
 //		anv_openidattrib.is_groups, for example to pass to inv_security.of_InitSecurity.
 //
@@ -2016,6 +2018,7 @@ If Len (as_inifile) > 0 Then
 	If Len (anv_openidattrib.is_clientid) = 0 Then anv_openidattrib.is_clientid = ProfileString (as_inifile, as_inisection, "ClientID", "")
 	anv_openidattrib.is_scope = ProfileString (as_inifile, as_inisection, "Scope", anv_openidattrib.is_scope)
 	anv_openidattrib.is_client = ProfileString (as_inifile, as_inisection, "Client", anv_openidattrib.is_client)
+	anv_openidattrib.is_groupsclaim = ProfileString (as_inifile, as_inisection, "GroupsClaim", anv_openidattrib.is_groupsclaim)
 	If ProfileInt (as_inifile, as_inisection, "ShowResponses", 0) = 1 Then anv_openidattrib.ib_showresponses = True
 End If
 

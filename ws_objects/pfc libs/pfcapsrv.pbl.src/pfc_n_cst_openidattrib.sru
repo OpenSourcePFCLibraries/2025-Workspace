@@ -26,9 +26,13 @@ string	is_scope = "openid profile"
 string	is_client = "OAuthClient"
 // Show the identity provider responses and the client choice (for demonstrations; off by default)
 boolean	ib_showresponses = false
+// Claim with the user's groups, read from the userinfo response or, when that has none,
+// from the ID token (for example "roles" for Microsoft Entra ID app roles)
+string	is_groupsclaim = "groups"
 
 // Results
 string	is_accesstoken
+string	is_idtoken
 string	is_userinfo
 string	is_groups[]
 end variables

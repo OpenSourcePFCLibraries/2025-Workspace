@@ -24,6 +24,9 @@ ClientID=
 Scope=openid profile
 ; OAuthClient or HTTPClient
 Client=OAuthClient
+; Claim with the user's groups, from the userinfo response or else the ID token
+; (groups by default; roles for Microsoft Entra ID app roles)
+GroupsClaim=groups
 ; 1 = show the identity provider responses and the client choice (demonstration)
 ShowResponses=1
 

@@ -51,6 +51,9 @@ protected function integer of_login_oauthclient (string as_userid, string as_pas
 protected function integer of_loaduserinfo (string as_accesstoken)
 protected function string of_urlencode (string as_value)
 protected function string of_jsonstring (string as_json, string as_key)
+protected function integer of_getgroups (string as_json, string as_claim, ref string as_groups[])
+protected function string of_decodeidtoken (string as_idtoken)
+protected function integer of_loadidtokengroups (string as_idtoken)
 end prototypes
 
 protected function integer of_login_httpclient (string as_userid, string as_password);//////////////////////////////////////////////////////////////////////////////
@@ -64,7 +67,8 @@ protected function integer of_login_httpclient (string as_userid, string as_pass
 //	as_password		password (for Authentik, the user's app password)
 //
 //	Returns:  Integer
-//	 1 = logged on; the access token is in inv_openidattrib.is_accesstoken
+//	 1 = logged on; the access token is in inv_openidattrib.is_accesstoken, and the
+//		  ID token (if the provider returned one) in is_idtoken
 //	-1 = the identity provider refused the logon
 //	-2 = the identity provider could not be reached
 //
@@ -124,6 +128,8 @@ If ll_rc = 1 Then
 	If li_status = 200 Then
 		If inv_openidattrib.ib_showresponses Then MessageBox("Token response (200)", ls_response)
 		inv_openidattrib.is_accesstoken = of_JsonString(ls_response, "access_token")
+		// Present when the openid scope was requested
+		inv_openidattrib.is_idtoken = of_JsonString(ls_response, "id_token")
 		li_rc = 1
 	Else
 		If inv_openidattrib.ib_showresponses Then MessageBox("Token response (" + String(li_status) + ")", ls_response)
@@ -148,7 +154,8 @@ protected function integer of_login_oauthclient (string as_userid, string as_pas
 //	as_password		password (for Authentik, the user's app password)
 //
 //	Returns:  Integer
-//	 1 = logged on; the access token is in inv_openidattrib.is_accesstoken
+//	 1 = logged on; the access token is in inv_openidattrib.is_accesstoken, and the
+//		  ID token (if the provider returned one) in is_idtoken
 //	-1 = the identity provider refused the logon
 //	-2 = the identity provider could not be reached
 //
@@ -212,6 +219,9 @@ ll_rc = lnv_oauthclient.AccessToken(lnv_tokenrequest, lnv_tokenresponse)
 If ll_rc = 1 Then
 	If lnv_tokenresponse.GetStatusCode() = 200 Then
 		inv_openidattrib.is_accesstoken = lnv_tokenresponse.GetAccessToken()
+		// Present when the openid scope was requested
+		lnv_tokenresponse.GetBody(ls_body)
+		inv_openidattrib.is_idtoken = of_JsonString(ls_body, "id_token")
 		If inv_openidattrib.ib_showresponses Then MessageBox("Access token", inv_openidattrib.is_accesstoken)
 		li_rc = 1
 	Else
@@ -240,8 +250,10 @@ protected function integer of_loaduserinfo (string as_accesstoken);/////////////
 //	 1 = success; inv_openidattrib.is_userinfo and is_groups are set
 //	-1 = the request failed
 //
-//	Description:  Reads the user's claims from the userinfo endpoint and keeps the
-//		"groups" claim (returned with the profile scope by providers such as Authentik).
+//	Description:  Reads the user's claims from the userinfo endpoint and keeps the groups
+//		claim (inv_openidattrib.is_groupsclaim, "groups" by default; Authentik returns it with
+//		the profile scope).  Some providers, such as Microsoft Entra ID, don't return groups
+//		from the userinfo endpoint; pfc_default then reads them from the ID token.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -275,8 +287,7 @@ protected function integer of_loaduserinfo (string as_accesstoken);/////////////
 //////////////////////////////////////////////////////////////////////////////
 
 HTTPClient	lnv_httpclient
-JSONParser	lnv_json
-Long			ll_rc, ll_root, ll_idx, ll_count, ll_groups, ll_group, ll_ngroups
+Long			ll_rc, ll_idx
 Integer		li_status, li_rc = -1
 String		ls_response, ls_groups[], ls_empty[], ls_list
 
@@ -293,29 +304,16 @@ If ll_rc = 1 Then
 	li_status = lnv_httpclient.GetResponseStatusCode()
 	lnv_httpclient.GetResponseBody(ls_response)
 	If li_status = 200 Then
-		lnv_json = Create JSONParser
-		If lnv_json.LoadString(ls_response) = "" Then
-			ll_root = lnv_json.GetRootItem()
-			ll_count = lnv_json.GetChildCount(ll_root)
-			For ll_idx = 1 To ll_count
-				If lnv_json.GetChildKey(ll_root, ll_idx) = "groups" Then
-					ll_groups = lnv_json.GetChildItem(ll_root, ll_idx)
-					If lnv_json.GetItemType(ll_groups) = JsonArrayItem! Then
-						For ll_group = 1 To lnv_json.GetChildCount(ll_groups)
-							ll_ngroups++
-							ls_groups[ll_ngroups] = lnv_json.GetItemString(lnv_json.GetChildItem(ll_groups, ll_group))
-							If ll_ngroups > 1 Then ls_list += ", "
-							ls_list += ls_groups[ll_ngroups]
-						Next
-					End If
-					Exit
-				End If
-			Next
+		// A response without the claim has no groups; -1 means it isn't JSON
+		If of_GetGroups(ls_response, inv_openidattrib.is_groupsclaim, ls_groups) >= 0 Then
 			inv_openidattrib.is_userinfo = ls_response
 			inv_openidattrib.is_groups = ls_groups
 			li_rc = 1
 		End If
-		Destroy lnv_json
+		For ll_idx = 1 To UpperBound(ls_groups)
+			If ll_idx > 1 Then ls_list += ", "
+			ls_list += ls_groups[ll_idx]
+		Next
 		If inv_openidattrib.ib_showresponses Then MessageBox("UserInfo response (200)", ls_response + "~r~n~r~nGroups: " + ls_list)
 	Else
 		If inv_openidattrib.ib_showresponses Then MessageBox("UserInfo response (" + String(li_status) + ")", ls_response)
@@ -442,6 +440,257 @@ End If
 Destroy lnv_json
 
 Return ls_value
+end function
+
+protected function integer of_getgroups (string as_json, string as_claim, ref string as_groups[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetGroups
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_json		JSON object (a userinfo response or the claims of an ID token)
+//	as_claim		name of the top-level claim with the groups, for example "groups" or "roles"
+//	as_groups[]	(by ref) the groups
+//
+//	Returns:  Integer.  The number of groups (0 if the claim isn't there), or -1 if as_json
+//		isn't a JSON object
+//
+//	Description:  Reads a groups claim, which is an array of strings or, with some
+//		providers when there is only one group, a single string.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+JSONParser	lnv_json
+Long			ll_root, ll_idx, ll_count, ll_claim, ll_item
+Integer		li_count = -1
+String		ls_empty[]
+
+as_groups = ls_empty
+If IsNull(as_json) Or Left(Trim(as_json), 1) <> "{" Then Return -1
+
+lnv_json = Create JSONParser
+If lnv_json.LoadString(as_json) = "" Then
+	li_count = 0
+	ll_root = lnv_json.GetRootItem()
+	ll_count = lnv_json.GetChildCount(ll_root)
+	For ll_idx = 1 To ll_count
+		If lnv_json.GetChildKey(ll_root, ll_idx) = as_claim Then
+			ll_claim = lnv_json.GetChildItem(ll_root, ll_idx)
+			Choose Case lnv_json.GetItemType(ll_claim)
+				Case JsonArrayItem!
+					For ll_item = 1 To lnv_json.GetChildCount(ll_claim)
+						If lnv_json.GetItemType(lnv_json.GetChildItem(ll_claim, ll_item)) = JsonStringItem! Then
+							li_count++
+							as_groups[li_count] = lnv_json.GetItemString(lnv_json.GetChildItem(ll_claim, ll_item))
+						End If
+					Next
+				Case JsonStringItem!
+					li_count = 1
+					as_groups[1] = lnv_json.GetItemString(ll_claim)
+			End Choose
+			Exit
+		End If
+	Next
+End If
+Destroy lnv_json
+
+Return li_count
+end function
+
+protected function string of_decodeidtoken (string as_idtoken);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_DecodeIDToken
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_idtoken	ID token (a JSON Web Token: header.payload.signature)
+//
+//	Returns:  String.  The token's claims (the decoded payload, a JSON object), or "" if
+//		as_idtoken isn't a JSON Web Token
+//
+//	Description:  Decodes the claims of an ID token.  The signature isn't checked: the
+//		token is only used when it comes directly from the token endpoint, where the
+//		connection to the identity provider authenticates it (OpenID Connect Core 1.0,
+//		section 3.1.3.7).  Use HTTPS for the token endpoint.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+CoderObject	lnv_coder
+Blob			lblb_payload
+Long			ll_first, ll_second, ll_pos
+String		ls_payload
+
+If IsNull(as_idtoken) Then Return ""
+
+ll_first = Pos(as_idtoken, ".")
+If ll_first = 0 Then Return ""
+ll_second = Pos(as_idtoken, ".", ll_first + 1)
+If ll_second = 0 Then Return ""
+
+// The payload is base64url without padding: turn it into base64
+ls_payload = Mid(as_idtoken, ll_first + 1, ll_second - ll_first - 1)
+If Len(ls_payload) = 0 Then Return ""
+For ll_pos = 1 To Len(ls_payload)
+	Choose Case Mid(ls_payload, ll_pos, 1)
+		Case "-"
+			ls_payload = Replace(ls_payload, ll_pos, 1, "+")
+		Case "_"
+			ls_payload = Replace(ls_payload, ll_pos, 1, "/")
+	End Choose
+Next
+Do While Mod(Len(ls_payload), 4) <> 0
+	ls_payload += "="
+Loop
+
+lnv_coder = Create CoderObject
+lblb_payload = lnv_coder.Base64Decode(ls_payload)
+Destroy lnv_coder
+
+If IsNull(lblb_payload) Or Len(lblb_payload) = 0 Then Return ""
+ls_payload = String(lblb_payload, EncodingUTF8!)
+If Left(Trim(ls_payload), 1) <> "{" Then Return ""
+
+Return ls_payload
+end function
+
+protected function integer of_loadidtokengroups (string as_idtoken);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_LoadIDTokenGroups
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_idtoken	ID token from the token endpoint
+//
+//	Returns:  Integer.  The number of groups (in inv_openidattrib.is_groups), or -1 if
+//		there is no ID token, it can't be decoded, or it wasn't issued to this application
+//
+//	Description:  Reads the groups claim (inv_openidattrib.is_groupsclaim) from the ID
+//		token, for providers that don't return it from the userinfo endpoint, such as
+//		Microsoft Entra ID.  The token's audience ("aud") must be the client ID.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+String		ls_claims, ls_audience[], ls_groups[], ls_list
+Integer		li_count, li_idx
+Boolean		lb_audience
+
+If IsNull(as_idtoken) Or Len(as_idtoken) = 0 Then Return -1
+
+ls_claims = of_DecodeIDToken(as_idtoken)
+If ls_claims = "" Then Return -1
+
+// The audience is the client ID, as a string or in an array
+For li_idx = 1 To of_GetGroups(ls_claims, "aud", ls_audience)
+	If ls_audience[li_idx] = inv_openidattrib.is_clientid Then lb_audience = True
+Next
+If Not lb_audience Then
+	If inv_openidattrib.ib_showresponses Then MessageBox("ID token", "The ID token wasn't issued to client " + &
+		inv_openidattrib.is_clientid + ", so its groups aren't used.~r~n~r~n" + ls_claims)
+	Return -1
+End If
+
+li_count = of_GetGroups(ls_claims, inv_openidattrib.is_groupsclaim, ls_groups)
+If li_count > 0 Then inv_openidattrib.is_groups = ls_groups
+
+If inv_openidattrib.ib_showresponses Then
+	For li_idx = 1 To li_count
+		If li_idx > 1 Then ls_list += ", "
+		ls_list += ls_groups[li_idx]
+	Next
+	MessageBox("ID token claims", ls_claims + "~r~n~r~nGroups (" + inv_openidattrib.is_groupsclaim + "): " + ls_list)
+End If
+
+Return li_count
 end function
 
 on pfc_w_openid_logon.create
@@ -624,6 +873,8 @@ End If
 Choose Case li_rc
 	Case 1
 		If of_LoadUserInfo (inv_openidattrib.is_accesstoken) = 1 Then
+			// Some providers (Microsoft Entra ID) only put the groups in the ID token
+			If UpperBound (inv_openidattrib.is_groups) = 0 Then of_LoadIDTokenGroups (inv_openidattrib.is_idtoken)
 			inv_openidattrib.ii_rc = 1
 			inv_openidattrib.is_userid = sle_userid.text
 			CloseWithReturn (this, inv_openidattrib)
