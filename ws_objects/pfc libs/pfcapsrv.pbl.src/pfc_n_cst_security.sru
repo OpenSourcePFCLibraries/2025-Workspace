@@ -117,6 +117,8 @@ protected function boolean of_issettled (powerobject apo_object)
 protected function integer of_applydefault (string as_window, graphicobject ao_objects[], string as_objectname)
 protected function integer of_applydefaultmenu (string as_window, menu am_menu)
 protected function string of_getstatus (string as_window, string as_control, boolean ab_default)
+public function integer of_mapgroups (string as_groups[], string as_from[], string as_to[], ref string as_mapped[])
+public function integer of_mapgroups (string as_groups[], string as_inifile, string as_section, ref string as_mapped[])
 end prototypes
 
 protected function integer of_setmenustatus (ref menu am_item, string as_window, boolean ab_override);//////////////////////////////////////////////////////////////////////////////
@@ -4060,6 +4062,164 @@ If of_LoadSecurity(as_window) < 1 Then Return ls_default
 ls_status = of_GetPermissions(as_window, as_control)
 If ls_status = "!" Or ls_status = NOTSET Or IsNull(ls_status) Then Return ls_default
 Return ls_status
+end function
+
+public function integer of_mapgroups (string as_groups[], string as_from[], string as_to[], ref string as_mapped[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_MapGroups
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_groups[]		group names from an identity provider (for example its groups claim)
+//	as_from[]		identity provider group names
+//	as_to[]			the security group each as_from[] name maps to (same position)
+//	as_mapped[]		(by ref) the security group names, to pass to of_InitSecurity
+//
+//	Returns:  Integer.  The number of names in as_mapped[], or -1 if as_from[] and as_to[]
+//		do not have the same number of entries
+//
+//	Description:  Translates identity provider group names to the names of groups in the
+//		security database, so the two do not need to match.  Names are compared without
+//		regard to case or leading and trailing spaces.  A name that is not mapped is passed
+//		on unchanged (of_InitSecurity ignores groups that are not defined); a name mapped to
+//		an empty string is dropped.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_empty[], ls_name
+integer	li_idx, li_count, li_map, li_mapcount, li_numgroups
+boolean	lb_mapped
+
+as_mapped = ls_empty
+li_mapcount = UpperBound(as_from)
+If li_mapcount <> UpperBound(as_to) Then Return -1
+
+li_count = UpperBound(as_groups)
+For li_idx = 1 To li_count
+	If IsNull(as_groups[li_idx]) Then Continue
+	ls_name = as_groups[li_idx]
+	lb_mapped = False
+	For li_map = 1 To li_mapcount
+		If IsNull(as_from[li_map]) Then Continue
+		If Lower(Trim(as_from[li_map])) = Lower(Trim(as_groups[li_idx])) Then
+			ls_name = as_to[li_map]
+			lb_mapped = True
+			Exit
+		End If
+	Next
+	// Mapped to nothing: the group is not used
+	If lb_mapped And (IsNull(ls_name) Or Trim(ls_name) = "") Then Continue
+	li_numgroups ++
+	as_mapped[li_numgroups] = ls_name
+Next
+
+Return li_numgroups
+end function
+
+public function integer of_mapgroups (string as_groups[], string as_inifile, string as_section, ref string as_mapped[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_MapGroups
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_groups[]		group names from an identity provider (for example its groups claim)
+//	as_inifile		INI file with the mapping
+//	as_section		section of the INI file with the mapping, as
+//							identity provider group=security group
+//						for example
+//							[GroupMap]
+//							app-admins=admin
+//	as_mapped[]		(by ref) the security group names, to pass to of_InitSecurity
+//
+//	Returns:  Integer.  The number of names in as_mapped[], or -1 if the INI file does
+//		not exist
+//
+//	Description:  Like of_MapGroups(string[], string[], string[], ref string[]), with the
+//		mapping read from an INI file.  A name that is not in the section is passed on
+//		unchanged; a name mapped to nothing ("app-guests=") is dropped.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_empty[], ls_from[], ls_to[], ls_value
+string	ls_notfound = "~t!notmapped!~t"
+integer	li_idx, li_count, li_map
+
+as_mapped = ls_empty
+If IsNull(as_inifile) Or Not FileExists(as_inifile) Then Return -1
+
+// Read the entries for the names given (INI keys are not case sensitive)
+li_count = UpperBound(as_groups)
+For li_idx = 1 To li_count
+	If IsNull(as_groups[li_idx]) Then Continue
+	If Trim(as_groups[li_idx]) = "" Then Continue
+	ls_value = ProfileString(as_inifile, as_section, Trim(as_groups[li_idx]), ls_notfound)
+	If ls_value = ls_notfound Then Continue
+	li_map ++
+	ls_from[li_map] = as_groups[li_idx]
+	ls_to[li_map] = ls_value
+Next
+
+Return of_MapGroups(as_groups, ls_from, ls_to, as_mapped)
 end function
 
 on pfc_n_cst_security.create

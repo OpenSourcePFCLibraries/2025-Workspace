@@ -11,23 +11,8 @@ global n_cst_peat n_cst_peat
 
 forward prototypes
 public function integer of_refreshprojects ()
-protected function integer of_mapgroups (string as_inifile, string as_groups[], ref string as_mapped[])
 protected function integer of_opensecured (string as_securityinifile)
 end prototypes
-
-protected function integer of_mapgroups (string as_inifile, string as_groups[], ref string as_mapped[]);// Translates identity provider group names to PFC security group names using the
-// [GroupMap] section of as_inifile (IdP group=PFC group).  Unmapped names are passed
-// through unchanged; the security service ignores groups it does not know.
-String	ls_empty[]
-Integer	li_idx, li_count
-
-as_mapped = ls_empty
-li_count = UpperBound(as_groups)
-For li_idx = 1 To li_count
-	as_mapped[li_idx] = ProfileString(as_inifile, "GroupMap", as_groups[li_idx], as_groups[li_idx])
-Next
-Return li_count
-end function
 
 protected function integer of_opensecured (string as_securityinifile);// Opens the frame with OpenID Connect logon and PFC security, using the settings in
 // as_securityinifile ([Security] connection and DefaultGroup, [OpenID], [GroupMap]).
@@ -59,8 +44,9 @@ IF li_rc <> 1 THEN
 	Return li_rc
 END IF
 
-// Group membership comes from the identity provider; the security database supplies the settings
-this.of_MapGroups(as_securityinifile, lnv_openid.is_groups, ls_groups)
+// Group membership comes from the identity provider; the security database supplies the settings.
+// The [GroupMap] section maps the provider's group names to PFC security group names.
+inv_security.of_MapGroups(lnv_openid.is_groups, as_securityinifile, "GroupMap", ls_groups)
 li_rc = inv_security.of_InitSecurity(gnv_trans_security, "peat", this.of_GetUserID(), ls_groups, &
 		ProfileString(as_securityinifile, "Security", "DefaultGroup", ""))
 IF li_rc <> 1 THEN

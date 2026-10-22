@@ -27,7 +27,8 @@ Client=OAuthClient
 ; 1 = show the identity provider responses and the client choice (demonstration)
 ShowResponses=1
 
-; Identity provider group=PFC security group
+; Identity provider group=PFC security group (read by n_cst_security.of_MapGroups).
+; Groups not listed are passed on unchanged; a group mapped to nothing (name=) is not used.
 [GroupMap]
 peat-user-group=peat_user_group
 peat-admin-group=peat_admin_group
