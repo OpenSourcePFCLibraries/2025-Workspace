@@ -16,6 +16,9 @@
       messages are concatenations, so when there is no whole match the parts between the
       values (%s) and line breaks are translated one by one. Those entries are marked: check
       their word order.
+    - Translations made by hand, for texts the dictionary doesn't have (or translates badly),
+      are kept in a separate file (-Additions) in the same format as the language file. They
+      take precedence over the dictionary, so they survive when the file is made again.
     - Entries the dictionary has no translation for are written in English at the end of the
       file, under "Not translated yet".
 
@@ -27,6 +30,10 @@
     Name of the language, for the comments in the file. Default: the dictionary's file name.
 .PARAMETER English
     The English language file. Default: lang\pfc.lng in the repository.
+.PARAMETER Additions
+    Translations made by hand: ID="text" and "Caption"="text" lines, like the language file
+    (UTF-8 or UTF-16 with a byte order mark). Default: additions.lng in the folder of
+    -Output, if it exists.
 
 .EXAMPLE
     pwsh -File tools\New-PfcTranslation.ps1 -Dictionary ..\localization\german.dic -Output ..\localization\lang\german\pfc.lng -Language German
@@ -36,9 +43,23 @@ param(
     [Parameter(Mandatory)][string]$Dictionary,
     [Parameter(Mandatory)][string]$Output,
     [string]$Language = [IO.Path]::GetFileNameWithoutExtension($Dictionary),
-    [string]$English = (Join-Path $PSScriptRoot '..\lang\pfc.lng')
+    [string]$English = (Join-Path $PSScriptRoot '..\lang\pfc.lng'),
+    [string]$Additions = (Join-Path (Split-Path $Output) 'additions.lng')
 )
 $ErrorActionPreference = 'Stop'
+
+# --- translations made by hand: message ID (lower case) or "caption" (case-sensitive) -> text,
+# both as written in the language file
+$added = [System.Collections.Generic.Dictionary[string, string]]::new()
+if (Test-Path $Additions) {
+    foreach ($line in [IO.File]::ReadAllLines((Resolve-Path $Additions))) {
+        if ($line -match '^#' -or $line.Trim() -eq '') { continue }
+        if ($line -match '^("(?:[^"~]|~.)*")="(.*)"$') { $added[$Matches[1]] = $Matches[2] }
+        elseif ($line -match '^([^"=][^=]*)="(.*)"$') { $added[$Matches[1].Trim().ToLowerInvariant()] = $Matches[2] }
+        else { Write-Warning "${Additions}: not an entry: $line" }
+    }
+}
+$used = [System.Collections.Generic.HashSet[string]]::new()
 
 # PowerScript escapes (~r ~n ~t ~" ~' ~~) to characters
 function ConvertFrom-PbEscapes([string]$t) {
@@ -144,11 +165,20 @@ function Convert-Message([string]$text) {
 $lines = [IO.File]::ReadAllLines((Resolve-Path $English), [Text.Encoding]::Unicode)
 $body = [System.Collections.Generic.List[string]]::new()
 $missing = [System.Collections.Generic.List[string]]::new()
-$nTranslated = 0; $nAssembled = 0; $nMissing = 0
+$nTranslated = 0; $nAssembled = 0; $nMissing = 0; $nAdded = 0
 foreach ($line in $lines) {
     if ($line -match '^#' -or $line.Trim() -eq '') {
         # Keep the module comments; the file header is written below
         if ($line -match '^# Module:' -or ($line.Trim() -eq '' -and $body.Count -gt 0)) { $body.Add($line) }
+        continue
+    }
+    # Translated by hand
+    $left = $null; $key = $null
+    if ($line -match '^("(?:[^"~]|~.)*")=') { $left = $Matches[1]; $key = $left }
+    elseif ($line -match '^([^=]+)="') { $left = $Matches[1]; $key = $left.ToLowerInvariant() }
+    if ($null -ne $key -and $added.ContainsKey($key)) {
+        $body.Add("$left=""$($added[$key])""")
+        [void]$used.Add($key); $nAdded++; $nTranslated++
         continue
     }
     if ($line -match '^"((?:[^"~]|~.)*)"=') {
@@ -177,6 +207,7 @@ $out = [System.Text.StringBuilder]::new()
 [void]$out.AppendLine("# A first translation, made by tools\New-PfcTranslation.ps1 from the Translation Toolkit")
 [void]$out.AppendLine("# dictionary $([IO.Path]::GetFileName($Dictionary)): $nTranslated entries translated ($nAssembled of them from parts:")
 [void]$out.AppendLine('# check their word order), and ' + $nMissing + ' at the end that are still in English.')
+if ($nAdded) { [void]$out.AppendLine("# $nAdded of the translations were made by hand, in $([IO.Path]::GetFileName($Additions)).") }
 [void]$out.AppendLine('# To use it, copy it to the lang folder of the application as pfc.lng.')
 [void]$out.AppendLine('#')
 [void]$out.AppendLine('# In the texts: %s (or %1 - %9) is a value, ~r~n a line break, ~" a quote, ~~ a tilde,')
@@ -192,4 +223,5 @@ if ($missing.Count) {
 $dir = Split-Path $Output
 if ($dir -and -not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
 [IO.File]::WriteAllText($Output, $out.ToString().Replace("`r`n", "`n").Replace("`n", "`r`n"), [System.Text.UnicodeEncoding]::new($false, $true))
-Write-Host ("{0}: {1} translated ({2} from parts), {3} not translated" -f $Output, $nTranslated, $nAssembled, $nMissing)
+foreach ($k in $added.Keys) { if (-not $used.Contains($k)) { Write-Warning "${Additions}: not in the English file: $k" } }
+Write-Host ("{0}: {1} translated ({2} from parts, {3} by hand), {4} not translated" -f $Output, $nTranslated, $nAssembled, $nAdded, $nMissing)

@@ -37,12 +37,24 @@ st_2 st_2
 st_3 st_3
 rb_oauthclient rb_oauthclient
 rb_httpclient rb_httpclient
+event pfc_signin ( )
 end type
 global pfc_w_openid_logon pfc_w_openid_logon
+
+type prototypes
+// Cryptographically random bytes (BCRYPT_USE_SYSTEM_PREFERRED_RNG = 2)
+Function long BCryptGenRandom (longptr al_algorithm, ref blob ablb_buffer, ulong aul_length, ulong aul_flags) Library "bcrypt.dll"
+end prototypes
 
 type variables
 Protected:
 n_cst_openidattrib	inv_openidattrib
+// Authorization code flow: the redirect listener, whether it is waiting for the browser,
+// whether the user cancelled, and the identity provider's error, if any
+n_cst_redirectlistener	inv_listener
+boolean	ib_waiting
+boolean	ib_cancelled
+string	is_error
 end variables
 
 forward prototypes
@@ -54,6 +66,17 @@ protected function string of_jsonstring (string as_json, string as_key)
 protected function integer of_getgroups (string as_json, string as_claim, ref string as_groups[])
 protected function string of_decodeidtoken (string as_idtoken)
 protected function integer of_loadidtokengroups (string as_idtoken)
+protected function string of_randomstring (integer ai_bytes)
+protected function string of_base64url (blob ablb_data)
+protected function string of_codechallenge (string as_verifier)
+protected function string of_authorizationurl (string as_redirecturi, string as_state, string as_nonce, string as_challenge)
+protected function integer of_login_code ()
+protected function integer of_exchange_httpclient (string as_code, string as_verifier, string as_redirecturi)
+protected function integer of_exchange_oauthclient (string as_code, string as_verifier, string as_redirecturi)
+protected function string of_getuserid ()
+protected function string of_text (string as_id, string as_default, string as_parms[])
+protected subroutine of_setflow ()
+protected function integer of_openbrowser (string as_url)
 end prototypes
 
 protected function integer of_login_httpclient (string as_userid, string as_password);//////////////////////////////////////////////////////////////////////////////
@@ -693,6 +716,770 @@ End If
 Return li_count
 end function
 
+protected function string of_randomstring (integer ai_bytes);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_RandomString
+//
+//	Access:  protected
+//
+//	Arguments:
+//	ai_bytes		number of random bytes
+//
+//	Returns:  String.  The bytes from the system's cryptographic random number generator,
+//		in base64url (43 characters for 32 bytes), or "" if it fails
+//
+//	Description:  For the PKCE code verifier, the state and the nonce.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+blob	lblb_random
+
+If ai_bytes < 1 Then Return ""
+lblb_random = Blob(Space(ai_bytes), EncodingANSI!)
+If BCryptGenRandom(0, lblb_random, ai_bytes, 2) <> 0 Then Return ""
+
+Return of_Base64Url(lblb_random)
+end function
+
+protected function string of_base64url (blob ablb_data);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Base64Url
+//
+//	Access:  protected
+//
+//	Arguments:
+//	ablb_data	bytes
+//
+//	Returns:  String.  The bytes in base64url without padding (RFC 4648, section 5)
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+CoderObject	lnv_coder
+string		ls_text, ls_char, ls_result
+long			ll_idx
+
+lnv_coder = Create CoderObject
+ls_text = lnv_coder.Base64Encode(ablb_data)
+Destroy lnv_coder
+
+For ll_idx = 1 To Len(ls_text)
+	ls_char = Mid(ls_text, ll_idx, 1)
+	Choose Case ls_char
+		Case "+"
+			ls_result += "-"
+		Case "/"
+			ls_result += "_"
+		Case "=", "~r", "~n"
+			// no padding, no line breaks
+		Case Else
+			ls_result += ls_char
+	End Choose
+Next
+
+Return ls_result
+end function
+
+protected function string of_codechallenge (string as_verifier);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_CodeChallenge
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_verifier		the PKCE code verifier
+//
+//	Returns:  String.  The code challenge for the S256 method: the base64url SHA-256 hash
+//		of the verifier (RFC 7636, section 4.2)
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+CrypterObject	lnv_crypter
+blob				lblb_hash
+
+lnv_crypter = Create CrypterObject
+lblb_hash = lnv_crypter.SHA(SHA256!, Blob(as_verifier, EncodingANSI!))
+Destroy lnv_crypter
+
+Return of_Base64Url(lblb_hash)
+end function
+
+protected function string of_authorizationurl (string as_redirecturi, string as_state, string as_nonce, string as_challenge);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_AuthorizationURL
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_redirecturi		the redirect URI (from n_cst_redirectlistener)
+//	as_state				random value the response must return
+//	as_nonce				random value the ID token must contain
+//	as_challenge		the PKCE code challenge
+//
+//	Returns:  String.  The URL of the authorization request, to open in the browser
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_url
+
+ls_url = inv_openidattrib.is_authorizationendpoint
+If Pos(ls_url, "?") > 0 Then ls_url += "&" Else ls_url += "?"
+
+ls_url += "response_type=code" + &
+	"&client_id=" + of_UrlEncode(inv_openidattrib.is_clientid) + &
+	"&redirect_uri=" + of_UrlEncode(as_redirecturi) + &
+	"&scope=" + of_UrlEncode(inv_openidattrib.is_scope) + &
+	"&state=" + of_UrlEncode(as_state) + &
+	"&nonce=" + of_UrlEncode(as_nonce) + &
+	"&code_challenge=" + of_UrlEncode(as_challenge) + &
+	"&code_challenge_method=S256"
+If Len(inv_openidattrib.is_userid) > 0 Then ls_url += "&login_hint=" + of_UrlEncode(inv_openidattrib.is_userid)
+
+Return ls_url
+end function
+
+protected function integer of_login_code ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Login_Code
+//
+//	Access:  protected
+//
+//	Arguments:  None
+//
+//	Returns:  Integer
+//	 1 = signed in; the access token (and ID token) are in inv_openidattrib
+//	 0 = the user cancelled
+//	-1 = the identity provider refused the sign-in (is_error has its reason)
+//	-2 = the identity provider could not be reached
+//	-3 = the browser could not be opened, or the redirect could not be received
+//	-4 = the user didn't sign in in time (inv_openidattrib.il_timeout)
+//	-5 = the response is not valid (its state, or the ID token's nonce, doesn't match)
+//
+//	Description:  Signs the user in with the OAuth 2.0 authorization code flow with PKCE
+//		(RFC 7636), in the user's web browser, which supports multi-factor authentication
+//		and single sign-on.  The redirect is received on the loopback interface
+//		(n_cst_redirectlistener, RFC 8252).  The window stays responsive while it waits;
+//		Cancel stops the wait.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_verifier, ls_state, ls_nonce, ls_url, ls_code, ls_redirecturi, ls_claims, ls_none[]
+integer	li_rc
+
+is_error = ""
+ib_cancelled = False
+
+// Listen before opening the browser, so the redirect can't arrive too early
+If IsValid(inv_listener) Then Destroy inv_listener
+inv_listener = Create n_cst_redirectlistener
+If inv_listener.of_Start(inv_openidattrib.is_redirectpath) <> 1 Then Return -3
+inv_listener.of_SetPage( &
+	of_Text("pfc_openidlogon_pagetitle", "Sign-in complete", ls_none), &
+	of_Text("pfc_openidlogon_pagemessage", "You can close this window and return to the application.", ls_none))
+ls_redirecturi = inv_listener.of_GetRedirectURI()
+
+ls_verifier = of_RandomString(32)
+ls_state = of_RandomString(16)
+ls_nonce = of_RandomString(16)
+If ls_verifier = "" Or ls_state = "" Or ls_nonce = "" Then Return -3
+
+ls_url = of_AuthorizationURL(ls_redirecturi, ls_state, ls_nonce, of_CodeChallenge(ls_verifier))
+If inv_openidattrib.ib_showresponses Then MessageBox("Authorization request", ls_url)
+If of_OpenBrowser(ls_url) <> 1 Then Return -3
+
+// Wait for the user to sign in in the browser
+st_help.text = of_Text("pfc_openidlogon_waiting", "Waiting for you to sign in in your web browser...", ls_none)
+cb_ok.enabled = False
+ib_waiting = True
+li_rc = inv_listener.of_Wait(inv_openidattrib.il_timeout)
+ib_waiting = False
+cb_ok.enabled = True
+If inv_openidattrib.ib_showresponses And li_rc = 1 Then MessageBox("Redirect", inv_listener.of_GetRequest())
+
+If ib_cancelled Then Return 0
+If li_rc = 0 Then Return -4
+If li_rc < 0 Then Return -3
+
+If inv_listener.of_GetParameter("state") <> ls_state Then Return -5
+If inv_listener.of_GetParameter("error") <> "" Then
+	is_error = inv_listener.of_GetParameter("error_description")
+	If is_error = "" Then is_error = inv_listener.of_GetParameter("error")
+	Return -1
+End If
+ls_code = inv_listener.of_GetParameter("code")
+inv_listener.of_Stop()
+
+// Exchange the code, with the code verifier, for the tokens
+SetPointer(HourGlass!)
+If rb_httpclient.checked Then
+	li_rc = of_Exchange_HTTPClient(ls_code, ls_verifier, ls_redirecturi)
+Else
+	li_rc = of_Exchange_OAuthClient(ls_code, ls_verifier, ls_redirecturi)
+End If
+If li_rc <> 1 Then Return li_rc
+
+// The ID token must be the one for this request
+If Len(inv_openidattrib.is_idtoken) > 0 Then
+	ls_claims = of_DecodeIDToken(inv_openidattrib.is_idtoken)
+	If of_JsonString(ls_claims, "nonce") <> ls_nonce Then Return -5
+End If
+
+Return 1
+end function
+
+protected function integer of_exchange_httpclient (string as_code, string as_verifier, string as_redirecturi);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Exchange_HTTPClient
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_code			the authorization code from the redirect
+//	as_verifier		the PKCE code verifier
+//	as_redirecturi	the redirect URI sent with the authorization request
+//
+//	Returns:  Integer
+//	 1 = the tokens are in inv_openidattrib (is_accesstoken, is_idtoken)
+//	-1 = the identity provider refused (is_error has its reason)
+//	-2 = the identity provider could not be reached
+//
+//	Description:  Exchanges the authorization code for the tokens, using HTTPClient.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+HTTPClient	lnv_httpclient
+long			ll_rc
+integer		li_status, li_rc
+string		ls_body, ls_response
+
+lnv_httpclient = Create HTTPClient
+lnv_httpclient.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+lnv_httpclient.SetRequestHeader("Accept", "application/json")
+
+ls_body = "grant_type=authorization_code" + &
+	"&code=" + of_UrlEncode(as_code) + &
+	"&redirect_uri=" + of_UrlEncode(as_redirecturi) + &
+	"&client_id=" + of_UrlEncode(inv_openidattrib.is_clientid) + &
+	"&code_verifier=" + of_UrlEncode(as_verifier)
+
+ll_rc = lnv_httpclient.SendRequest("POST", inv_openidattrib.is_tokenendpoint, ls_body)
+If ll_rc = 1 Then
+	li_status = lnv_httpclient.GetResponseStatusCode()
+	lnv_httpclient.GetResponseBody(ls_response)
+	If inv_openidattrib.ib_showresponses Then MessageBox("Token response (" + String(li_status) + ")", ls_response)
+	If li_status = 200 Then
+		inv_openidattrib.is_accesstoken = of_JsonString(ls_response, "access_token")
+		inv_openidattrib.is_idtoken = of_JsonString(ls_response, "id_token")
+		li_rc = 1
+	Else
+		is_error = of_JsonString(ls_response, "error_description")
+		If is_error = "" Then is_error = of_JsonString(ls_response, "error")
+		li_rc = -1
+	End If
+Else
+	li_rc = -2
+End If
+
+Destroy lnv_httpclient
+Return li_rc
+end function
+
+protected function integer of_exchange_oauthclient (string as_code, string as_verifier, string as_redirecturi);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Exchange_OAuthClient
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_code			the authorization code from the redirect
+//	as_verifier		the PKCE code verifier
+//	as_redirecturi	the redirect URI sent with the authorization request
+//
+//	Returns:  Integer
+//	 1 = the tokens are in inv_openidattrib (is_accesstoken, is_idtoken)
+//	-1 = the identity provider refused (is_error has its reason)
+//	-2 = the identity provider could not be reached
+//
+//	Description:  Exchanges the authorization code for the tokens, using OAuthClient.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+OAuthClient		lnv_oauthclient
+TokenRequest	lnv_tokenrequest
+TokenResponse	lnv_tokenresponse
+long				ll_rc
+integer			li_rc
+string			ls_body
+
+lnv_oauthclient = Create OAuthClient
+
+lnv_tokenrequest.TokenLocation = inv_openidattrib.is_tokenendpoint
+lnv_tokenrequest.Method = "POST"
+lnv_tokenrequest.ClearParams()
+lnv_tokenrequest.AppendParam("grant_type", "authorization_code")
+lnv_tokenrequest.AppendParam("code", as_code)
+lnv_tokenrequest.AppendParam("redirect_uri", as_redirecturi)
+lnv_tokenrequest.AppendParam("client_id", inv_openidattrib.is_clientid)
+lnv_tokenrequest.AppendParam("code_verifier", as_verifier)
+lnv_tokenrequest.ClearHeaders()
+lnv_tokenrequest.SetHeader("Content-Type", "application/x-www-form-urlencoded")
+
+ll_rc = lnv_oauthclient.AccessToken(lnv_tokenrequest, lnv_tokenresponse)
+If ll_rc = 1 Then
+	lnv_tokenresponse.GetBody(ls_body)
+	If inv_openidattrib.ib_showresponses Then MessageBox("Token response (" + String(lnv_tokenresponse.GetStatusCode()) + ")", ls_body)
+	If lnv_tokenresponse.GetStatusCode() = 200 Then
+		inv_openidattrib.is_accesstoken = lnv_tokenresponse.GetAccessToken()
+		inv_openidattrib.is_idtoken = of_JsonString(ls_body, "id_token")
+		li_rc = 1
+	Else
+		is_error = of_JsonString(ls_body, "error_description")
+		If is_error = "" Then is_error = of_JsonString(ls_body, "error")
+		li_rc = -1
+	End If
+Else
+	li_rc = -2
+End If
+
+Destroy lnv_oauthclient
+Return li_rc
+end function
+
+protected function string of_getuserid ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetUserID
+//
+//	Access:  protected
+//
+//	Arguments:  None
+//
+//	Returns:  String.  The user ID of the user who signed in, from the userinfo response or
+//		the ID token: preferred_username, or else email, or else sub
+//
+//	Description:  In the authorization code flow, the user signs in in the browser, so the
+//		window doesn't know the user ID.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_sources[], ls_claims[]
+integer	li_source, li_claim
+string	ls_value
+
+ls_sources[1] = inv_openidattrib.is_userinfo
+ls_sources[2] = of_DecodeIDToken(inv_openidattrib.is_idtoken)
+ls_claims[1] = "preferred_username"
+ls_claims[2] = "email"
+ls_claims[3] = "sub"
+
+For li_claim = 1 To UpperBound(ls_claims)
+	For li_source = 1 To UpperBound(ls_sources)
+		If Len(ls_sources[li_source]) = 0 Then Continue
+		ls_value = of_JsonString(ls_sources[li_source], ls_claims[li_claim])
+		If Len(ls_value) > 0 Then Return ls_value
+	Next
+Next
+
+Return ""
+end function
+
+protected function string of_text (string as_id, string as_default, string as_parms[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Text
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_id			ID of the text in the language file
+//	as_default	the English text
+//	as_parms[]	values for its placeholders
+//
+//	Returns:  String.  The text from the language service, if it is enabled, or the
+//		English text, with the values
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+n_cst_string	lnv_string
+
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then Return gnv_app.inv_language.of_GetText(as_id, as_default, as_parms)
+End If
+Return lnv_string.of_Format(as_default, as_parms)
+end function
+
+protected subroutine of_setflow ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_SetFlow
+//
+//	Access:  protected
+//
+//	Arguments:  None
+//
+//	Returns:  None
+//
+//	Description:  Sets up the window for the sign-in flow: for the authorization code flow
+//		the user signs in in the browser, so the user ID and password are hidden.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+string	ls_parms[]
+boolean	lb_password
+
+lb_password = (Lower(inv_openidattrib.is_flow) <> "code")
+ls_parms[1] = inv_openidattrib.is_appname
+
+st_2.visible = lb_password
+st_3.visible = lb_password
+sle_userid.visible = lb_password
+sle_password.visible = lb_password
+
+If lb_password Then
+	st_help.text = of_Text("pfc_logon_help", "Enter a User ID and password to log onto %s.", ls_parms)
+Else
+	st_help.text = of_Text("pfc_openidlogon_codehelp", "Click Sign In to sign in to %s in your web browser.", ls_parms)
+	cb_ok.text = of_Text("pfc_openidlogon_signin", "&Sign In", ls_parms)
+End If
+end subroutine
+
+protected function integer of_openbrowser (string as_url);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_OpenBrowser
+//
+//	Access:  protected
+//
+//	Arguments:
+//	as_url		the authorization request
+//
+//	Returns:  Integer.  1 if the URL was opened, -1 if not
+//
+//	Description:  Opens the authorization request in the user's default web browser.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+inet	linet
+
+If GetContextService("Internet", linet) <> 1 Then Return -1
+If linet.HyperlinkToURL(as_url) <> 1 Then Return -1
+Return 1
+end function
+
 on pfc_w_openid_logon.create
 int iCurrent
 call super::create
@@ -783,22 +1570,14 @@ End If
 
 // Application Name, in the help text.  A message with a placeholder, so that a
 // translation (language service) can put the name where its word order needs it.
-string	ls_parms[]
-n_cst_string	lnv_string
+string	ls_none[]
 
 If Len (inv_openidattrib.is_appname) = 0 Then
-	inv_openidattrib.is_appname = "the application"
-	If IsValid(gnv_app) Then
-		If IsValid(gnv_app.inv_language) Then inv_openidattrib.is_appname = &
-			gnv_app.inv_language.of_GetText("pfc_logon_defaultappname", "the application")
-	End If
+	inv_openidattrib.is_appname = of_Text("pfc_logon_defaultappname", "the application", ls_none)
 End If
-ls_parms[1] = inv_openidattrib.is_appname
-st_help.text = lnv_string.of_Format("Enter a User ID and password to log onto %s.", ls_parms)
-If IsValid(gnv_app) Then
-	If IsValid(gnv_app.inv_language) Then st_help.text = &
-		gnv_app.inv_language.of_GetText("pfc_logon_help", "Enter a User ID and password to log onto %s.", ls_parms)
-End If
+
+// The help text, and for the authorization code flow, no user ID and password
+of_SetFlow()
 
 sle_userid.text = inv_openidattrib.is_userid
 
@@ -808,7 +1587,9 @@ rb_oauthclient.checked = Not rb_httpclient.checked
 rb_oauthclient.visible = inv_openidattrib.ib_showresponses
 rb_httpclient.visible = inv_openidattrib.ib_showresponses
 
-If Len (sle_userid.text) > 0 Then
+If Not sle_userid.visible Then
+	cb_ok.SetFocus()
+ElseIf Len (sle_userid.text) > 0 Then
 	sle_password.SetFocus()
 Else
 	sle_userid.SetFocus()
@@ -854,6 +1635,11 @@ event pfc_default;//////////////////////////////////////////////////////////////
 
 integer	li_rc
 string	ls_parms[]
+
+If Lower (inv_openidattrib.is_flow) = "code" Then
+	This.Event pfc_signin()
+	Return
+End If
 
 If Len (sle_userid.text) = 0 Then
 	of_MessageBox ("pfc_openidlogon_enterid", inv_openidattrib.is_appname, &
@@ -916,7 +1702,8 @@ event pfc_cancel;call super::pfc_cancel;////////////////////////////////////////
 //
 //	Event:  pfc_cancel
 //
-//	Description:  Closes the window without logging on.
+//	Description:  Closes the window without logging on.  While the window waits for
+//		the user to sign in in the browser, stops waiting instead.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -949,9 +1736,159 @@ event pfc_cancel;call super::pfc_cancel;////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
+If ib_waiting Then
+	ib_cancelled = True
+	inv_listener.of_Cancel()
+	Return
+End If
+
 inv_openidattrib.ii_rc = 0
 inv_openidattrib.is_userid = ""
 CloseWithReturn (this, inv_openidattrib)
+end event
+
+event pfc_signin();//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:  pfc_signin
+//
+//	Description:  Signs the user in in the web browser (the authorization code flow
+//		with PKCE) and reads the user's groups.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+integer	li_rc
+string	ls_parms[]
+
+If ib_waiting Then Return
+
+If Len (inv_openidattrib.is_authorizationendpoint) = 0 Or Len (inv_openidattrib.is_tokenendpoint) = 0 &
+	Or Len (inv_openidattrib.is_userinfoendpoint) = 0 Or Len (inv_openidattrib.is_clientid) = 0 Then
+	of_MessageBox ("pfc_openidlogon_notconfiguredcode", inv_openidattrib.is_appname, &
+		"The identity provider settings (authorization endpoint, token endpoint, userinfo endpoint and client ID) are missing.", &
+		StopSign!, OK!, 1)
+	inv_openidattrib.ii_rc = -1
+	inv_openidattrib.is_userid = ""
+	CloseWithReturn (this, inv_openidattrib)
+	Return
+End If
+
+li_rc = of_Login_Code()
+If IsValid (inv_listener) Then inv_listener.of_Stop()
+of_SetFlow()
+
+Choose Case li_rc
+	Case 1
+		If of_LoadUserInfo (inv_openidattrib.is_accesstoken) = 1 Then
+			If UpperBound (inv_openidattrib.is_groups) = 0 Then of_LoadIDTokenGroups (inv_openidattrib.is_idtoken)
+			inv_openidattrib.ii_rc = 1
+			inv_openidattrib.is_userid = of_GetUserID()
+			CloseWithReturn (this, inv_openidattrib)
+			Return
+		End If
+		of_MessageBox ("pfc_openidlogon_userinfo", inv_openidattrib.is_appname, &
+			"The user's information could not be read from the identity provider.", StopSign!, OK!, 1)
+	Case 0
+		// Cancelled: the user can sign in again, or cancel again to close the window
+	Case -1
+		ls_parms[1] = is_error
+		of_MessageBox ("pfc_openidlogon_refused", inv_openidattrib.is_appname, &
+			"The identity provider refused the sign-in (%s).", ls_parms, StopSign!, OK!, 1)
+	Case -2
+		ls_parms[1] = inv_openidattrib.is_tokenendpoint
+		of_MessageBox ("pfc_openidlogon_connect", inv_openidattrib.is_appname, &
+			"The identity provider could not be reached (%s).", ls_parms, &
+			StopSign!, OK!, 1)
+	Case -3
+		of_MessageBox ("pfc_openidlogon_browser", inv_openidattrib.is_appname, &
+			"The sign-in could not be started in the web browser.", StopSign!, OK!, 1)
+	Case -4
+		of_MessageBox ("pfc_openidlogon_timeout", inv_openidattrib.is_appname, &
+			"You didn't sign in in the web browser in time. Click Sign In to try again.", Exclamation!, OK!, 1)
+	Case Else
+		of_MessageBox ("pfc_openidlogon_invalidresponse", inv_openidattrib.is_appname, &
+			"The identity provider's response is not valid.", StopSign!, OK!, 1)
+End Choose
+
+cb_ok.SetFocus()
+end event
+
+event closequery;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:  closequery
+//
+//	Description:  While the window waits for the user to sign in in the browser, it
+//		can't close (the wait is still running): stops waiting instead.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If ib_waiting Then
+	ib_cancelled = True
+	inv_listener.of_Cancel()
+	Return 1
+End If
+
+Return Super::Event closequery()
+end event
+
+event close;call super::close;If IsValid (inv_listener) Then Destroy inv_listener
 end event
 
 type st_help from u_st within pfc_w_openid_logon
