@@ -22,6 +22,16 @@ TokenEndpoint=http://localhost:9000/application/o/token/
 UserInfoEndpoint=http://localhost:9000/application/o/userinfo/
 ClientID=
 Scope=openid profile
+; Sign-in flow: password (the window asks for the user ID and password; the default) or
+; code (the authorization code flow with PKCE: the user signs in in the web browser, with
+; MFA and single sign-on). For code, the identity provider must allow the redirect URI
+; http://127.0.0.1:<any port>/callback (in Authentik, the Regex http://127\.0\.0\.1:\d+/callback)
+; and the client must be public (no client secret).
+Flow=password
+AuthorizationEndpoint=http://localhost:9000/application/o/authorize/
+; Path of the redirect URI, and how long to wait for the user to sign in, in seconds
+;RedirectPath=/callback
+;Timeout=300
 ; OAuthClient or HTTPClient
 Client=OAuthClient
 ; Claim with the user's groups, from the userinfo response or else the ID token

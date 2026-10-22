@@ -161,8 +161,8 @@ foreach ($f in $files) {
         }
     }
 
-    # Other texts by ID: of_GetText("pfc_...", "English text", ...)
-    foreach ($m in [regex]::Matches($s, '(?i)(?<!function string )\bof_gettext\s*\(')) {
+    # Other texts by ID: of_GetText("pfc_...", "English text", ...) (or a windows of_Text helper)
+    foreach ($m in [regex]::Matches($s, '(?i)(?<!function string )\bof_(?:get)?text\s*\(')) {
         $a = Read-Arguments $s ($m.Index + $m.Length)
         if ($a.Count -lt 2) { continue }
         $id = $a[0].Literal; $text = $a[1].Literal
