@@ -21,8 +21,9 @@ Constant String DEFAULTFILE = "pfc.lng"
 Constant String CAPTION = "~t"
 
 Protected:
-// The language file in use ("" if none)
+// The language file in use, the first one read ("" if none), and all the files read
 string	is_file
+string	is_files[]
 // Its entries, sorted by key (keys in lower case)
 string	is_keys[]
 string	is_values[]
@@ -52,6 +53,9 @@ public function integer of_translate (windowobject awo_control)
 public function integer of_translate (datastore ads_data)
 protected function integer of_translatedwobjects (powerobject apo_dw)
 protected function string of_escape (string as_text)
+public function integer of_addlanguagefile (string as_file)
+public function string of_getdefaultapplicationfile ()
+public function integer of_getlanguagefiles (ref string as_files[])
 end prototypes
 
 public function integer of_setlanguagefile (string as_file);//////////////////////////////////////////////////////////////////////////////
@@ -69,8 +73,10 @@ public function integer of_setlanguagefile (string as_file);////////////////////
 //	-1 = the file could not be read
 //
 //	Description:  Reads a language file, replacing the entries read before.  By default
-//		the service reads lang\pfc.lng in the application folder when it is created.
-//		Use this function to choose another file, for example to switch languages.
+//		the service reads lang\pfc.lng and then the application's own file (see
+//		of_GetDefaultApplicationFile) when it is created.  Use this function to choose
+//		another file, for example to switch languages, and of_AddLanguageFile to add the
+//		application's file for that language.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -109,6 +115,7 @@ is_keys = ls_empty
 is_values = ls_empty
 il_count = 0
 is_file = ""
+is_files = ls_empty
 
 If IsNull(as_file) Or Len(Trim(as_file)) = 0 Then Return 0
 If Not FileExists(as_file) Then Return 0
@@ -124,7 +131,8 @@ public function string of_getlanguagefile ();///////////////////////////////////
 //
 //	Arguments:  None
 //
-//	Returns:  String.  The language file in use, or "" if there is none
+//	Returns:  String.  The language file in use: the first one read, normally lang\pfc.lng
+//		(see of_GetLanguageFiles for all of them), or "" if there is none
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -830,8 +838,10 @@ Do While ll_read <> -100 And ll_read <> -1
 Loop
 FileClose(li_file)
 
+// Entries read before have the order 0, so these replace them when keys repeat
 of_Sort(ll_seq)
-is_file = as_file
+If is_file = "" Then is_file = as_file
+is_files[UpperBound(is_files) + 1] = as_file
 Return 1
 end function
 
@@ -1553,6 +1563,157 @@ Next
 Return ls_result
 end function
 
+public function integer of_addlanguagefile (string as_file);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_AddLanguageFile
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_file		a language file (with its path)
+//
+//	Returns:  Integer
+//	 1 = the file was read
+//	 0 = there is no such file
+//	-1 = the file could not be read
+//
+//	Description:  Reads another language file, keeping the entries read before.  Its
+//		entries replace those with the same key, so an application can keep its own
+//		texts, and its corrections of PFC texts, in a file of its own, apart from
+//		lang\pfc.lng.  The service adds the application's default file itself (see
+//		of_GetDefaultApplicationFile).
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If IsNull(as_file) Or Len(Trim(as_file)) = 0 Then Return 0
+If Not FileExists(as_file) Then Return 0
+
+Return of_Load(as_file)
+end function
+
+public function string of_getdefaultapplicationfile ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetDefaultApplicationFile
+//
+//	Access:  public
+//
+//	Arguments:  None
+//
+//	Returns:  String.  lang\<application>.lng in the application folder, where
+//		<application> is the name of the application object (for example lang\peat.lng)
+//
+//	Description:  The application's own language file, which the service reads after
+//		lang\pfc.lng when it is created.  Its entries take precedence.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+Return of_GetApplicationFolder() + "lang\" + Lower(GetApplication().AppName) + ".lng"
+end function
+
+public function integer of_getlanguagefiles (ref string as_files[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_GetLanguageFiles
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_files[]	(by ref) the language files read, in the order they were read
+//
+//	Returns:  Integer.  The number of language files read
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+as_files = is_files
+Return UpperBound(is_files)
+end function
+
 on pfc_n_cst_language.create
 call super::create
 end on
@@ -1565,8 +1726,9 @@ event constructor;call super::constructor;//////////////////////////////////////
 //
 //	Event:  constructor
 //
-//	Description:  Reads the default language file, lang\pfc.lng in the application
-//		folder, if there is one.
+//	Description:  Reads the default language files, if they exist: lang\pfc.lng in the
+//		application folder for PFC, and the application's own file (see
+//		of_GetDefaultApplicationFile), whose entries take precedence.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1600,4 +1762,5 @@ event constructor;call super::constructor;//////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 of_SetLanguageFile(of_GetDefaultLanguageFile())
+of_AddLanguageFile(of_GetDefaultApplicationFile())
 end event

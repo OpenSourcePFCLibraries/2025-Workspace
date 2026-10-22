@@ -147,11 +147,24 @@ Else
 	p_logo.Visible = False
 End If
 
-// Application Name
+// Application Name, in the help text.  A message with a placeholder, so that a
+// translation (language service) can put the name where its word order needs it.
+string	ls_parms[]
+n_cst_string	lnv_string
+
 if Len (inv_logonattrib.is_appname) = 0 then
-	inv_logonattrib.is_appname = "the application"	
+	inv_logonattrib.is_appname = "the application"
+	If IsValid(gnv_app) Then
+		If IsValid(gnv_app.inv_language) Then inv_logonattrib.is_appname = &
+			gnv_app.inv_language.of_GetText("pfc_logon_defaultappname", "the application")
+	End If
 end if
-st_help.text = st_help.text + inv_logonattrib.is_appname + "."
+ls_parms[1] = inv_logonattrib.is_appname
+st_help.text = lnv_string.of_Format("Enter a User ID and password to log onto %s.", ls_parms)
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then st_help.text = &
+		gnv_app.inv_language.of_GetText("pfc_logon_help", "Enter a User ID and password to log onto %s.", ls_parms)
+End If
 
 // Set the logon attempts variable
 If IsValid(inv_logonattrib) Then
