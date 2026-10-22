@@ -98,6 +98,9 @@ ls_securityinifile = gnv_app.of_GetAppIniFile()
 ls_securityinifile = Left(ls_securityinifile, LastPos(ls_securityinifile, "\")) + "peat_security.ini"
 lb_secured = FileExists(ls_securityinifile)
 
+// PFC texts in another language when lang\pfc.lng is present (see the localization repository)
+this.of_SetLanguage(TRUE)
+
 // Display the Splash window
 If Not lb_secured Then this.of_Splash(1)
 

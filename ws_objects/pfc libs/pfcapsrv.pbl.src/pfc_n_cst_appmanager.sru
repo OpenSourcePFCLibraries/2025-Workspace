@@ -31,6 +31,7 @@ n_cst_error	inv_error
 n_cst_security	inv_security
 n_cst_apppreference	inv_apppref
 n_cst_mru		inv_mru
+n_cst_language	inv_language
 
 Protected:
 boolean	ib_microhelp
@@ -82,6 +83,7 @@ public function integer of_settrregistration (boolean ab_switch)
 public function integer of_setsecurity (boolean ab_switch)
 public function integer of_setapppreference (boolean ab_switch)
 public function integer of_setmru (boolean ab_switch)
+public function integer of_setlanguage (boolean ab_switch)
 end prototypes
 
 event pfc_open;//////////////////////////////////////////////////////////////////////////////
@@ -2587,6 +2589,76 @@ END IF
 Return 0
 end function
 
+public function integer of_setlanguage (boolean ab_switch);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_SetLanguage
+//
+//	Access:  public
+//
+//	Arguments:
+//	ab_switch	True to start the language service, False to stop it
+//
+//	Returns:  Integer
+//	 1 = successful operation
+//	 0 = no action necessary
+//	-1 = an error was encountered
+//
+//	Description:  Starts or stops the language service (inv_language), which shows PFC
+//		messages and the text of windows, menus and DataWindows in another language,
+//		from a language file: lang\pfc.lng in the application folder by default.
+//		Start it before opening windows.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+//Check arguments
+If IsNull(ab_switch) Then
+	Return -1
+End If
+
+IF ab_Switch THEN
+	IF IsNull(inv_language) Or Not IsValid (inv_language) THEN
+		inv_language = CREATE n_cst_language
+		Return 1
+	END IF
+ELSE
+	IF IsValid (inv_language) THEN
+		DESTROY inv_language
+		Return 1
+	END IF
+END IF
+
+Return 0
+end function
+
 event destructor;//////////////////////////////////////////////////////////////////////////////
 //
 //	Event:  destructor
@@ -2633,6 +2705,7 @@ of_SetError (false)
 of_SetSecurity (false)
 of_SetAppPreference (false)
 of_SetMRU (false)
+of_SetLanguage (false)
 end event
 
 event constructor;//////////////////////////////////////////////////////////////////////////////

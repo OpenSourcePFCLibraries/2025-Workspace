@@ -238,11 +238,13 @@ event pfc_restorerow;call super::pfc_restorerow;////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 long	ll_rc
+string	ls_parms[]
 
 ll_rc = of_UnDelete()
 if ll_rc = -2 then
+	ls_parms[1] = is_displayunits
 	of_MessageBox ('pfc_rowmanager_norestore', gnv_app.iapp_object.displayname, &
-		"There are no " + is_displayunits + " to restore.", Information!, Ok!, 1)
+		"There are no %s to restore.", ls_parms, Information!, Ok!, 1)
 end if
 
 return ll_rc
@@ -549,6 +551,8 @@ protected function integer of_confirmdelete (long al_amount);///////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
+string	ls_parms[]
+
 // Validate amount argument
 if al_amount <=0 then
 	return -1
@@ -556,12 +560,14 @@ end if
 
 // Display confirm delete message based on single/multiple deletes
 if al_amount = 1 then
+	ls_parms[1] = is_displayitem
 	return of_MessageBox ("pfc_rowmanager_confirmsingledelete", "Confirm Delete",  &
-		"Are you sure you want to delete " + is_displayitem + "?", question!, yesno!, 1)
+		"Are you sure you want to delete %s?", ls_parms, question!, yesno!, 1)
 else
+	ls_parms[1] = String (al_amount)
+	ls_parms[2] = is_displayunits
 	return of_messageBox ("pfc_rowmanager_confirmmultipledelete","Confirm Multiple Delete", &
-		"Are you sure you want to delete these " + &
-		String (al_amount) + " " + is_displayunits + "?", question!, yesno!, 1)
+		"Are you sure you want to delete these %s %s?", ls_parms, question!, yesno!, 1)
 end if
 end function
 

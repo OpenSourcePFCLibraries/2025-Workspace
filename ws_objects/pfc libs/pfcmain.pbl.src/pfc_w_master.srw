@@ -120,6 +120,7 @@ public function integer of_getinfo (ref n_cst_infoattrib anv_infoattrib)
 protected function integer of_setupdaterequestor (powerobject apo_updaterequestor)
 public function integer of_update (boolean ab_accepttext, boolean ab_resetflag)
 protected function integer of_messagebox (string as_id, string as_title, string as_text, icon ae_icon, button ae_button, integer ai_default)
+protected function integer of_messagebox (string as_id, string as_title, string as_text, string as_parms[], icon ae_icon, button ae_button, integer ai_default)
 public function integer of_setdberrormsg (n_cst_dberrorattrib anv_dberrorattrib)
 public function integer of_setstyle (boolean ab_switch)
 end prototypes
@@ -3704,7 +3705,80 @@ protected function integer of_messagebox (string as_id, string as_title, string 
 //
 //////////////////////////////////////////////////////////////////////////////
 
+// Language service: the message from the language file, if there is one
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then gnv_app.inv_language.of_GetMessage(as_id, as_title, as_text)
+End If
+
 Return MessageBox(as_title, as_text, ae_icon, ae_button, ai_default)
+end function
+
+protected function integer of_messagebox (string as_id, string as_title, string as_text, string as_parms[], icon ae_icon, button ae_button, integer ai_default);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  			of_MessageBox
+//
+//	Access:  			protected
+//
+//	Arguments:
+//	as_id			An ID for the Message.
+//	as_title  	Text for title bar
+//	as_text		Text for the actual message, in English, with placeholders (%s) for
+//					the values in as_parms.
+//	as_parms[]	Values for the placeholders.
+//	ae_icon 		The icon you want to display on the MessageBox.
+//	ae_button	Set of CommandButtons you want to display on the MessageBox.
+//	ai_default  The default button.
+//
+//	Returns:  integer
+//	Return value of the MessageBox.
+//
+//	Description:
+//	Display a message that contains values.  With the language service, the message
+//	comes from the language file (the entry as_id) when it has one; the values replace
+//	the placeholders (see n_cst_string.of_Format).  The message is then displayed by
+//	of_MessageBox(as_id, as_title, as_text, ae_icon, ae_button, ai_default).
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+n_cst_string	lnv_string
+
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then
+		gnv_app.inv_language.of_GetMessage(as_id, as_title, as_text, as_parms)
+		Return of_MessageBox(as_id, as_title, as_text, ae_icon, ae_button, ai_default)
+	End If
+End If
+
+Return of_MessageBox(as_id, as_title, lnv_string.of_Format(as_text, as_parms), ae_icon, ae_button, ai_default)
 end function
 
 public function integer of_setdberrormsg (n_cst_dberrorattrib anv_dberrorattrib);//////////////////////////////////////////////////////////////////////////////
@@ -3999,6 +4073,7 @@ event open;/////////////////////////////////////////////////////////////////////
 //	Version
 //	5.0   Initial version
 //	6.0   Added MRU and Logical Unit of Work service code
+//	2025	Language service: translate the window
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -4025,6 +4100,11 @@ event open;/////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 Integer li_rc
+
+// Language service: translate the captions of the window, its controls and its menu
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then gnv_app.inv_language.of_Translate(this)
+End If
 
 // Allow for pre and post open events to occur
 This.Event pfc_preopen()

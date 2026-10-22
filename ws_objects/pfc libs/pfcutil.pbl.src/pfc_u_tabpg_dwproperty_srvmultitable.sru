@@ -941,6 +941,7 @@ integer	li_cnt
 integer 	li_rc
 integer	li_stylecurrent, li_styledesired
 integer	li_index
+string	ls_parms[]
 string	ls_tables[]
 string	ls_table
 integer	li_row
@@ -1030,8 +1031,9 @@ Next
 
 // Report any problems.
 If lb_registrationerror Then
+	ls_parms[1] = ls_msg
 	of_MessageBox('pfc_dwproperty_multitable_regfailed',is_msgtitle , &
-		'Registration of the following table(s) failed:~r~n'+ls_msg, StopSign!, OK!, 1)
+		'Registration of the following table(s) failed:~r~n%s', ls_parms, StopSign!, OK!, 1)
 End If	
 
 Return 1

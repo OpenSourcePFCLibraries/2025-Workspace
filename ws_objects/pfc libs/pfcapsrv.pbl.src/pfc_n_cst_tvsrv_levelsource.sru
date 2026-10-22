@@ -2764,6 +2764,8 @@ public function integer of_confirmdelete (long al_amount);//////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
+string	ls_parms[]
+
 // Validate amount argument
 if al_amount <=0 then
 	return -1
@@ -2771,12 +2773,14 @@ end if
 
 // Display confirm delete message based on single/multiple deletes
 if al_amount = 1 then
+	ls_parms[1] = is_displayitem
 	return of_MessageBox ("pfc_tv_datasource_confirmdeletesingle", "Confirm Delete", &
-			"Are you sure you want to delete " + is_displayitem + "?", question!, yesno!, 1)
+			"Are you sure you want to delete %s?", ls_parms, question!, yesno!, 1)
 else
+	ls_parms[1] = String (al_amount)
+	ls_parms[2] = is_displayunits
 	return of_MessageBox ("pfc_tv_datasource_confirmdeletemulti", "Confirm Multiple Delete", &
-			"Are you sure you want to delete these " + &
-			String (al_amount) + " " + is_displayunits + "?", question!, yesno!, 1)
+			"Are you sure you want to delete these %s %s?", ls_parms, question!, yesno!, 1)
 end if
 
 end function
