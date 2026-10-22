@@ -1069,6 +1069,7 @@ public function integer of_savehistorytofile ();////////////////////////////////
 
 constant string	TITLE='Save SQLSpy File'
 string	ls_path_filename
+string	ls_parms[]
 string	ls_filename
 integer	li_rc
 integer	li_filenumber
@@ -1083,8 +1084,9 @@ If li_rc > 0 Then
 	
 	If FileExists (ls_path_filename) Then
 		//Existing file has been found
+		ls_parms[1] = ls_path_filename
 		If of_MessageBox ('pfc_sqlspy_replacefile', TITLE, &
-			'Replace existing file '+ls_path_filename, &
+			'Replace existing file %s', ls_parms, &
 			Question!, YesNo!, 1) = 2 Then
 			//Do not replace the file
 			Return 1

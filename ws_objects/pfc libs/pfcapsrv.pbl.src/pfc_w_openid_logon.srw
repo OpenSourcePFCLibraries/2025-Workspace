@@ -837,6 +837,7 @@ event pfc_default;//////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_rc
+string	ls_parms[]
 
 If Len (sle_userid.text) = 0 Then
 	of_MessageBox ("pfc_openidlogon_enterid", inv_openidattrib.is_appname, &
@@ -886,8 +887,9 @@ Choose Case li_rc
 		of_MessageBox ("pfc_openidlogon_incorrectpassword", inv_openidattrib.is_appname, &
 			"The User ID or password is incorrect.", StopSign!, OK!, 1)
 	Case Else
+		ls_parms[1] = inv_openidattrib.is_tokenendpoint
 		of_MessageBox ("pfc_openidlogon_connect", inv_openidattrib.is_appname, &
-			"The identity provider could not be reached (" + inv_openidattrib.is_tokenendpoint + ").", &
+			"The identity provider could not be reached (%s).", ls_parms, &
 			StopSign!, OK!, 1)
 End Choose
 

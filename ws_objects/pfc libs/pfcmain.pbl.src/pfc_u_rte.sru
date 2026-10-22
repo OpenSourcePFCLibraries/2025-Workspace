@@ -79,6 +79,7 @@ public function integer of_setfind (boolean ab_switch)
 public subroutine of_setstartpagenumber (long al_startpagenumber)
 public function long of_getstartpagenumber ()
 protected function integer of_messagebox (string as_id, string as_title, string as_text, icon ae_icon, button ae_button, integer ai_default)
+protected function integer of_messagebox (string as_id, string as_title, string as_text, string as_parms[], icon ae_icon, button ae_button, integer ai_default)
 end prototypes
 
 event pfc_clear;//////////////////////////////////////////////////////////////////////////////
@@ -1274,6 +1275,7 @@ integer	li_save
 string	ls_filename
 string	ls_title
 string	ls_docname
+string	ls_parms[]
 
 if GetFileOpenName ("Open", as_filename, ls_filename, "", &
 	"Rich Text Format (RTF),*.rtf,Text Document,*.txt,All Files,*.*") = 1 then
@@ -1289,8 +1291,9 @@ if GetFileOpenName ("Open", as_filename, ls_filename, "", &
 			ls_docname = "Document"
 		end if
 
+		ls_parms[1] = ls_docname
 		li_val = of_MessageBox ("pfc_savechanges", ls_title, &
-			"Save changes to " + ls_docname + "?", exclamation!, yesnocancel!, 1)
+			"Save changes to %s?", ls_parms, exclamation!, yesnocancel!, 1)
 		if li_val = 1 then
 			li_save = this.event pfc_save()
 			if li_save < 0 then
@@ -2497,7 +2500,80 @@ protected function integer of_messagebox (string as_id, string as_title, string 
 //
 //////////////////////////////////////////////////////////////////////////////
 
+// Language service: the message from the language file, if there is one
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then gnv_app.inv_language.of_GetMessage(as_id, as_title, as_text)
+End If
+
 Return MessageBox(as_title, as_text, ae_icon, ae_button, ai_default)
+end function
+
+protected function integer of_messagebox (string as_id, string as_title, string as_text, string as_parms[], icon ae_icon, button ae_button, integer ai_default);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  			of_MessageBox
+//
+//	Access:  			protected
+//
+//	Arguments:
+//	as_id			An ID for the Message.
+//	as_title  	Text for title bar
+//	as_text		Text for the actual message, in English, with placeholders (%s) for
+//					the values in as_parms.
+//	as_parms[]	Values for the placeholders.
+//	ae_icon 		The icon you want to display on the MessageBox.
+//	ae_button	Set of CommandButtons you want to display on the MessageBox.
+//	ai_default  The default button.
+//
+//	Returns:  integer
+//	Return value of the MessageBox.
+//
+//	Description:
+//	Display a message that contains values.  With the language service, the message
+//	comes from the language file (the entry as_id) when it has one; the values replace
+//	the placeholders (see n_cst_string.of_Format).  The message is then displayed by
+//	of_MessageBox(as_id, as_title, as_text, ae_icon, ae_button, ai_default).
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+n_cst_string	lnv_string
+
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_language) Then
+		gnv_app.inv_language.of_GetMessage(as_id, as_title, as_text, as_parms)
+		Return of_MessageBox(as_id, as_title, as_text, ae_icon, ae_button, ai_default)
+	End If
+End If
+
+Return of_MessageBox(as_id, as_title, lnv_string.of_Format(as_text, as_parms), ae_icon, ae_button, ai_default)
 end function
 
 event getfocus;//////////////////////////////////////////////////////////////////////////////
@@ -2601,6 +2677,7 @@ event fileexists;///////////////////////////////////////////////////////////////
 
 
 string	ls_title
+string	ls_parms[]
 
 if not ib_ignorefileexists then
 	ls_title = gnv_app.iapp_object.displayname
@@ -2608,8 +2685,9 @@ if not ib_ignorefileexists then
 		ls_title = "File Exists"
 	end if
 
+	ls_parms[1] = filename
 	if of_MessageBox ("pfc_replacefile", gnv_app.iapp_object.displayname, &
-		"The file " + filename + " already exists.~r~n~r~nReplace existing file?", &
+		"The file %s already exists.~r~n~r~nReplace existing file?", ls_parms, &
 			exclamation!, yesno!, 2) = 1 then
 		return 0
 	else
@@ -2839,6 +2917,9 @@ lm_edit.m_edititem.m_paste.enabled = true
 lm_edit.m_edititem.m_selectall.enabled = true
 
 this.event pfc_prermbmenu (lm_edit)
+
+// Language service: translate the popup menu
+If IsValid(gnv_app.inv_language) Then gnv_app.inv_language.of_Translate(lm_edit.m_edititem)
 
 lm_edit.m_edititem.PopMenu (lw_parent.PointerX() + 5, lw_parent.PointerY() + 10)
 

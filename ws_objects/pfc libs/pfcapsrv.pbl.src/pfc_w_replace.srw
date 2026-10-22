@@ -180,10 +180,13 @@ event pfc_findnext;call super::pfc_findnext;////////////////////////////////////
 //Populate the find attributes.
 this.Event pfc_default ()
 
+string	ls_parms[]
+
 //Call event on requestor to process.
 If inv_findattrib.ipo_requestor.dynamic event pfc_findnext(inv_findattrib) = 0 Then
+	ls_parms[1] = this.Title
 	of_Messagebox("pfc_replace_finishsearch", this.Title, &
-		this.Title+" has finished searching.", Information!, Ok!, 1)
+		"%s has finished searching.", ls_parms, Information!, Ok!, 1)
 end if
 
 end event
@@ -233,10 +236,13 @@ event pfc_replace;call super::pfc_replace;//////////////////////////////////////
 //Populate the find attributes.
 this.Event pfc_default ()
 
+string	ls_parms[]
+
 //Call event on requestor to process.
 If inv_findattrib.ipo_requestor.dynamic event pfc_replace(inv_findattrib) = 0 Then
+	ls_parms[1] = this.Title
 	of_Messagebox("pfc_replace_finishreplacesearch", this.Title, &
-		this.Title+" has finished searching.", Information!, Ok!, 1)
+		"%s has finished searching.", ls_parms, Information!, Ok!, 1)
 end if
 
 end event
@@ -284,6 +290,7 @@ event pfc_replaceall;call super::pfc_replaceall;////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 long ll_rc
+string	ls_parms[]
 
 //Populate the find attributes.
 this.Event pfc_default ()
@@ -291,8 +298,10 @@ this.Event pfc_default ()
 //Call event on requestor to process.
 ll_rc = inv_findattrib.ipo_requestor.dynamic event pfc_replaceall(inv_findattrib)
 If ll_rc >=0 Then
+	ls_parms[1] = this.Title
+	ls_parms[2] = string(ll_rc)
 	of_MessageBox("pfc_replace_finishreplace", this.Title, &
-		this.Title+" has finished replacing "+string(ll_rc)+" items.", &
+		"%s has finished replacing %s items.", ls_parms, &
 		Information!, Ok!, 1)
 end if
 

@@ -626,12 +626,14 @@ event modified;call super::modified;////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 string	ls_leftmargin
+string	ls_parms[]
 
 if IsNumber (this.text) then
 	if Dec (this.text) < istr_pagesetup.i_minmarginleft then
 		ls_leftmargin = String (istr_pagesetup.i_minmarginleft)
+		ls_parms[1] = ls_leftmargin
 		of_MessageBox ("pfc_pagesetup_leftminimum", "Page Setup", &
-			"Minimum left margin is " + ls_leftmargin, exclamation!, Ok!, 1)
+			"Minimum left margin is %s", ls_parms, exclamation!, Ok!, 1)
 		this.text = ls_leftmargin
 	end if
 end if
@@ -688,12 +690,14 @@ event modified;call super::modified;////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 string	ls_topmargin
+string	ls_parms[]
 
 if IsNumber (this.text) then
 	if Dec (this.text) < istr_pagesetup.i_minmargintop then
 		ls_topmargin = String (istr_pagesetup.i_minmargintop)
+		ls_parms[1] = ls_topmargin
 		of_MessageBox ("pfc_pagesetup_topminimum", "Page Setup", &
-			"Minimum top margin is " + ls_topmargin, exclamation!, Ok!, 1)
+			"Minimum top margin is %s", ls_parms, exclamation!, Ok!, 1)
 		this.text = ls_topmargin
 	end if
 end if
@@ -767,12 +771,14 @@ event modified;call super::modified;////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 string	ls_rightmargin
+string	ls_parms[]
 
 if IsNumber (this.text) then
 	if Dec (this.text) < istr_pagesetup.i_minmarginright then
 		ls_rightmargin = String (istr_pagesetup.i_minmarginright)
+		ls_parms[1] = ls_rightmargin
 		of_MessageBox ("pfc_pagesetup_rightminimum", "Page Setup", &
-			"Minimum right margin is " + ls_rightmargin, exclamation!, Ok!, 1)
+			"Minimum right margin is %s", ls_parms, exclamation!, Ok!, 1)
 		this.text = ls_rightmargin
 	end if
 end if
@@ -828,12 +834,14 @@ event modified;call super::modified;////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 string	ls_bottommargin
+string	ls_parms[]
 
 if IsNumber (this.text) then
 	if Dec (this.text) < istr_pagesetup.i_minmarginbottom then
 		ls_bottommargin = String (istr_pagesetup.i_minmarginbottom)
+		ls_parms[1] = ls_bottommargin
 		of_MessageBox ("pfc_pagesetup_bottomminimum", "Page Setup", &
-			"Minimum bottom margin is " + ls_bottommargin, exclamation!, Ok!, 1)
+			"Minimum bottom margin is %s", ls_parms, exclamation!, Ok!, 1)
 		this.text = ls_bottommargin
 	end if
 end if

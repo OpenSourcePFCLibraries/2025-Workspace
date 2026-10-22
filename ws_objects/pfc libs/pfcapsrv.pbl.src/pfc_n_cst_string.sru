@@ -77,6 +77,7 @@ public function integer of_getglobalreplacemethod ()
 public function integer of_setglobalreplacemethod (integer ai_method)
 public function string of_removepunctuation (string as_source)
 public function string of_urlencode (string as_value)
+public function string of_format (string as_text, string as_parms[])
 private function boolean of_iswellformedemailaddress_hotmail (string as_local_part)
 private function boolean of_iswellformedemailaddress_rfc_5321 (string as_local_part)
 end prototypes
@@ -3965,6 +3966,90 @@ if mid( as_local_part, ll_pos + 1, 1) = "." then return false
 if this.of_issurroundedby( as_local_part , '"', "!#$%&'*+-/=?^_`{|}(),:;<>@[\]"+char(34)+char(32) ) = false then return false
 
 return true
+end function
+
+public function string of_format (string as_text, string as_parms[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_Format
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_text		text with placeholders, for example "Delete %s rows?"
+//	as_parms[]	values for the placeholders
+//
+//	Returns:  String.  The text with the placeholders replaced
+//
+//	Description:  Replaces the placeholders in a text, as in the PFC language file:
+//		%s			the next value, in order
+//		%1 - %9	a value by position (so a translation can change the order)
+//		%%			a percent sign
+//		A placeholder without a value is left as it is.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+String	ls_result, ls_next, ls_value
+Long		ll_pos, ll_len, ll_start
+Integer	li_next, li_index, li_count
+
+If IsNull(as_text) Then Return as_text
+
+li_count = UpperBound(as_parms)
+ll_len = Len(as_text)
+ll_start = 1
+ll_pos = Pos(as_text, "%")
+Do While ll_pos > 0 And ll_pos < ll_len
+	ls_next = Mid(as_text, ll_pos + 1, 1)
+	SetNull(ls_value)
+	Choose Case ls_next
+		Case "%"
+			ls_value = "%"
+		Case "s"
+			li_next++
+			If li_next <= li_count Then ls_value = as_parms[li_next]
+		Case "1", "2", "3", "4", "5", "6", "7", "8", "9"
+			li_index = Integer(ls_next)
+			If li_index <= li_count Then ls_value = as_parms[li_index]
+	End Choose
+	If Not IsNull(ls_value) Then
+		ls_result += Mid(as_text, ll_start, ll_pos - ll_start) + ls_value
+		ll_start = ll_pos + 2
+		ll_pos = Pos(as_text, "%", ll_start)
+	Else
+		ll_pos = Pos(as_text, "%", ll_pos + 1)
+	End If
+Loop
+
+Return ls_result + Mid(as_text, ll_start)
 end function
 
 on pfc_n_cst_string.create

@@ -5750,10 +5750,11 @@ if al_row <> 0 then
 			gnv_app.inv_error.of_Message('pfc_dwlinkage_requiredmissing', ls_msgparm, &
 					gnv_app.iapp_object.DisplayName)
 		Else
+			ls_msgparm[1] = as_colname
+			ls_msgparm[2] = String (al_row)
 			of_MessageBox ('pfc_linkage_checkrequiredmissing', gnv_app.iapp_object.DisplayName, &
-				"Required value missing for " + &
-				as_colname + " on row "  + String (al_row) + &
-				".  Please enter a value.", information!, Ok!, 1)
+				"Required value missing for %s on row %s.  Please enter a value.", ls_msgparm, &
+				information!, Ok!, 1)
 		End If
 		idw_requestor.SetColumn (ai_col)
 		idw_requestor.SetFocus () 		

@@ -404,6 +404,7 @@ public function integer of_sendmessage (menu am_source, string as_message);/////
 integer		li_rc = -1
 window		lw_frame
 window		lw_sheet
+string		ls_parms[]
 
 // Check arguments
 if IsNull (as_message) or Len (Trim (as_message)) = 0 then
@@ -437,8 +438,9 @@ end if
 
 // Debug message if message could not be received
 if li_rc = -1 and IsValid (gnv_app.inv_debug) then
+	ls_parms[1] = as_message
 	of_MessageBox ('pfc_menu_msgnotreceived', gnv_app.inv_debug.pfc_name, &
-		"Message " + as_message + " was not received.", Information!, Ok!, 1)
+		"Message %s was not received.", ls_parms, Information!, Ok!, 1)
 end if
 
 return li_rc

@@ -329,6 +329,7 @@ event clicked;call super::clicked;//////////////////////////////////////////////
 
 constant string TITLE='Save PowerScript File'
 string	ls_path_filename
+string	ls_parms[]
 string	ls_filename
 string	ls_text
 integer	li_rc
@@ -344,8 +345,9 @@ If li_rc > 0 Then
 	
 	If FileExists (ls_path_filename) Then
 		//Existing file has been found
+		ls_parms[1] = ls_path_filename
 		If of_MessageBox ('pfc_dwpropertysyntax_replacefile', TITLE, &
-			'Replace existing file '+ls_path_filename, &
+			'Replace existing file %s', ls_parms, &
 			Question!, YesNo!, 1) = 2 Then
 			//Do not replace the file
 			Return 1
