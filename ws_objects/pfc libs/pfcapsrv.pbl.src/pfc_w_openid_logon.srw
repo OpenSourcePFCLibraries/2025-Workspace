@@ -41,17 +41,14 @@ event pfc_signin ( )
 end type
 global pfc_w_openid_logon pfc_w_openid_logon
 
-type prototypes
-// Cryptographically random bytes (BCRYPT_USE_SYSTEM_PREFERRED_RNG = 2)
-Function long BCryptGenRandom (longptr al_algorithm, ref blob ablb_buffer, ulong aul_length, ulong aul_flags) Library "bcrypt.dll"
-end prototypes
-
 type variables
 Protected:
 n_cst_openidattrib	inv_openidattrib
 // Authorization code flow: the redirect listener, whether it is waiting for the browser,
 // whether the user cancelled, and the identity provider's error, if any
 n_cst_redirectlistener	inv_listener
+// PKCE, random strings, URL encoding and JSON (of_OAuth2)
+n_cst_oauth2	inv_oauth2
 boolean	ib_waiting
 boolean	ib_cancelled
 string	is_error
@@ -77,6 +74,7 @@ protected function string of_getuserid ()
 protected function string of_text (string as_id, string as_default, string as_parms[])
 protected subroutine of_setflow ()
 protected function integer of_openbrowser (string as_url)
+protected function n_cst_oauth2 of_oauth2 ()
 end prototypes
 
 protected function integer of_login_httpclient (string as_userid, string as_password);//////////////////////////////////////////////////////////////////////////////
@@ -358,6 +356,8 @@ protected function string of_urlencode (string as_value);///////////////////////
 //
 //	Returns:  String.  The value URL encoded (UTF-8), for an application/x-www-form-urlencoded body
 //
+//	Description:  Uses n_cst_oauth2, which has the code.
+//
 //////////////////////////////////////////////////////////////////////////////
 //
 //	Revision History
@@ -389,16 +389,7 @@ protected function string of_urlencode (string as_value);///////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-CoderObject	lnv_coder
-String		ls_encoded
-
-If IsNull(as_value) Then Return ""
-
-lnv_coder = Create CoderObject
-ls_encoded = lnv_coder.UrlEncode(Blob(as_value, EncodingUTF8!))
-Destroy lnv_coder
-
-Return ls_encoded
+Return of_OAuth2().of_UrlEncode(as_value)
 end function
 
 protected function string of_jsonstring (string as_json, string as_key);//////////////////////////////////////////////////////////////////////////////
@@ -413,6 +404,8 @@ protected function string of_jsonstring (string as_json, string as_key);////////
 //
 //	Returns:  String.  The value, or "" if it is not there
 //
+//	Description:  Uses n_cst_oauth2, which has the code.
+//
 //////////////////////////////////////////////////////////////////////////////
 //
 //	Revision History
@@ -444,25 +437,7 @@ protected function string of_jsonstring (string as_json, string as_key);////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-JSONParser	lnv_json
-Long			ll_root, ll_idx, ll_count, ll_item
-String		ls_value
-
-lnv_json = Create JSONParser
-If lnv_json.LoadString(as_json) = "" Then
-	ll_root = lnv_json.GetRootItem()
-	ll_count = lnv_json.GetChildCount(ll_root)
-	For ll_idx = 1 To ll_count
-		If lnv_json.GetChildKey(ll_root, ll_idx) = as_key Then
-			ll_item = lnv_json.GetChildItem(ll_root, ll_idx)
-			If lnv_json.GetItemType(ll_item) = JsonStringItem! Then ls_value = lnv_json.GetItemString(ll_item)
-			Exit
-		End If
-	Next
-End If
-Destroy lnv_json
-
-Return ls_value
+Return of_OAuth2().of_JSONString(as_json, as_key)
 end function
 
 protected function integer of_getgroups (string as_json, string as_claim, ref string as_groups[]);//////////////////////////////////////////////////////////////////////////////
@@ -728,7 +703,8 @@ protected function string of_randomstring (integer ai_bytes);///////////////////
 //	Returns:  String.  The bytes from the system's cryptographic random number generator,
 //		in base64url (43 characters for 32 bytes), or "" if it fails
 //
-//	Description:  For the PKCE code verifier, the state and the nonce.
+//	Description:  For the PKCE code verifier, the state and the nonce.  Uses
+//		n_cst_oauth2, which has the code.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -761,13 +737,7 @@ protected function string of_randomstring (integer ai_bytes);///////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-blob	lblb_random
-
-If ai_bytes < 1 Then Return ""
-lblb_random = Blob(Space(ai_bytes), EncodingANSI!)
-If BCryptGenRandom(0, lblb_random, ai_bytes, 2) <> 0 Then Return ""
-
-Return of_Base64Url(lblb_random)
+Return of_OAuth2().of_RandomString(ai_bytes)
 end function
 
 protected function string of_base64url (blob ablb_data);//////////////////////////////////////////////////////////////////////////////
@@ -781,6 +751,8 @@ protected function string of_base64url (blob ablb_data);////////////////////////
 //
 //	Returns:  String.  The bytes in base64url without padding (RFC 4648, section 5)
 //
+//	Description:  Uses n_cst_oauth2, which has the code.
+//
 //////////////////////////////////////////////////////////////////////////////
 //
 //	Revision History
@@ -812,29 +784,7 @@ protected function string of_base64url (blob ablb_data);////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-CoderObject	lnv_coder
-string		ls_text, ls_char, ls_result
-long			ll_idx
-
-lnv_coder = Create CoderObject
-ls_text = lnv_coder.Base64Encode(ablb_data)
-Destroy lnv_coder
-
-For ll_idx = 1 To Len(ls_text)
-	ls_char = Mid(ls_text, ll_idx, 1)
-	Choose Case ls_char
-		Case "+"
-			ls_result += "-"
-		Case "/"
-			ls_result += "_"
-		Case "=", "~r", "~n"
-			// no padding, no line breaks
-		Case Else
-			ls_result += ls_char
-	End Choose
-Next
-
-Return ls_result
+Return of_OAuth2().of_Base64Url(ablb_data)
 end function
 
 protected function string of_codechallenge (string as_verifier);//////////////////////////////////////////////////////////////////////////////
@@ -849,6 +799,8 @@ protected function string of_codechallenge (string as_verifier);////////////////
 //	Returns:  String.  The code challenge for the S256 method: the base64url SHA-256 hash
 //		of the verifier (RFC 7636, section 4.2)
 //
+//	Description:  Uses n_cst_oauth2, which has the code.
+//
 //////////////////////////////////////////////////////////////////////////////
 //
 //	Revision History
@@ -880,14 +832,7 @@ protected function string of_codechallenge (string as_verifier);////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-CrypterObject	lnv_crypter
-blob				lblb_hash
-
-lnv_crypter = Create CrypterObject
-lblb_hash = lnv_crypter.SHA(SHA256!, Blob(as_verifier, EncodingANSI!))
-Destroy lnv_crypter
-
-Return of_Base64Url(lblb_hash)
+Return of_OAuth2().of_CodeChallenge(as_verifier)
 end function
 
 protected function string of_authorizationurl (string as_redirecturi, string as_state, string as_nonce, string as_challenge);//////////////////////////////////////////////////////////////////////////////
@@ -1480,6 +1425,53 @@ If linet.HyperlinkToURL(as_url) <> 1 Then Return -1
 Return 1
 end function
 
+protected function n_cst_oauth2 of_oauth2 ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_OAuth2
+//
+//	Access:  protected
+//
+//	Arguments:  None
+//
+//	Returns:  n_cst_oauth2.  The OAuth 2.0 token service whose helpers the window uses
+//		(PKCE, random strings, URL encoding and JSON); created when first needed
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If Not IsValid(inv_oauth2) Then inv_oauth2 = Create n_cst_oauth2
+Return inv_oauth2
+end function
+
+
 on pfc_w_openid_logon.create
 int iCurrent
 call super::create
@@ -1889,6 +1881,7 @@ Return Super::Event closequery()
 end event
 
 event close;call super::close;If IsValid (inv_listener) Then Destroy inv_listener
+If IsValid(inv_oauth2) Then Destroy inv_oauth2
 end event
 
 type st_help from u_st within pfc_w_openid_logon
