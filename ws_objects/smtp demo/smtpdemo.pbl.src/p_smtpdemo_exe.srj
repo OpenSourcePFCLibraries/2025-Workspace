@@ -1,0 +1,12 @@
+﻿$PBExportHeader$p_smtpdemo_exe.srj
+EXE:smtpdemo.exe,,0,0,1,0
+CMP:0,0,0,2,0,0,1
+COM:
+DES:PFC SMTP client demo
+CPY:
+PRD:PowerBuilder Enterprise Series
+PVS:1.0.0.1
+PVN:1,0,0,1
+FVS:1.0.0.1
+FVN:1,0,0,1
+MAN:0,asInvoker,0
