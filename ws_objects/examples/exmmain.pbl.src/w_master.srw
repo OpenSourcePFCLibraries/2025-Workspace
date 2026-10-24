@@ -16,26 +16,24 @@ forward prototypes
 public function string of_getexampletitle (string as_classname)
 end prototypes
 
-public function string of_getexampletitle (string as_classname);integer	li_rc
-string	ls_title
-n_ds		lds_titles
+public function string of_getexampletitle (string as_classname);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_GetExampleTitle
+//
+//	Access:			Public
+//
+//	Arguments:
+//	as_classname	The class name of an example's window
+//
+//	Returns:			String
+//						The example's title in the example catalog (exam.txt), "" if the
+//						catalog has no example with that window, or "!" if the catalog can't
+//						be read (the window then keeps its own title)
+//
+//////////////////////////////////////////////////////////////////////////////
+n_cst_examplecatalog	lnv_catalog
 
-lds_titles = create n_ds
-lds_titles.dataobject = "d_titles"
-If lds_titles.of_settransobject(SQLCA) <> 1 Then Return "!"
-
-li_rc = lds_titles.Retrieve(as_classname)
-
-If li_rc < 0 Then
-	of_Messagebox("w_master_examplestitle", "Database Error", "Cannot connect to database.", stopsign!, OK!, 1)
-	return '!'
-elseif li_rc = 0 Then
-	return ""
-Else
-	ls_title = lds_titles.GetItemString(1, "title")
-End If
-
-Return ls_title
+Return lnv_catalog.of_GetTitle(as_classname)
 end function
 
 on w_master.create

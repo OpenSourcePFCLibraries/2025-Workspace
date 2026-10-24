@@ -39,6 +39,8 @@ protected function long of_addcategory (n_ds ads_target, long al_row)
 protected function integer of_fillcategories (n_ds ads_target, long al_parent)
 protected function integer of_fillexamples (n_ds ads_target, long al_parent)
 protected function integer of_fillwindows (n_ds ads_target, long al_example)
+public function string of_gettitle (string as_window)
+protected function integer of_loadexamples ()
 end prototypes
 
 public function integer of_load (string as_ostype);//////////////////////////////////////////////////////////////////////////////
@@ -63,9 +65,7 @@ is_ostype = Lower(Trim(as_ostype))
 
 If Not FileExists(EXAMPLES_FILE) Or Not FileExists(CATEGORIES_FILE) Then Return -1
 
-ids_examples = Create n_ds
-ids_examples.DataObject = "d_examplecatalog"
-If ids_examples.ImportFile(EXAMPLES_FILE) < 0 Then Return -1
+If of_LoadExamples() <> 1 Then Return -1
 
 // d_catexamples has the columns of examcat.txt, in the same order
 ids_categories = Create n_ds
@@ -311,6 +311,55 @@ For ll_row = 1 To ll_rows
 	li_count++
 Next
 Return li_count
+end function
+
+public function string of_gettitle (string as_window);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_GetTitle
+//
+//	Access:			Public
+//
+//	Arguments:
+//	as_window		The class name of an example's window
+//
+//	Returns:			String
+//						The example's title in the catalog, "" if the catalog has no example
+//						with that window, or "!" if the examples file can't be read
+//
+//	Description:	Used by the examples' windows for their title (see w_master's open
+//						event).  Reads only the examples file.
+//
+//////////////////////////////////////////////////////////////////////////////
+long	ll_row
+
+If of_LoadExamples() <> 1 Then Return "!"
+ll_row = ids_examples.Find("Lower(window) = '" + Lower(as_window) + "'", 1, ids_examples.RowCount())
+If ll_row < 1 Then Return ""
+Return ids_examples.GetItemString(ll_row, "title")
+end function
+
+protected function integer of_loadexamples ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_LoadExamples
+//
+//	Access:			Protected
+//
+//	Arguments:		None
+//
+//	Returns:			Integer
+//						1 if the examples file is read (now or before), -1 if it can't be
+//
+//////////////////////////////////////////////////////////////////////////////
+If IsValid(ids_examples) Then Return 1
+If Not FileExists(EXAMPLES_FILE) Then Return -1
+
+ids_examples = Create n_ds
+ids_examples.DataObject = "d_examplecatalog"
+If ids_examples.ImportFile(EXAMPLES_FILE) < 0 Then
+	Destroy ids_examples
+	Return -1
+End If
+Return 1
 end function
 
 on n_cst_examplecatalog.create
