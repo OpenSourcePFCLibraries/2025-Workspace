@@ -11,7 +11,7 @@
 10	Basic Scrolling	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_linkagescroll
 11	Basic Filters	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_linkagefilter
 12	Filter Service Dialogs	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_filterdialogs
-13	Sort Service Dialogs	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_sort
+13	Sort Service	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_sort
 14	Multiple Table Update	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_multiupdate
 15	Print Preview Service	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_dwprintpreview
 16	(5.x) Basic Listview	windowswinntmacintoshsol2aixhpux	enterprisedesktop	0	w_listview
