@@ -21,6 +21,10 @@ type cbx_confirmdeletes from u_cbx within w_rowmanager
 end type
 type gb_1 from u_gb within w_rowmanager
 end type
+type cb_restorerow from u_cb within w_rowmanager
+end type
+type cbx_restorerow from u_cbx within w_rowmanager
+end type
 end forward
 
 global type w_rowmanager from w_main
@@ -41,6 +45,8 @@ cb_close cb_close
 cb_retrieve cb_retrieve
 cbx_confirmdeletes cbx_confirmdeletes
 gb_1 gb_1
+cb_restorerow cb_restorerow
+cbx_restorerow cbx_restorerow
 end type
 global w_rowmanager w_rowmanager
 
@@ -110,15 +116,15 @@ string	ls_sql
 // If the SQLSpy Window is open, pass it the proposed embedded sql statement.
 if IsValid(gnv_app.inv_debug) then
 	if IsValid(gnv_app.inv_debug.inv_sqlspy) then
-		ls_sql = "SELECT 'employee'.'emp_id'~r~nINTO :ii_maxid~r~n"+& 
-			"FROM 'employee'   ;"
+		ls_sql = "SELECT Max(emp_id)~r~nINTO :ii_maxid~r~n"+& 
+			"FROM employee;"
 		gnv_app.inv_debug.inv_sqlspy.of_SQLSyntax("Get Employee ID", ls_sql)
 	end if
 end if
 
-  SELECT Max("employee"."emp_id"  )
-  INTO :ii_maxid  
-  FROM "employee";
+  SELECT Max(emp_id)
+  INTO :ii_maxid
+  FROM employee;
   
 if sqlca.sqlcode <> 0 then
 	MessageBox('SQL Error', sqlca.sqlerrtext)
@@ -144,6 +150,8 @@ this.cb_close=create cb_close
 this.cb_retrieve=create cb_retrieve
 this.cbx_confirmdeletes=create cbx_confirmdeletes
 this.gb_1=create gb_1
+this.cb_restorerow=create cb_restorerow
+this.cbx_restorerow=create cbx_restorerow
 iCurrent=UpperBound(this.Control)
 this.Control[iCurrent+1]=this.dw_1
 this.Control[iCurrent+2]=this.cb_addtoend
@@ -153,7 +161,9 @@ this.Control[iCurrent+5]=this.cb_deleteall
 this.Control[iCurrent+6]=this.cb_close
 this.Control[iCurrent+7]=this.cb_retrieve
 this.Control[iCurrent+8]=this.cbx_confirmdeletes
-this.Control[iCurrent+9]=this.gb_1
+this.Control[iCurrent+9]=this.cb_restorerow
+this.Control[iCurrent+10]=this.cbx_restorerow
+this.Control[iCurrent+11]=this.gb_1
 end on
 
 on w_rowmanager.destroy
@@ -167,6 +177,8 @@ destroy(this.cb_close)
 destroy(this.cb_retrieve)
 destroy(this.cbx_confirmdeletes)
 destroy(this.gb_1)
+destroy(this.cb_restorerow)
+destroy(this.cbx_restorerow)
 end on
 
 type dw_1 from u_dw within w_rowmanager
@@ -204,6 +216,10 @@ inv_rowselect.of_SetStyle(inv_rowselect.MULTIPLE)
 // Set the Row Manager to display Confirmation
 // MessageBoxes for all deletes.
 inv_rowmanager.of_SetConfirmOnDelete(true)
+
+// Let the user restore deleted rows (the Restore Deleted Rows button, and
+// Restore Row in the popup menu).
+inv_rowmanager.of_SetRestoreRow(true)
 
 // Retrieve the maximum employee ID so that we can
 // create key values for newly created rows.
@@ -468,3 +484,50 @@ int TabOrder=2
 string Text=""
 end type
 
+
+type cb_restorerow from u_cb within w_rowmanager
+int X=1760
+int Y=656
+int Width=517
+int TabOrder=25
+string Text="Res&tore Rows..."
+end type
+
+event clicked;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:
+//	clicked
+//
+//	Description:
+// Opens the Restore Row dialog (w_restorerow), which lists the deleted rows
+// and puts the chosen ones back.
+//
+//////////////////////////////////////////////////////////////////////////////
+
+dw_1.inv_rowmanager.event pfc_restorerow()
+end event
+
+type cbx_restorerow from u_cbx within w_rowmanager
+int X=1792
+int Y=900
+int Width=480
+int TabOrder=22
+string Text="Allo&w Restore"
+boolean Checked=true
+long TextColor=41943040
+end type
+
+event clicked;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:
+//	clicked
+//
+//	Description:
+// Enables and disables restoring deleted rows (of_SetRestoreRow).  When it is
+// enabled, the DataWindow's popup menu also has a Restore Row item.
+//
+//////////////////////////////////////////////////////////////////////////////
+
+dw_1.inv_rowmanager.of_SetRestoreRow(this.checked)
+cb_restorerow.Enabled = this.checked
+end event
