@@ -1,26 +1,38 @@
 ﻿$PBExportHeader$d_productdesc.srd
 $PBExportComments$Product Description with arguments - no update. ( w_linkageretrieve )
-release 5;
-datawindow(units=0 timer_interval=0 color=82889382 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=82889382 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=132 color="536870912" )
 summary(height=4 color="536870912" )
 footer(height=0 color="536870912" )
 detail(height=172 color="536870912" )
-table(column=(type=long updatewhereclause=yes key=yes name=prod_id dbname="product.id" )
- column=(type=char(15) update=yes updatewhereclause=yes name=name dbname="product.name" )
- column=(type=char(30) update=yes updatewhereclause=yes name=description dbname="product.description" )
- column=(type=decimal(2) update=yes updatewhereclause=yes name=unit_price dbname="product.unit_price" )
- column=(type=char(12) update=yes updatewhereclause=yes name=picture_name dbname="product.picture_name" )
- retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"product~" ) COLUMN(NAME=~"product.id~") COLUMN(NAME=~"product.name~") COLUMN(NAME=~"product.description~") COLUMN(NAME=~"product.unit_price~") COLUMN(NAME=~"product.picture_name~")WHERE(    EXP1 =~"~~~"product~~~".~~~"id~~~"~"   OP =~"=~"    EXP2 =~":prodarg~" ) ) ARG(NAME = ~"prodarg~" TYPE = number) " update="product" updatewhere=0 updatekeyinplace=no arguments=(("prodarg", number)) )
-text(band=header alignment="2" text="Picture"border="6" color="33554687" x="96" y="12" height="108" width="265"  name=picture_name_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Product
- Name"border="6" color="33554687" x="375" y="12" height="108" width="512"  name=name_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Product
- Description"border="6" color="33554687" x="901" y="12" height="108" width="773"  name=description_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Unit
- Price"border="6" color="33554687" x="1687" y="12" height="108" width="238"  name=unit_price_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-column(band=detail id=5 alignment="2" tabsequence=32766 border="5" color="33554687" x="96" y="12" height="140" width="256" format="[general]"  name=picture_name  tag=".bmp filename that shows what the product looks like" bitmapname=yes edit.limit=12 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
-column(band=detail id=2 alignment="2" tabsequence=32766 border="5" color="33554687" x="375" y="12" height="140" width="512" format="[general]"  name=name  tag="Name of the product" edit.limit=15 edit.case=any edit.autoselect=yes edit.required=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
-column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="33554687" x="901" y="12" height="140" width="773" format="[general]"  name=description  tag="Describes what the product is" edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
-column(band=detail id=4 alignment="2" tabsequence=32766 border="5" color="33554687" x="1687" y="12" height="140" width="238" format="$#,##0.00;[RED]($#,##0.00)"  name=unit_price  tag="Unit price per product" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
-htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+table(column=(type=long key=yes updatewhereclause=yes name=prod_id dbname="product.id"  )
+column=(type=char(15) update=yes updatewhereclause=yes name=name dbname="product.name"  )
+column=(type=char(30) update=yes updatewhereclause=yes name=description dbname="product.description"  )
+column=(type=decimal(2) update=yes updatewhereclause=yes name=unit_price dbname="product.unit_price"  )
+column=(type=char(12) update=yes updatewhereclause=yes name=picture_name dbname="product.picture_name"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"product~" ) COLUMN(NAME=~"product.id~") COLUMN(NAME=~"product.name~") COLUMN(NAME=~"product.description~") COLUMN(NAME=~"product.unit_price~") COLUMN(NAME=~"product.picture_name~")WHERE(    EXP1 =~"~~~"product~~~".~~~"id~~~"~"   OP =~"=~"    EXP2 =~":prodarg~" ) ) ARG(NAME = ~"prodarg~" TYPE = number) "
+  update="product" updatewhere=0 updatekeyinplace=no
+  arguments=(("prodarg", number))
+)
+text(name=picture_name_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="96" y="12" height="108" width="265" text="Picture" )
+text(name=name_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="375" y="12" height="108" width="512" text="Product
+ Name" )
+text(name=description_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="901" y="12" height="108" width="773" text="Product
+ Description" )
+text(name=unit_price_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="1687" y="12" height="108" width="238" text="Unit
+ Price" )
+column(name=picture_name tag=".bmp filename that shows what the product looks like" band=detail id=5 x="96" y="12" height="140" width="256" color="33554687" border="5" alignment="2" format="[general]" bitmapname=yes edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=12 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="80263581" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=name tag="Name of the product" band=detail id=2 x="375" y="12" height="140" width="512" color="33554687" border="5" alignment="2" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=15 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=yes edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="80263581" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=description tag="Describes what the product is" band=detail id=3 x="901" y="12" height="140" width="773" color="33554687" border="5" alignment="0" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=30 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="80263581" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=unit_price tag="Unit price per product" band=detail id=4 x="1687" y="12" height="140" width="238" color="33554687" border="5" alignment="2" format="$#,##0.00;[RED]($#,##0.00)" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="80263581" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable(border="1" cellPadding="0" cellSpacing="0" generateCSS="no" noWrap="yes" )
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

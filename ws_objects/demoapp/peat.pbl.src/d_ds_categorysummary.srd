@@ -1,25 +1,25 @@
 ﻿$PBExportHeader$d_ds_categorysummary.srd
 $PBExportComments$The source for the ListView when a Category Item is selected
-release 5;
-datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=16777215 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=89 color="536870912" )
 summary(height=1 color="536870912" )
 footer(height=1 color="536870912" )
 detail(height=69 color="536870912" )
-table(column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=category_item_id dbname="project_category_item.category_item_id" initial="AUTOINCREMENT" )
- column=(type=long update=yes updatewhereclause=yes key=yes name=project_id dbname="project_category_item.project_id" )
- column=(type=long update=yes updatewhereclause=yes key=yes name=default_category_id dbname="project_category_item.category_id" )
- column=(type=long update=yes updatewhereclause=yes name=complexity_id dbname="project_category_item.complexity_id" )
- column=(type=long update=yes updatewhereclause=yes name=role_id dbname="project_category_item.role_id" )
- column=(type=char(50) updatewhereclause=yes name=name dbname="project_category_item.name" )
- column=(type=decimal(2) updatewhereclause=yes name=estimated_hours dbname="project_category_item.estimated_hours" )
- column=(type=decimal(2) updatewhereclause=yes name=actual_hours dbname="project_category_item.actual_hours" )
- column=(type=char(50) updatewhereclause=yes name=role_name dbname="project_role.name" )
- column=(type=decimal(2) updatewhereclause=yes name=role_rate dbname="project_role.rate" validation=" real(gettext())  > 0" validationmsg="'Rate must be greater than zero.'" )
- column=(type=decimal(2) updatewhereclause=yes name=role_multiplier dbname="project_role.multipler" )
- column=(type=decimal(4) updatewhereclause=yes name=estimated_hours dbname="estimated_hours" )
- column=(type=decimal(6) updatewhereclause=yes name=estimated_cost dbname="estimated_cost" )
- column=(type=decimal(4) updatewhereclause=yes name=actual_cost dbname="actual_cost" )
+table(column=(type=long key=yes identity=yes update=yes updatewhereclause=yes initial="AUTOINCREMENT" name=category_item_id dbname="project_category_item.category_item_id"  )
+column=(type=long key=yes update=yes updatewhereclause=yes name=project_id dbname="project_category_item.project_id"  )
+column=(type=long key=yes update=yes updatewhereclause=yes name=default_category_id dbname="project_category_item.category_id"  )
+column=(type=long update=yes updatewhereclause=yes name=complexity_id dbname="project_category_item.complexity_id"  )
+column=(type=long update=yes updatewhereclause=yes name=role_id dbname="project_category_item.role_id"  )
+column=(type=char(50) updatewhereclause=yes name=name dbname="project_category_item.name"  )
+column=(type=decimal(2) updatewhereclause=yes name=estimated_hours dbname="project_category_item.estimated_hours"  )
+column=(type=decimal(2) updatewhereclause=yes name=actual_hours dbname="project_category_item.actual_hours"  )
+column=(type=char(50) updatewhereclause=yes name=role_name dbname="project_role.name"  )
+column=(type=decimal(2) updatewhereclause=yes validation=" real(gettext())  > 0" validationmsg="'Rate must be greater than zero.'" name=role_rate dbname="project_role.rate"  )
+column=(type=decimal(2) updatewhereclause=yes name=role_multiplier dbname="project_role.multipler"  )
+column=(type=decimal(4) updatewhereclause=yes name=estimated_hours dbname="estimated_hours"  )
+column=(type=decimal(6) updatewhereclause=yes name=estimated_cost dbname="estimated_cost"  )
+column=(type=decimal(4) updatewhereclause=yes name=actual_cost dbname="actual_cost"  )
  retrieve="  SELECT  project_category_item.category_item_id ,           
 project_category_item.project_id ,           
 project_category_item.category_id ,           
@@ -37,11 +37,25 @@ project_category_item.actual_hours * project_role.rate as actual_cost
         FROM project_category_item ,           project_role     
         WHERE ( project_role.role_id = project_category_item.role_id ) and          
 ( ( project_category_item.project_id = :project_id ) and          
-( project_category_item.category_id = :category_id ) )  " update="project_category_item" updatewhere=0 updatekeyinplace=no arguments=(("project_id", number),("category_id", number))  sort="name A " )
-column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="10" y="4" height="65" width="700" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1555" y="4" height="53" width="211" format="#,##0.00"  name=actual_hours edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="1793" y="8" height="53" width="348" format="$#,##0.00;[RED]($#,##0.00)"  name=estimated_cost edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="2149" y="8" height="53" width="293" format="$#,##0.00;[RED]($#,##0.00)"  name=actual_cost edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="723" y="8" height="53" width="243" format="[general]"  name=role_name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="1317" y="8" height="53" width="206" format="#,##0.00"  name=estimated_hours edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="993" y="8" height="53" width="302" format="[General]"  name=role_rate edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+( project_category_item.category_id = :category_id ) )  "
+  update="project_category_item" updatewhere=0 updatekeyinplace=no
+  arguments=(("project_id", number), ("category_id", number))
+ sort="name A"
+)
+column(name=name band=detail id=6 x="10" y="4" height="65" width="700" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=actual_hours band=detail id=8 x="1555" y="4" height="53" width="211" color="0" border="0" alignment="1" format="#,##0.00" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=estimated_cost band=detail id=13 x="1793" y="8" height="53" width="348" color="0" border="0" alignment="1" format="$#,##0.00;[RED]($#,##0.00)" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=actual_cost band=detail id=14 x="2149" y="8" height="53" width="293" color="0" border="0" alignment="1" format="$#,##0.00;[RED]($#,##0.00)" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=role_name band=detail id=9 x="723" y="8" height="53" width="243" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=estimated_hours band=detail id=12 x="1317" y="8" height="53" width="206" color="0" border="0" alignment="1" format="#,##0.00" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=role_rate band=detail id=10 x="993" y="8" height="53" width="302" color="0" border="0" alignment="0" format="[General]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable()
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

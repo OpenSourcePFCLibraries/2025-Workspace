@@ -1,19 +1,34 @@
 ﻿$PBExportHeader$d_pfcsecurity_user_info.srd
 $PBExportComments$Display user/group info
-release 5;
-datawindow(units=0 timer_interval=0 color=77956459 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=77956459 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=1 color="536870912" )
 summary(height=1 color="536870912" )
 footer(height=1 color="536870912" )
 detail(height=225 color="536870912" )
-table(column=(type=long update=yes name=user_type dbname="security_users.user_type" initial="0" values="User	0/Group	1/" )
- column=(type=char(32) update=yes name=description dbname="security_users.description" )
- column=(type=long update=yes name=priority dbname="security_users.priority" )
- column=(type=char(16) update=yes key=yes name=name dbname="security_users.name" )
- retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"security_users~" ) COLUMN(NAME=~"security_users.user_type~") COLUMN(NAME=~"security_users.description~") COLUMN(NAME=~"security_users.priority~") COLUMN(NAME=~"security_users.name~")WHERE(    EXP1 =~"~~~"security_users~~~".~~~"name~~~"~"   OP =~"=~"    EXP2 =~":name~" ) ) ARG(NAME = ~"name~" TYPE = string) " update="security_users" updatewhere=1 updatekeyinplace=no arguments=(("name", string))  sort="user_type D description A " )
-column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="33554432" x="311" y="4" height="57" width="517" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
-text(band=detail alignment="1" text="Name : "border="0" color="33554432" x="133" y="4" height="57" width="165"  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
-column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="33554432" x="311" y="76" height="61" width="517" format="[general]"  name=description edit.limit=32 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
-text(band=detail alignment="1" text="Description : "border="0" color="33554432" x="19" y="80" height="53" width="279"  name=description_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
-column(band=detail id=3 alignment="1" tabsequence=30 border="5" color="0" x="311" y="152" height="61" width="206" format="[general]"  name=priority edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
-text(band=detail alignment="1" text="Priority : "border="0" color="0" x="119" y="156" height="53" width="179"  name=priority_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="77956459" )
+table(column=(type=long update=yes updatewhereclause=yes initial="0" name=user_type dbname="security_users.user_type" 
+ values="User	0/Group	1/"  )
+column=(type=char(32) update=yes updatewhereclause=yes name=description dbname="security_users.description"  )
+column=(type=long update=yes updatewhereclause=yes name=priority dbname="security_users.priority"  )
+column=(type=char(16) key=yes update=yes updatewhereclause=yes name=name dbname="security_users.name"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"security_users~" ) COLUMN(NAME=~"security_users.user_type~") COLUMN(NAME=~"security_users.description~") COLUMN(NAME=~"security_users.priority~") COLUMN(NAME=~"security_users.name~")WHERE(    EXP1 =~"~~~"security_users~~~".~~~"name~~~"~"   OP =~"=~"    EXP2 =~":name~" ) ) ARG(NAME = ~"name~" TYPE = string) "
+  update="security_users" updatewhere=1 updatekeyinplace=no
+  arguments=(("name", string))
+ sort="user_type D, description A"
+)
+column(name=name band=detail id=4 x="311" y="4" height="57" width="517" color="33554432" border="5" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="77956459" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=10 )
+text(band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="77956459" color="33554432" alignment="1" border="0" x="133" y="4" height="57" width="165" text="Name : " )
+column(name=description band=detail id=2 x="311" y="76" height="61" width="517" color="33554432" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=32 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="77956459" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=20 )
+text(name=description_t band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="77956459" color="33554432" alignment="1" border="0" x="19" y="80" height="53" width="279" text="Description : " )
+column(name=priority band=detail id=3 x="311" y="152" height="61" width="206" color="0" border="5" alignment="1" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="77956459" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=30 )
+text(name=priority_t band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="77956459" color="0" alignment="1" border="0" x="119" y="156" height="53" width="179" text="Priority : " )
+htmltable()
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

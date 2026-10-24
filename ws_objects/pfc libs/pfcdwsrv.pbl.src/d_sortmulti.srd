@@ -1,14 +1,25 @@
 ﻿$PBExportHeader$d_sortmulti.srd
 $PBExportComments$PFC DataWindow used in pfc_w_sortmulti dialog
-release 7;
-datawindow(units=0 timer_interval=0 color=82889382 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=82889382 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
+header(height=0 )
 summary(height=0 color="536870912" )
 footer(height=0 color="536870912" )
 detail(height=92 color="536870912" )
-table(column=(type=char(1) updatewhereclause=yes name=sort_order dbname="sort_order" initial="A" values="Ascending	A/Ascending	D" )
- column=(type=char(50) updatewhereclause=yes name=display_column dbname="display_column" )
- )
-column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="33554687" x="27" y="16" height="60" width="823" format="[general]"  name=display_column dddw.name=d_columnsdddw dddw.displaycolumn=display_column dddw.datacolumn=display_column dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1086381248" )
-column(band=detail id=1 alignment="0" tabsequence=20 border="0" color="33554432" x="887" y="24" height="60" width="928" format="[general]"  name=sort_order checkbox.text="Ascending" checkbox.on="A" checkbox.off="D" checkbox.scale=no checkbox.threed=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263328" )
+table(column=(type=char(1) updatewhereclause=yes initial="A" name=sort_order dbname="sort_order" 
+ values="Ascending	A/Ascending	D"  )
+column=(type=char(50) updatewhereclause=yes name=display_column dbname="display_column" 
+ values=""  )
+)
+column(name=display_column band=detail id=2 x="27" y="16" height="60" width="823" color="33554687" border="5" alignment="0" format="[general]" dddw.allowedit=no dddw.validation=no dddw.autohscroll=no dddw.autoretrieve=yes dddw.useasborder=yes dddw.autocompletemode=none dddw.case=any dddw.datacolumn=display_column dddw.displaycolumn=display_column dddw.hscrollbar=no dddw.hsplitscroll=no dddw.imemode=0 dddw.limit=0 dddw.name=d_columnsdddw dddw.nilisnull=no dddw.percentwidth=100 dddw.required=no dddw.showlist=no dddw.vscrollbar=yes criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1086381248" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=10 )
+column(name=sort_order band=detail id=1 x="887" y="24" height="60" width="928" color="33554432" border="0" alignment="0" format="[general]" checkbox.lefttext=no checkbox.scale=no checkbox.threed=yes checkbox.text="Ascending" checkbox.on="A" checkbox.off="D" criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="80263328" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=20 )
 htmltable(border="0" )
-htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" )
+htmlgen(clientComputedFields="1" clientEvents="1" clientFormatting="0" clientScriptable="0" clientValidation="1" generateJavaScript="1" pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()
