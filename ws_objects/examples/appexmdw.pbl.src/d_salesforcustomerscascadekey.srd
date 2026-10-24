@@ -1,28 +1,42 @@
 ﻿$PBExportHeader$d_salesforcustomerscascadekey.srd
-release 5;
-datawindow(units=0 timer_interval=0 color=82889382 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=82889382 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=128 color="536870912" )
 summary(height=4 color="536870912" )
 footer(height=0 color="536870912" )
 detail(height=68 color="536870912" )
-table(column=(type=long update=yes updatewhereclause=yes key=yes name=sales_id dbname="sales_order.id" )
- column=(type=date update=yes updatewhereclause=yes name=order_date dbname="sales_order.order_date" )
- column=(type=long update=yes updatewhereclause=yes name=sales_rep dbname="sales_order.sales_rep" )
- column=(type=long update=yes updatewhereclause=yes name=cust_id dbname="sales_order.cust_id" )
- column=(type=char(2) update=yes updatewhereclause=yes name=fin_code_id dbname="sales_order.fin_code_id" )
- column=(type=char(7) update=yes updatewhereclause=yes name=region dbname="sales_order.region" values="Central	Central/Eastern	Eastern/South	South/Western	Western/Canada	Canada/" )
- retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"sales_order~" ) COLUMN(NAME=~"sales_order.id~") COLUMN(NAME=~"sales_order.order_date~") COLUMN(NAME=~"sales_order.sales_rep~") COLUMN(NAME=~"sales_order.cust_id~") COLUMN(NAME=~"sales_order.fin_code_id~") COLUMN(NAME=~"sales_order.region~")) ORDER(NAME=~"sales_order.id~" ASC=yes ) " update="sales_order" updatewhere=0 updatekeyinplace=no  sort="sales_id A " )
-text(band=header alignment="2" text="Customer ID"border="6" color="33554687" x="96" y="12" height="108" width="206"  name=customer_id_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
-text(band=header alignment="2" text="Sales
-Order ID"border="6" color="33554687" x="325" y="12" height="108" width="197"  name=sales_id_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Order
- Date"border="6" color="33554687" x="539" y="12" height="108" width="293"  name=order_date_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Sales
-Rep ID"border="6" color="33554687" x="850" y="12" height="108" width="302"  name=sales_rep_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
-text(band=header alignment="2" text="Region"border="6" color="41943040" x="1170" y="12" height="108" width="306"  name=region_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
-column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="96" y="4" height="60" width="206" format="[general]"  name=cust_id edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
-column(band=detail id=1 alignment="2" tabsequence=20 border="5" color="33554687" x="325" y="4" height="60" width="197" format="[general]"  name=sales_id  tag="Unique Identification Number of the sales order" edit.limit=0 edit.case=any edit.autoselect=yes edit.required=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
-column(band=detail id=2 alignment="2" tabsequence=30 border="5" color="33554687" x="539" y="4" height="60" width="293" format="[general]"  name=order_date  tag="Date Ordered" edit.name="MM/DD/YY" editmask.required=yes editmask.mask="MM/DD/YY" editmask.focusrectangle=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
-column(band=detail id=3 alignment="2" tabsequence=40 border="5" color="33554687" x="850" y="4" height="60" width="302" format="[general]"  name=sales_rep  tag="Identification Number of the Sales Representative" dddw.name=d_dddwsalesemps dddw.displaycolumn=emp_id dddw.datacolumn=emp_id dddw.percentwidth=175 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.required=yes dddw.vscrollbar=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
-column(band=detail id=6 alignment="0" tabsequence=50 border="5" color="33554687" x="1170" y="4" height="60" width="315" format="[general]"  name=region ddlb.limit=0 ddlb.sorted=yes ddlb.allowedit=no ddlb.case=any ddlb.required=yes ddlb.autohscroll=yes ddlb.vscrollbar=yes ddlb.useasborder=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
-htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+table(column=(type=long key=yes update=yes updatewhereclause=yes name=sales_id dbname="sales_order.id"  )
+column=(type=date update=yes updatewhereclause=yes name=order_date dbname="sales_order.order_date"  )
+column=(type=long update=yes updatewhereclause=yes name=sales_rep dbname="sales_order.sales_rep" 
+ values=""  )
+column=(type=long update=yes updatewhereclause=yes name=cust_id dbname="sales_order.cust_id"  )
+column=(type=char(2) update=yes updatewhereclause=yes name=fin_code_id dbname="sales_order.fin_code_id"  )
+column=(type=char(7) update=yes updatewhereclause=yes name=region dbname="sales_order.region" 
+ values="Central	Central/Eastern	Eastern/South	South/Western	Western/Canada	Canada/"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"sales_order~" ) COLUMN(NAME=~"sales_order.id~") COLUMN(NAME=~"sales_order.order_date~") COLUMN(NAME=~"sales_order.sales_rep~") COLUMN(NAME=~"sales_order.cust_id~") COLUMN(NAME=~"sales_order.fin_code_id~") COLUMN(NAME=~"sales_order.region~")) ORDER(NAME=~"sales_order.id~" ASC=yes ) "
+  update="sales_order" updatewhere=0 updatekeyinplace=no
+  sort="sales_id A"
+)
+text(name=customer_id_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="80263581" color="33554687" alignment="2" border="6" x="96" y="12" height="108" width="206" text="Customer ID" )
+text(name=sales_id_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="325" y="12" height="108" width="197" text="Sales
+Order ID" )
+text(name=order_date_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="539" y="12" height="108" width="293" text="Order
+ Date" )
+text(name=sales_rep_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="67108864" color="33554687" alignment="2" border="6" x="850" y="12" height="108" width="302" text="Sales
+Rep ID" )
+text(name=region_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="79741120" color="41943040" alignment="2" border="6" x="1170" y="12" height="108" width="306" text="Region" )
+column(name=cust_id band=detail id=4 x="96" y="4" height="60" width="206" color="0" border="5" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="700" tabsequence=10 )
+column(name=sales_id tag="Unique Identification Number of the sales order" band=detail id=1 x="325" y="4" height="60" width="197" color="33554687" border="5" alignment="2" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=yes edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="700" tabsequence=20 )
+column(name=order_date tag="Date Ordered" band=detail id=2 x="539" y="4" height="60" width="293" color="33554687" border="5" alignment="2" format="[general]" edit.name="MM/DD/YY" editmask.focusrectangle=no editmask.autoskip=no editmask.required=yes editmask.readonly=no editmask.codetable=no editmask.ddcalendar=no editmask.spin=no editmask.useformat=no editmask.mask="MM/DD/YY" editmask.imemode=0 editmask.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=30 )
+column(name=sales_rep tag="Identification Number of the Sales Representative" band=detail id=3 x="850" y="4" height="60" width="302" color="33554687" border="5" alignment="2" format="[general]" dddw.allowedit=no dddw.validation=no dddw.autohscroll=no dddw.autoretrieve=yes dddw.useasborder=yes dddw.autocompletemode=none dddw.case=any dddw.datacolumn=emp_id dddw.displaycolumn=emp_id dddw.hscrollbar=no dddw.hsplitscroll=no dddw.imemode=0 dddw.limit=0 dddw.name=d_dddwsalesemps dddw.nilisnull=no dddw.percentwidth=175 dddw.required=yes dddw.showlist=no dddw.vscrollbar=yes criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=40 )
+column(name=region band=detail id=6 x="1170" y="4" height="60" width="315" color="33554687" border="5" alignment="0" format="[general]" ddlb.allowedit=no ddlb.validation=no ddlb.autocompletemode=none ddlb.autohscroll=yes ddlb.imemode=0 ddlb.limit=0 ddlb.showlist=no ddlb.sorted=yes ddlb.useasborder=yes ddlb.vscrollbar=yes ddlb.case=any ddlb.nilisnull=no ddlb.required=yes criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=50 )
+htmltable(border="1" cellPadding="0" cellSpacing="0" generateCSS="no" noWrap="yes" )
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

@@ -1,14 +1,14 @@
 ﻿$PBExportHeader$d_ds_category.srd
 $PBExportComments$The source for the list of Category Items per project, as they appear in the TreeView control.
-release 5;
-datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=16777215 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=77 color="536870912" )
 summary(height=1 color="536870912" )
 footer(height=1 color="536870912" )
 detail(height=73 color="536870912" )
-table(column=(type=long update=yes updatewhereclause=yes key=yes name=default_category_id dbname="project_category.category_id" )
- column=(type=long update=yes updatewhereclause=yes key=yes name=project_id dbname="project_category.project_id" )
- column=(type=char(50) updatewhereclause=yes name=name dbname="project_category.name" )
+table(column=(type=long key=yes update=yes updatewhereclause=yes name=default_category_id dbname="project_category.category_id"  )
+column=(type=long key=yes update=yes updatewhereclause=yes name=project_id dbname="project_category.project_id"  )
+column=(type=char(50) updatewhereclause=yes name=name dbname="project_category.name"  )
  retrieve="   SELECT project_category.category_id,   
          project_category.project_id,   
          project_category.name  
@@ -21,8 +21,22 @@ UNION
     FROM project_derived_item 
    WHERE project_derived_item.project_id = :project_id
 	GROUP BY project_derived_item.project_id
-" update="project_category" updatewhere=0 updatekeyinplace=no arguments=(("project_id", number))  sort="name A " )
-text(band=header alignment="2" text="Category"border="0" color="0" x="5" y="0" height="65" width="513"  name=category_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="663" y="4" height="65" width="631" format="[general]"  name=project_id edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1" y="12" height="53" width="535" format="[General]"  name=default_category_id edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1358" y="16" height="53" width="1212" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+"
+  update="project_category" updatewhere=0 updatekeyinplace=no
+  arguments=(("project_id", number))
+ sort="name A"
+)
+text(name=category_t band=header font.charset="0" font.face="Arial" font.family="2" font.height="-10" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="0" x="5" y="0" height="65" width="513" text="Category" )
+column(name=project_id band=detail id=2 x="663" y="4" height="65" width="631" color="0" border="0" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=no edit.autoselect=no edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=default_category_id band=detail id=1 x="1" y="12" height="53" width="535" color="0" border="0" alignment="0" format="[General]" edit.focusrectangle=no edit.autohscroll=no edit.autoselect=no edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=name band=detail id=3 x="1358" y="16" height="53" width="1212" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable()
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

@@ -1,19 +1,19 @@
 ﻿$PBExportHeader$d_ds_projectsummary.srd
 $PBExportComments$The source for the ListView when a Project Item is selected in the TreeView
-release 5;
-datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=16777215 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=89 color="536870912" )
 summary(height=1 color="536870912" )
 footer(height=1 color="536870912" )
 detail(height=81 color="536870912" )
-table(column=(type=char(50) updatewhereclause=yes name=name dbname="project_category.name" )
- column=(type=decimal(10) updatewhereclause=yes name=estimated_hours_all dbname="compute_0002" )
- column=(type=decimal(2) updatewhereclause=yes name=actual_hours_all dbname="compute_0003" )
- column=(type=long update=yes updatewhereclause=yes key=yes name=project_category_item_project_id dbname="project_category_item.project_id" )
- column=(type=long update=yes updatewhereclause=yes key=yes name=project_category_item_category_id dbname="project_category_item.category_id" )
- column=(type=char(12) updatewhereclause=yes name=picture dbname="compute_0006" )
- column=(type=char(12) updatewhereclause=yes name=state dbname="compute_0007" )
- column=(type=char(12) updatewhereclause=yes name=overlay dbname="compute_0008" )
+table(column=(type=char(50) updatewhereclause=yes name=name dbname="project_category.name"  )
+column=(type=decimal(10) updatewhereclause=yes name=estimated_hours_all dbname="compute_0002"  )
+column=(type=decimal(2) updatewhereclause=yes name=actual_hours_all dbname="compute_0003"  )
+column=(type=long key=yes update=yes updatewhereclause=yes name=project_category_item_project_id dbname="project_category_item.project_id"  )
+column=(type=long key=yes update=yes updatewhereclause=yes name=project_category_item_category_id dbname="project_category_item.category_id"  )
+column=(type=char(12) updatewhereclause=yes name=picture dbname="compute_0006"  )
+column=(type=char(12) updatewhereclause=yes name=state dbname="compute_0007"  )
+column=(type=char(12) updatewhereclause=yes name=overlay dbname="compute_0008"  )
  retrieve="SELECT project_category.name,   
          sum(project_category_item.estimated_hours * project_role.multipler),   
          sum(project_category_item.actual_hours),   
@@ -65,12 +65,26 @@ SELECT 'Derived Items',
          'peatappl.bmp'  
     FROM project_derived_item
    WHERE ( project_derived_item.project_id = :project_id ) 
-" update="project_category_item" updatewhere=0 updatekeyinplace=no arguments=(("project_id", number))  sort="name A " )
-text(band=header alignment="2" text="Name"border="0" color="0" x="5" y="4" height="53" width="1166"  name=name_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-text(band=header alignment="2" text="Sum(project Category Item.est"border="0" color="0" x="1175" y="4" height="53" width="645"  name=compute_0002_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-text(band=header alignment="2" text="Sum(project Category Item.act"border="0" color="0" x="1825" y="4" height="53" width="650"  name=compute_0003_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1" y="4" height="53" width="1212" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-compute(band=detail alignment="0" expression=" if( IsNull(  actual_hours_all  ),0, actual_hours_all  )"border="0" color="0" x="1335" y="4" height="53" width="183" format="#,##0.00"  name=actual_hours  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-compute(band=detail alignment="0" expression="if( IsNull(  estimated_hours_all  ),0, estimated_hours_all  ) "border="0" color="0" x="1683" y="4" height="53" width="183" format="#,##0.00"  name=estimated_hours  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1957" y="16" height="53" width="366" format="#,##0.00"  name=estimated_hours_all edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="2382" y="8" height="53" width="366" format="#,##0.00"  name=actual_hours_all edit.limit=0 edit.case=any edit.autoselect=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+"
+  update="project_category_item" updatewhere=0 updatekeyinplace=no
+  arguments=(("project_id", number))
+ sort="name A"
+)
+text(name=name_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="0" x="5" y="4" height="53" width="1166" text="Name" )
+text(name=compute_0002_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="0" x="1175" y="4" height="53" width="645" text="Sum(project Category Item.est" )
+text(name=compute_0003_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="0" x="1825" y="4" height="53" width="650" text="Sum(project Category Item.act" )
+column(name=name band=detail id=1 x="1" y="4" height="53" width="1212" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+compute(name=actual_hours band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" x="1335" y="4" height="53" width="183" format="#,##0.00" expression=" if( IsNull(  actual_hours_all  ),0, actual_hours_all  )" alignment="0" border="0" crosstab.repeat=no )
+compute(name=estimated_hours band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" x="1683" y="4" height="53" width="183" format="#,##0.00" expression="if( IsNull(  estimated_hours_all  ),0, estimated_hours_all  ) " alignment="0" border="0" crosstab.repeat=no )
+column(name=estimated_hours_all band=detail id=2 x="1957" y="16" height="53" width="366" color="0" border="0" alignment="0" format="#,##0.00" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=actual_hours_all band=detail id=3 x="2382" y="8" height="53" width="366" color="0" border="0" alignment="0" format="#,##0.00" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable()
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

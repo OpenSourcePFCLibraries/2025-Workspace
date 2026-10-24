@@ -1,12 +1,24 @@
 ﻿$PBExportHeader$d_dddwstatecapitols.srd
 $PBExportComments$State Capitols. (w_refreshdddws)
-release 5;
-datawindow(units=0 timer_interval=0 color=1090519039 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no grid.lines=1 selected.mouse=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=1 color=1090519039 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 grid.lines=1 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=1 color="536870912" )
 summary(height=5 color="536870912" )
 footer(height=1 color="536870912" )
 detail(height=73 color="536870912" )
-table(column=(type=char(24) update=yes updatewhereclause=yes key=yes name=state_capital dbname="states.state_capital" )
- retrieve="PBSELECT( VERSION(400) DISTINCT ()TABLE(NAME=~"states~" ) COLUMN(NAME=~"states.state_capital~")) ORDER(NAME=~"states.state_capital~" ASC=yes ) " update="states" updatewhere=0 updatekeyinplace=no )
-text(band=header alignment="0" text="State Capital"border="0" color="0" x="10" y="4" height="77" width="782"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
-column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="10" y="4" height="65" width="782" format="[general]"  name=state_capital edit.limit=0 edit.case=any edit.autoselect=yes edit.autovscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+table(column=(type=char(24) key=yes update=yes updatewhereclause=yes name=state_capital dbname="states.state_capital"  )
+ retrieve="PBSELECT( VERSION(400) DISTINCT ()TABLE(NAME=~"states~" ) COLUMN(NAME=~"states.state_capital~")) ORDER(NAME=~"states.state_capital~" ASC=yes ) "
+  update="states" updatewhere=0 updatekeyinplace=no
+ )
+text(band=header font.charset="0" font.face="Arial" font.family="2" font.height="-12" font.pitch="2" font.weight="400" background.mode="2" background.color="16777215" color="0" alignment="0" border="0" x="9" y="4" height="77" width="782" text="State Capital" )
+column(name=state_capital band=detail id=1 x="9" y="4" height="65" width="782" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=yes edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable()
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()

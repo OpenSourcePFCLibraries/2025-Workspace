@@ -1,22 +1,34 @@
 ﻿$PBExportHeader$d_depts.srd
 $PBExportComments$Department ID, Name, & Head ( w_requiredfields )
-release 5;
-datawindow(units=0 timer_interval=0 color=82889382 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+release 25;
+datawindow ( units=0 data.export.format=1 timer_interval=0 processing=0 color=82889382 brushmode=0 transparency=0 gradient.color=8421504 gradient.transparency=0 gradient.angle=0 gradient.repetition.mode=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.focus=0 gradient.scale=100 gradient.spread=100 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.clip.bottom=0 picture.blur=0 picture.transparency=0 print.documentname=""  print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0 selected.mouse=no hidegrayline=no showbackcoloronxp=no)
 header(height=112 color="536870912" )
 summary(height=4 color="536870912" )
 footer(height=0 color="536870912" )
 detail(height=68 color="536870912" )
-table(column=(type=number update=yes updatewhereclause=yes key=yes name=dept_id dbname="department.dept_id" validation="mod(  real(gettext()) , 100 ) = 0" validationmsg="'The department number must be a multiple of 100.'" )
- column=(type=char(40) update=yes updatewhereclause=yes name=dept_name dbname="department.dept_name" )
- column=(type=number update=yes updatewhereclause=yes name=dept_head_id dbname="department.dept_head_id" )
- retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"department~" ) COLUMN(NAME=~"department.dept_id~") COLUMN(NAME=~"department.dept_name~") COLUMN(NAME=~"department.dept_head_id~")) " update="department" updatewhere=1 updatekeyinplace=no  sort="dept_id A " )
-text(band=header alignment="2" text="Department
- Name"border="6" color="50331647" x="361" y="4" height="104" width="645"  name=dept_name_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-text(band=header alignment="2" text="Dept.
-Head Id"border="6" color="50331647" x="1015" y="4" height="104" width="242"  name=dept_head_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="82889382" )
-text(band=header alignment="2" text="Department
-ID"border="6" color="50331647" x="9" y="4" height="104" width="338"  name=dept_id_t  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="50331647" x="361" y="4" height="60" width="645" format="[general]"  name=dept_name  tag="Name of the department" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.required=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1086381248" )
-column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="50331647" x="1015" y="4" height="60" width="242" format="[general]"  name=dept_head_id edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.required=yes edit.nilisnull=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1086381248" )
-column(band=detail id=1 alignment="1" tabsequence=32766 border="5" color="50331647" x="9" y="4" height="60" width="338" format="[general]"  name=dept_id  tag="Unique Identification Code of the department" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="MS Sans Serif" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
-htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")
+table(column=(type=number key=yes update=yes updatewhereclause=yes validation="mod(  real(gettext()) , 100 ) = 0" validationmsg="'The department number must be a multiple of 100.'" name=dept_id dbname="department.dept_id"  )
+column=(type=char(40) update=yes updatewhereclause=yes name=dept_name dbname="department.dept_name"  )
+column=(type=number update=yes updatewhereclause=yes name=dept_head_id dbname="department.dept_head_id"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"department~" ) COLUMN(NAME=~"department.dept_id~") COLUMN(NAME=~"department.dept_name~") COLUMN(NAME=~"department.dept_head_id~")) "
+  update="department" updatewhere=1 updatekeyinplace=no
+  sort="dept_id A"
+)
+text(name=dept_name_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="50331647" alignment="2" border="6" x="361" y="4" height="104" width="645" text="Department
+ Name" )
+text(name=dept_head_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="82889382" color="50331647" alignment="2" border="6" x="1015" y="4" height="104" width="242" text="Dept.
+Head Id" )
+text(name=dept_id_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="50331647" alignment="2" border="6" x="9" y="4" height="104" width="338" text="Department
+ID" )
+column(name=dept_name tag="Name of the department" band=detail id=2 x="361" y="4" height="60" width="645" color="50331647" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=yes edit.required=yes edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1086381248" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=10 )
+column(name=dept_head_id band=detail id=3 x="1015" y="4" height="60" width="242" color="50331647" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=no edit.autoselect=no edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=yes edit.required=yes edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1086381248" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=20 )
+column(name=dept_id tag="Unique Identification Code of the department" band=detail id=1 x="9" y="4" height="60" width="338" color="50331647" border="5" alignment="1" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+htmltable(border="1" cellPadding="0" cellSpacing="0" generateCSS="no" noWrap="yes" )
+htmlgen(pagingMethod=0 )
+xhtmlgen() cssgen()
+xmlgen()
+xsltgen()
+jsgen()
+export.xml(metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=2 nativepdf.customsize=0 nativepdf.customorientation=0 nativepdf.pdfstandard=0 nativepdf.useprintspec=no nativepdf.imageformat=0 )
+export.xhtml()
