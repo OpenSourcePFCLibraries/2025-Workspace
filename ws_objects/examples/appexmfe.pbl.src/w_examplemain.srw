@@ -53,10 +53,13 @@ Protected:
 string	is_mrukey = "pfc examples"
 string	is_mruexampleclassname // classname of the example opened by pfc_open
 string	is_mruexampletitle	// title of the example opened
+// The tree and list of examples, from the catalog files
+n_cst_examplecatalog	inv_catalog
 end variables
 
 forward prototypes
 public function integer of_openexample (window aw_window, n_cst_mruattrib anv_mruattrib)
+public function integer of_layoutclient ()
 end prototypes
 
 event ue_printtree;call super::ue_printtree;//////////////////////////////////////////////////////////////////////////////
@@ -216,6 +219,34 @@ OpenWithParm(lw_window, anv_mruattrib.is_menuitemkey, anv_mruattrib.is_classname
 Return 1
 end function
 
+public function integer of_layoutclient ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_LayoutClient
+//
+//	Access:			Public
+//
+//	Arguments:		None
+//
+//	Returns:			Integer
+//						1
+//
+//	Description:	Keeps the MDI client area off the TreeView and ListView.  The examples
+//						open as their own windows, never as sheets, so the client area is a
+//						hidden strip of no height above the MicroHelp bar.  Without this, it
+//						covers the controls of the frame (see "Sizing the client area" in
+//						Application Techniques).
+//
+//////////////////////////////////////////////////////////////////////////////
+If this.WindowState = Minimized! Then Return 0
+
+mdi_1.Visible = False
+mdi_1.Move(this.WorkSpaceX(), this.WorkSpaceY() + this.WorkSpaceHeight() - mdi_1.MicroHelpHeight)
+mdi_1.Resize(this.WorkSpaceWidth(), 0)
+
+Return 1
+end function
+
+
 on w_examplemain.create
 int iCurrent
 call super::create
@@ -256,7 +287,9 @@ event open;call super::open;////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_rc
+string	ls_ostype
 m_examplemain	lm_examplemenu
+n_cst_conversion	lnv_conversion
 
 setpointer(hourglass!)
 
@@ -277,20 +310,29 @@ inv_menu.of_GetMenuReference(this.menuid, "m_sqlspy", im_sqlspywindow)
 inv_menu.of_GetMenuReference(this.menuid, "m_debuglog", im_debuglogwindow)
 inv_menu.of_GetMenuReference(this.menuid, "m_utilitypreferences", im_utilpref)
 
+// Read the example catalog (exam.txt and examcat.txt), with the examples for this platform
+ls_ostype = lnv_conversion.of_String(gnv_app.ienv_object.ostype)
+if ls_ostype = "windowsnt" then ls_ostype = "winnt"
+if inv_catalog.of_Load(ls_ostype) <> 1 then
+	MessageBox(this.Title, "The example catalog (" + inv_catalog.EXAMPLES_FILE + " and " + &
+		inv_catalog.CATEGORIES_FILE + ") couldn't be read.  They must be in the application's folder.", StopSign!)
+	return
+end if
+
 // set up treeview datasource for level 1
-li_rc = tv_1.inv_levelsource.of_Register(1, "category_name", "", "d_toplevel", SQLCA, "")
+li_rc = tv_1.inv_levelsource.of_Register(1, "category_name", "", inv_catalog.of_GetTreeSource(1), "")
 // set the pictures for level 1 to a picture index on the control
 tv_1.inv_levelsource.of_SetPictureColumn(1, "1")
 tv_1.inv_levelsource.of_setselectedpicturecolumn(1, "1")
 
 // set up treeview datasource for level 2
-li_rc = tv_1.inv_levelsource.of_Register(2, "category_name", ":parent.1.category_id", "d_maincategorylist",	SQLCA, "")
+li_rc = tv_1.inv_levelsource.of_Register(2, "category_name", ":parent.1.category_id", inv_catalog.of_GetTreeSource(2), "category_parent_id")
 // set the pictures for level 2 to a database column holding the control indexes
 tv_1.inv_levelsource.of_setpicturecolumn(2, "picture_idx")
 tv_1.inv_levelsource.of_setselectedpicturecolumn(2, "selected_picture_idx")
 
 // set up treeview datasource for level 2
-li_rc = tv_1.inv_levelsource.of_Register(3, "category_name", ":parent.1.category_id", "d_catexamples",	SQLCA, "")
+li_rc = tv_1.inv_levelsource.of_Register(3, "category_name", ":parent.1.category_id", inv_catalog.of_GetTreeSource(3), "category_parent_id")
 // set the pictures for level 2 to a database column holding the control indexes
 tv_1.inv_levelsource.of_setpicturecolumn(3, "picture_idx")
 tv_1.inv_levelsource.of_setselectedpicturecolumn(3, "selected_picture_idx")
@@ -795,7 +837,7 @@ event pfc_populate;/////////////////////////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 integer	li_rc
-long		ll_level
+long		ll_level, ll_row, ll_key
 string	ls_label
 n_ds		lds_data
 
@@ -804,20 +846,26 @@ Setpointer(hourglass!)
 // Set the listview source based on the treeview level information
 ll_level = inv_explorerattrib.itvi_selecteditem.Level
 ls_label = inv_explorerattrib.itvi_selecteditem.Label
+ll_row = inv_explorerattrib.il_datastorerow
+if ll_level = 3 then
+	ll_key = inv_explorerattrib.ids_datastore.GetItemNumber(ll_row, "example_id")
+else
+	ll_key = inv_explorerattrib.ids_datastore.GetItemNumber(ll_row, "category_id")
+end if
 
 choose case ll_level
 	case 1
-		inv_datasource.of_Register("category_name", "d_maincategorylist", SQLCA )
+		inv_datasource.of_Register("category_name", inv_catalog.of_GetListSource(ll_level, ll_key))
 		inv_datasource.of_SetPictureColumn("picture_idx")
 		inv_datasource.of_SetStatePictureColumn("overlay_picture_idx")
 //		inv_datasource.of_SetOverlayPictureColumn("overlay_picture_idx")
 	case 2
-		inv_datasource.of_Register("category_name", "d_catexamples", SQLCA )
+		inv_datasource.of_Register("category_name", inv_catalog.of_GetListSource(ll_level, ll_key))
 		inv_datasource.of_SetPictureColumn("picture_idx")
 		inv_datasource.of_SetStatePictureColumn("overlay_picture_idx")
 //		inv_datasource.of_SetOverlayPictureColumn("overlay_picture_idx")
 	case 3
-		inv_datasource.of_Register("example", "d_windows", SQLCA )
+		inv_datasource.of_Register("example", inv_catalog.of_GetListSource(ll_level, ll_key))
 		inv_datasource.of_SetPictureColumn("7")
 		inv_datasource.of_SetStatePictureColumn("overlay_picture_idx")
 //		inv_datasource.of_SetOverlayPictureColumn("overlay_picture_idx")
@@ -847,36 +895,16 @@ event pfc_retrieve;/////////////////////////////////////////////////////////////
 //	Description:
 //	Return the number of rows placed in the data source
 //
-//	Extend this event to populate the retrieval arguments and then call the of_retrieve()
-//		function.
+//	The data source is a DataStore from the example catalog, which already has the rows
+//	(see pfc_populate), so there are no retrieval arguments.
 //
 //////////////////////////////////////////////////////////////////////////////
-//	
+//
 //	override ancestor script
 //
 //////////////////////////////////////////////////////////////////////////////
-long					ll_level, ll_row
-string				ls_ostype
 any					la_args[20]
-n_cst_conversion	lnv_conversion
 
-// Get the state information for the selected treeview item.
-ll_level = inv_explorerattrib.itvi_selecteditem.Level
-ll_row = inv_explorerattrib.il_datastorerow
-
-choose case ll_level
-	case 1
-		la_args[1] = inv_explorerattrib.ids_datastore.inv_base.of_GetItemAny(ll_row, "category_id")
-	case 2
-		la_args[1] = inv_explorerattrib.ids_datastore.inv_base.of_GetItemAny(ll_row, "category_id")
-		ls_ostype = lnv_conversion.of_String(gnv_app.ienv_object.ostype)
-		if ls_ostype = "windowsnt" then ls_ostype = "winnt"
-		la_args[2] = lower("%" + ls_ostype + "%")
-	case 3
-		la_args[1] = inv_explorerattrib.ids_datastore.inv_base.of_GetItemAny(ll_row, "example_id")
-end choose
-
-// original code
 Return of_retrieve(la_args, ads_data)
 end event
 
@@ -1104,15 +1132,10 @@ event pfc_retrieve;call super::pfc_retrieve;////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 Any				la_args[20]
-Integer			li_nextlevel, li_level
-string			ls_ostype
-treeviewitem	ltvi_item
-n_cst_conversion	lnv_conversion
+Integer			li_nextlevel
 
 // Check Arguments
 If (al_parent < 0) or IsNull(al_parent) Then Return -1
-
-this.getitem(al_parent, ltvi_item)
 
 li_nextlevel = of_GetNextLevel(al_parent)
 If li_nextlevel < 1 then Return -1
@@ -1123,15 +1146,8 @@ If isvalid(inv_levelsource) then
 	inv_levelsource.of_getargs(al_Parent, li_nextLevel, la_Args)
 End If
 
-// If the level you are populating requires even one retrieval argument that
-// is not based on previous levels, you must add the arguments manually into the
-// 20 element locally defined array of type any
-li_level = ltvi_item.level
-if li_level = 2 then
-	ls_ostype = lnv_conversion.of_String(gnv_app.ienv_object.ostype)
-	if ls_ostype = "windowsnt" then ls_ostype = "winnt"
-	la_args[2] = lower("%" + ls_ostype + "%")
-end if
+// The level source service filters the catalog's rows on the parent's category_id;
+// the catalog already has only the examples for this platform (see the open event).
 
 // retrieve the rows into the datasource
 Return of_retrieve(al_parent, la_args, ads_data)
