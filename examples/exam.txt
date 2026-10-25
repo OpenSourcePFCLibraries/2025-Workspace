@@ -52,6 +52,7 @@
 56	Language Service	windowswinnt	enterprisedesktop	0	w_languageserv
 57	Security Service	windowswinnt	enterprisedesktop	0	w_securityserv
 58	Query Mode Service	windowswinnt	enterprisedesktop	0	w_querymode
+59	Report Service	windowswinnt	enterprisedesktop	0	w_reportserv
 1000	[Major Components Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
 1001	[Methods Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
 1002	[Variables Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
