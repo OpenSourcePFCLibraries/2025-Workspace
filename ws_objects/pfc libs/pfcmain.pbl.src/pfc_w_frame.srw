@@ -676,10 +676,11 @@ ribbonbar	lrbb_ribbon
 
 If this.WindowState = Minimized! Then Return 0
 
-// Find the ribbon bar
+// Find the ribbon bar.  mdirbb_1 is the ribbon bar PowerBuilder builds into every MDI
+// frame; the frame lays out the one the application placed on it.
 li_count = UpperBound (this.Control)
 For li_cnt = 1 To li_count
-	If this.Control[li_cnt].TypeOf() = RibbonBar! Then
+	If this.Control[li_cnt].TypeOf() = RibbonBar! And this.Control[li_cnt] <> mdirbb_1 Then
 		lrbb_ribbon = this.Control[li_cnt]
 		Exit
 	End If

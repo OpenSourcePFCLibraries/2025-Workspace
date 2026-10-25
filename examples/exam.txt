@@ -59,6 +59,8 @@
 63	Transaction Registration	windowswinnt	enterprisedesktop	0	w_trregserv
 64	Sheet Manager	windowswinnt	enterprisedesktop	0	w_sheetframe
 65	Utility Services	windowswinnt	enterprisedesktop	0	w_utilityserv
+66	Controls Gallery	windowswinnt	enterprisedesktop	0	w_controlgallery
+67	Ribbon Bar	windowswinnt	enterprisedesktop	0	w_ribbonframe
 1000	[Major Components Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
 1001	[Methods Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
 1002	[Variables Header Record]	windowswinntmacintoshsol2	enterprisedesktop	0	
