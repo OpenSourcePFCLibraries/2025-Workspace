@@ -1,0 +1,92 @@
+﻿$PBExportHeader$m_sheetframe.srm
+$PBExportComments$Frame menu of the Sheet Manager example (w_sheetframe): m_frame with the Window and Tools menus
+forward
+global type m_sheetframe from m_frame
+end type
+end forward
+
+global type m_sheetframe from m_frame
+end type
+global m_sheetframe m_sheetframe
+
+on m_sheetframe.create
+m_sheetframe=this
+call super::create
+end on
+
+on m_sheetframe.destroy
+call super::destroy
+end on
+
+on m_new.create
+call super::create
+this.ToolBarItemName="ScriptNo!"
+this.MicroHelp="Opens another sheet"
+end on
+
+on m_tools.create
+call super::create
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_toolbars.create
+call super::create
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_window.create
+call super::create
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_cascade.create
+call super::create
+this.ToolBarItemName="Cascade!"
+this.ToolBarItemVisible=true
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_tilehorizontal.create
+call super::create
+this.ToolBarItemName="Horizontal!"
+this.ToolBarItemVisible=true
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_tilevertical.create
+call super::create
+this.ToolBarItemName="Tile!"
+this.ToolBarItemVisible=true
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_layer.create
+call super::create
+this.ToolBarItemName="Layer!"
+this.ToolBarItemVisible=true
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_dash51.create
+call super::create
+this.Visible=true
+end on
+
+on m_minimizeall.create
+call super::create
+this.Visible=true
+this.Enabled=true
+end on
+
+on m_undoarrange.create
+call super::create
+this.Visible=true
+this.Enabled=true
+end on
