@@ -12,7 +12,7 @@ type variables
 Public:
 // The catalog files, in the application's folder (next to examples.ini).  They are
 // tab-delimited, without a header line:
-// exam.txt: example_id, title, ostype, pbtype, exhelp, window
+// exam.txt: example_id, title, exhelp, window
 // examcat.txt: category_id, category_name, category_parent_id, example_id, picture_idx,
 //		selected_picture_idx, state_picture_idx, overlay_picture_idx
 constant string EXAMPLES_FILE = "exam.txt"
@@ -21,7 +21,6 @@ constant string CATEGORIES_FILE = "examcat.txt"
 Protected:
 n_ds	ids_examples
 n_ds	ids_categories
-string	is_ostype
 
 // The TreeView's data sources, one per level (see of_GetTreeSource)
 n_ds	ids_tree[3]
@@ -31,7 +30,7 @@ n_ds	ids_previouslist
 end variables
 
 forward prototypes
-public function integer of_load (string as_ostype)
+public function integer of_load ()
 public function n_ds of_gettreesource (integer ai_level)
 public function n_ds of_getlistsource (integer ai_treelevel, long al_key)
 protected function boolean of_isavailable (long al_example)
@@ -43,15 +42,13 @@ public function string of_gettitle (string as_window)
 protected function integer of_loadexamples ()
 end prototypes
 
-public function integer of_load (string as_ostype);//////////////////////////////////////////////////////////////////////////////
+public function integer of_load ();//////////////////////////////////////////////////////////////////////////////
 //
 //	Function:		of_Load
 //
 //	Access:			Public
 //
-//	Arguments:
-//	as_ostype		The platform, as it appears in the examples' ostype column (for
-//						example "windows"); only the examples for this platform are shown
+//	Arguments:		None
 //
 //	Returns:			Integer
 //						1 if the catalog files were read, -1 if one is missing or can't be read
@@ -60,8 +57,6 @@ public function integer of_load (string as_ostype);/////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 long		ll_row, ll_rows
-
-is_ostype = Lower(Trim(as_ostype))
 
 If Not FileExists(EXAMPLES_FILE) Or Not FileExists(CATEGORIES_FILE) Then Return -1
 
@@ -163,18 +158,11 @@ protected function boolean of_isavailable (long al_example);////////////////////
 //	al_example		An example_id
 //
 //	Returns:			Boolean
-//						TRUE if the example exists and its ostype includes the platform (the
-//						subcategories' rows refer to example 0, which includes every platform)
+//						TRUE if the example is in the examples file (the subcategories' rows
+//						refer to example 0, the header record)
 //
 //////////////////////////////////////////////////////////////////////////////
-long		ll_row
-string	ls_ostype
-
-ll_row = ids_examples.Find("example_id = " + String(al_example), 1, ids_examples.RowCount())
-If ll_row < 1 Then Return False
-ls_ostype = Lower(ids_examples.GetItemString(ll_row, "ostype"))
-If IsNull(ls_ostype) Then Return False
-Return Pos(ls_ostype, is_ostype) > 0
+Return ids_examples.Find("example_id = " + String(al_example), 1, ids_examples.RowCount()) > 0
 end function
 
 protected function long of_addcategory (n_ds ads_target, long al_row);//////////////////////////////////////////////////////////////////////////////

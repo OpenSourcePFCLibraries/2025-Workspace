@@ -287,9 +287,7 @@ event open;call super::open;////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_rc
-string	ls_ostype
 m_examplemain	lm_examplemenu
-n_cst_conversion	lnv_conversion
 
 setpointer(hourglass!)
 
@@ -310,10 +308,8 @@ inv_menu.of_GetMenuReference(this.menuid, "m_sqlspy", im_sqlspywindow)
 inv_menu.of_GetMenuReference(this.menuid, "m_debuglog", im_debuglogwindow)
 inv_menu.of_GetMenuReference(this.menuid, "m_utilitypreferences", im_utilpref)
 
-// Read the example catalog (exam.txt and examcat.txt), with the examples for this platform
-ls_ostype = lnv_conversion.of_String(gnv_app.ienv_object.ostype)
-if ls_ostype = "windowsnt" then ls_ostype = "winnt"
-if inv_catalog.of_Load(ls_ostype) <> 1 then
+// Read the example catalog (exam.txt and examcat.txt)
+if inv_catalog.of_Load() <> 1 then
 	MessageBox(this.Title, "The example catalog (" + inv_catalog.EXAMPLES_FILE + " and " + &
 		inv_catalog.CATEGORIES_FILE + ") couldn't be read.  They must be in the application's folder.", StopSign!)
 	return
