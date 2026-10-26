@@ -73,6 +73,9 @@ inv_resize.of_Register(rte_topleft, 0, 0, 0, 100)
 inv_resize.of_Register(st_v1, 0, 0, 0, 100)
 inv_resize.of_Register(rte_topright, 0, 0, 100, 100)
 
+// The window was laid out small: open it larger, and the resize service scales the panes
+this.Resize(2240, 1400)
+
 end event
 
 type rte_topright from u_rte within w_splitbarexplorerstyle

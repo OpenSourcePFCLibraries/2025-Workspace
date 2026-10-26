@@ -53,7 +53,7 @@ The main window's tree and list come from two tab-delimited files in this folder
 |---|---|
 | example_id | A number, unique in the file |
 | title | The name in the list, and the window's title |
-| exhelp | Not used yet (0) |
+| exhelp | The help context number of its topic in PFCEXAMP.chm: 1000 + example_id |
 | window | The window that the example opens |
 
 `examcat.txt` has a line for each item in the tree, a category or an example:
@@ -68,7 +68,7 @@ The main window's tree and list come from two tab-delimited files in this folder
 | state_picture_idx | 0 |
 | overlay_picture_idx | 1 marks an example as new |
 
-To add an example: write its window (most inherit from `w_main`, with a short introduction at the top and a Close button), add a line to `exam.txt`, and add a line to `examcat.txt` under its category. The window's title comes from the catalog.
+To add an example: write its window (most inherit from `w_main`, with a short introduction at the top and a Close button), add a line to `exam.txt`, and add a line to `examcat.txt` under its category.  Then add its topic to the help file, in `src/topics.js` in [Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file), with the same help context number; F1 in the example's window, or with the example selected in the main window, opens it. The window's title comes from the catalog.
 
 These files replaced the `examples` and `examples_categories_list` tables in the EASDEMO database; the app doesn't read the tables any more.
 

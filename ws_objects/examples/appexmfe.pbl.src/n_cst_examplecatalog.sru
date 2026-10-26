@@ -12,7 +12,8 @@ type variables
 Public:
 // The catalog files, in the application's folder (next to examples.ini).  They are
 // tab-delimited, without a header line:
-// exam.txt: example_id, title, exhelp, window
+// exam.txt: example_id, title, exhelp (the help context number of the example's topic in
+//		PFCEXAMP.chm), window
 // examcat.txt: category_id, category_name, category_parent_id, example_id, picture_idx,
 //		selected_picture_idx, state_picture_idx, overlay_picture_idx
 constant string EXAMPLES_FILE = "exam.txt"
@@ -40,6 +41,8 @@ protected function integer of_fillexamples (n_ds ads_target, long al_parent)
 protected function integer of_fillwindows (n_ds ads_target, long al_example)
 public function string of_gettitle (string as_window)
 protected function integer of_loadexamples ()
+public function long of_gethelpcontext (long al_example)
+public function long of_gethelpcontext (string as_window)
 end prototypes
 
 public function integer of_load ();//////////////////////////////////////////////////////////////////////////////
@@ -349,6 +352,54 @@ If ids_examples.ImportFile(EXAMPLES_FILE) < 0 Then
 End If
 Return 1
 end function
+
+public function long of_gethelpcontext (long al_example);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_GetHelpContext
+//
+//	Access:			Public
+//
+//	Arguments:
+//	al_example		An example_id
+//
+//	Returns:			Long
+//						The help context number of the example's topic in PFCEXAMP.chm (the
+//						exhelp column of the catalog), or 0 if it has none
+//
+//////////////////////////////////////////////////////////////////////////////
+long	ll_row
+
+If of_LoadExamples() <> 1 Then Return 0
+ll_row = ids_examples.Find("example_id = " + String(al_example), 1, ids_examples.RowCount())
+If ll_row < 1 Then Return 0
+Return ids_examples.GetItemNumber(ll_row, "exhelp")
+end function
+
+public function long of_gethelpcontext (string as_window);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_GetHelpContext
+//
+//	Access:			Public
+//
+//	Arguments:
+//	as_window		The class name of an example's window
+//
+//	Returns:			Long
+//						The help context number of the example's topic in PFCEXAMP.chm (the
+//						exhelp column of the catalog), or 0 if it has none
+//
+//	Description:	Used by the examples' windows for their help (see w_master's open
+//						event).  Reads only the examples file.
+//
+//////////////////////////////////////////////////////////////////////////////
+long	ll_row
+
+If of_LoadExamples() <> 1 Then Return 0
+ll_row = ids_examples.Find("Lower(window) = '" + Lower(as_window) + "'", 1, ids_examples.RowCount())
+If ll_row < 1 Then Return 0
+Return ids_examples.GetItemNumber(ll_row, "exhelp")
+end function
+
 
 on n_cst_examplecatalog.create
 call super::create
