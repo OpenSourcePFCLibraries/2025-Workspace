@@ -84,7 +84,7 @@ These files replaced the `examples` and `examples_categories_list` tables in the
 | Language Service | `w_languageserv` | `n_cst_language`: PFC's messages and menus in another language |
 | Logical Unit of Work | `w_luw` | `n_cst_luw`: a DataWindow and a DataStore saved in one transaction |
 | Metaclass Service | `w_metaclass` | `n_cst_metaclass`: a class's ancestors, events, functions and variables at run time |
-| Security Service | `w_securityserv` | `n_cst_security` |
+| Security Service | `w_securityserv` | `n_cst_security`, with groups mapped from an external source; for signing in with an OpenID Connect identity provider, see the [OpenID Connect demo](../openid%20demo/README.md) |
 | Timing Service | `w_timingserv` | `n_tmg` with `n_cst_tmgsingle` and `n_cst_tmgmultiple` |
 | Transaction Registration | `w_trregserv` | `n_cst_trregistration` |
 | Utility Services | `w_utilityserv` | `n_cst_string`, `n_cst_numerical`, the conversion and color objects, `n_cst_platform`, `n_cst_environment` and the collections |

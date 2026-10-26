@@ -1,6 +1,9 @@
 
 # PEAT demo local security settings (see demoapp/peat_security.ini.example)
 demoapp/peat_security.ini
+
+# OpenID Connect demo local settings (see openid demo/openiddemo.ini.example)
+openid demo/openiddemo.ini
 *.pbd
 *.exe
 

@@ -18,7 +18,8 @@
                 { "Target": ".\\pfctutor.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false },
                 { "Target": ".\\security administrator.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false },
                 { "Target": ".\\security scanner.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false },
-                { "Target": ".\\smtp demo.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false }
+                { "Target": ".\\smtp demo.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false },
+                { "Target": ".\\openid demo.pbt", "LocalProjectPath": ".\\", "RefreshPbl": false }
             ],
             "PostCommand": ""
         },
