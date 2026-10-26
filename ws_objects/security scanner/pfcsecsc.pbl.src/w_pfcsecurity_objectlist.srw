@@ -43,9 +43,8 @@ string	is_app
 pfcscanner_n_cst_sourcelibrary	inv_source
 end variables
 
-event ue_scanlist;long ll_r, ll_rows, ll_rc, ll_objects, ll_controls, ll_failed, ll_i
-long ll_added, ll_changed, ll_deleted, ll_removed
-string ls_title, ls_object, ls_type, ls_library, ls_failed, ls_summary, ls_removed[]
+event ue_scanlist;long ll_r, ll_rows, ll_rc, ll_objects, ll_controls, ll_failed
+string ls_title, ls_object, ls_type, ls_library, ls_failed, ls_summary
 boolean lb_error
 pfcscanner_n_cst_securityscanner lnv_security
 
@@ -113,25 +112,8 @@ dw_1.SetFilter ( "" )
 dw_1.Filter ( )
 dw_1.Sort ( )
 
-lnv_security.of_GetSummary ( ll_added, ll_changed, ll_deleted, ll_removed, ls_removed )
-
 // summary
-ls_summary = "Scanned " + String ( ll_objects ) + " of " + String ( ll_rows ) + " objects of " + is_app + &
-				 ": they have " + String ( ll_controls ) + " controls, menu items and columns." + &
-				 "~r~n~r~nAdded to the template: " + String ( ll_added ) + &
-				 "~r~nType changed: " + String ( ll_changed )
-If ll_deleted > 0 Then ls_summary += "~r~nDeleted in Template Management, not added again: " + String ( ll_deleted )
-If ll_removed > 0 Then
-	ls_summary += "~r~n~r~n" + String ( ll_removed ) + " controls in the template no longer exist (they are kept; delete them in Template Management):"
-	For ll_i = 1 To Min ( ll_removed, 15 )
-		ls_summary += "~r~n   " + ls_removed[ll_i]
-	Next
-	If ll_removed > 15 Then ls_summary += "~r~n   ..."
-End If
-If Not lnv_security.of_IsScanTableAvailable ( ) Then
-	ls_summary += "~r~n~r~nThe security database has no security_scan table, and the scanner couldn't create it, " + &
-					  "so controls deleted in Template Management are added again."
-End If
+ls_summary = lnv_security.of_GetSummaryText ( is_app, ll_objects, ll_rows, ll_controls )
 Destroy lnv_security
 cb_cancel.Enabled = False
 If ib_canceled Then ls_summary += "~r~n~r~nThe scan was canceled."
@@ -169,11 +151,10 @@ dw_1.ImportString ( inv_source.of_GetObjects ( ) )
 dw_1.Filter ( )
 dw_1.Sort ( )
 
-// Select all the objects but the PFC ancestor layer (pfc_*), whose objects are
-// never opened themselves
+// Select the objects a scan includes by default: all but the PFC ancestor layer
 ll_rows = dw_1.RowCount ( )
 For ll_row = 1 To ll_rows
-	If Left ( dw_1.GetItemString ( ll_row, "name" ), 4 ) <> "pfc_" Then
+	If inv_source.of_IsDefaultSelected ( dw_1.GetItemString ( ll_row, "name" ) ) Then
 		dw_1.SelectRow ( ll_row, True )
 	End If
 Next

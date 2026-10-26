@@ -58,6 +58,7 @@ protected function long of_merge (string as_object)
 protected subroutine of_resetfound ()
 public function integer of_getsummary (ref long al_added, ref long al_changed, ref long al_deleted, ref long al_removed, ref string as_removed[])
 public function boolean of_isscantableavailable ()
+public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls)
 end prototypes
 
 public function integer of_scandatawindow (string as_dataobjectname, string as_library);//////////////////////////////////////////////////////////////////////////////
@@ -584,6 +585,37 @@ public function boolean of_isscantableavailable ();/////////////////////////////
 //						controls deleted in Template Management.
 //////////////////////////////////////////////////////////////////////////////
 Return ib_scantable
+end function
+
+public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls);//////////////////////////////////////////////////////////////////////////////
+//	Function:		of_GetSummaryText
+//	Arguments:		as_app			The application
+//						al_scanned		The objects scanned
+//						al_selected		The objects selected to scan
+//						al_controls		The controls the scanned objects have
+//	Description:	The summary of the scans (of_GetSummary), to show or log
+//////////////////////////////////////////////////////////////////////////////
+long		ll_i
+string	ls_summary
+
+ls_summary = "Scanned " + String ( al_scanned ) + " of " + String ( al_selected ) + " objects of " + as_app + &
+				 ": they have " + String ( al_controls ) + " controls, menu items and columns." + &
+				 "~r~n~r~nAdded to the template: " + String ( il_added ) + &
+				 "~r~nType changed: " + String ( il_changed )
+If il_deleted > 0 Then ls_summary += "~r~nDeleted in Template Management, not added again: " + String ( il_deleted )
+If il_removed > 0 Then
+	ls_summary += "~r~n~r~n" + String ( il_removed ) + " controls in the template no longer exist (they are kept; delete them in Template Management):"
+	For ll_i = 1 To Min ( il_removed, 15 )
+		ls_summary += "~r~n   " + is_removed[ll_i]
+	Next
+	If il_removed > 15 Then ls_summary += "~r~n   ..."
+End If
+If Not ib_scantable Then
+	ls_summary += "~r~n~r~nThe security database has no security_scan table, and the scanner couldn't create it, " + &
+					  "so controls deleted in Template Management are added again."
+End If
+
+Return ls_summary
 end function
 
 on pfcscanner_n_cst_securityscanner.create

@@ -67,6 +67,7 @@ public function pfcscanner_n_cst_classinfo of_getclass (string as_name)
 public function string of_getsystemtype (string as_class)
 public function boolean of_isvisual (string as_class)
 public function string of_getobjects ()
+public function boolean of_isdefaultselected (string as_name)
 protected function long of_addfolder (string as_folder)
 protected function long of_addlibrary (string as_library)
 protected function string of_getancestor (long al_row)
@@ -444,6 +445,16 @@ For li_line = 1 To 2
 Next
 FileClose(li_file)
 Return Left(ls_comment, 500)
+end function
+
+public function boolean of_isdefaultselected (string as_name);//////////////////////////////////////////////////////////////////////////////
+//	Function:		of_IsDefaultSelected
+//	Arguments:		as_name	An object's name
+//	Returns:			True if a scan includes it by default: every object but the
+//						PFC ancestor layer (pfc_*), whose objects are never opened
+//						themselves
+//////////////////////////////////////////////////////////////////////////////
+Return Lower(Left(Trim(as_name), 4)) <> "pfc_"
 end function
 
 on pfcscanner_n_cst_sourcelibrary.create
