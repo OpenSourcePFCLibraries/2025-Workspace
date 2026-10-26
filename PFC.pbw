@@ -9,6 +9,7 @@ Save Format v3.0(19990112)
  4 "security administrator.pbt";
  5 "security scanner.pbt";
  6 "smtp demo.pbt";
+ 7 "openid demo.pbt";
 @end;
 DefaultTarget "peat demo app.pbt";
 DefaultExportEncode "UTF-8";

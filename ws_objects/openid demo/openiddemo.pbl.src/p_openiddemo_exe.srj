@@ -1,0 +1,12 @@
+﻿$PBExportHeader$p_openiddemo_exe.srj
+EXE:openiddemo.exe,,0,0,1,0
+CMP:0,0,0,2,0,0,1
+COM:
+DES:PFC OpenID Connect demo
+CPY:
+PRD:PowerBuilder Enterprise Series
+PVS:1.0.0.1
+PVN:1,0,0,1
+FVS:1.0.0.1
+FVN:1,0,0,1
+MAN:0,asInvoker,0

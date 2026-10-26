@@ -1,0 +1,51 @@
+; PFC OpenID Connect demo settings
+;
+; Copy this file to openiddemo.ini, in the same folder, and fill in the values for your
+; identity provider (see README.md for Authentik, Microsoft Entra ID and Google).
+; openiddemo.ini is ignored by git, so its secrets stay local.
+
+; The identity provider, and the application registered with it
+[OpenID]
+; Authentik (http://localhost:9000, application slug "pfc-openid-demo"):
+AuthorizationEndpoint=http://localhost:9000/application/o/authorize/
+TokenEndpoint=http://localhost:9000/application/o/token/
+UserInfoEndpoint=http://localhost:9000/application/o/userinfo/
+DeviceAuthorizationEndpoint=http://localhost:9000/application/o/device/
+; Microsoft Entra ID (<tenant> = the tenant's ID or domain):
+;AuthorizationEndpoint=https://login.microsoftonline.com/<tenant>/oauth2/v2.0/authorize
+;TokenEndpoint=https://login.microsoftonline.com/<tenant>/oauth2/v2.0/token
+;UserInfoEndpoint=https://graph.microsoft.com/oidc/userinfo
+;DeviceAuthorizationEndpoint=https://login.microsoftonline.com/<tenant>/oauth2/v2.0/devicecode
+; Google:
+;AuthorizationEndpoint=https://accounts.google.com/o/oauth2/v2/auth
+;TokenEndpoint=https://oauth2.googleapis.com/token
+;UserInfoEndpoint=https://openidconnect.googleapis.com/v1/userinfo
+;DeviceAuthorizationEndpoint=https://oauth2.googleapis.com/device/code
+ClientID=
+; Only for client credentials, and for Google, which wants it in every token request
+ClientSecret=
+; offline_access asks for a refresh token
+Scope=openid profile email offline_access
+; Claim with the user's groups, from the userinfo response or else the ID token
+; (groups by default; roles for Microsoft Entra ID app roles)
+GroupsClaim=groups
+; The Sign In tab's flow at start: password or code
+Flow=code
+
+; Identity provider group=PFC security group (n_cst_security.of_MapGroups).
+; Groups not listed are passed on unchanged; a group mapped to nothing (name=) is not used.
+[GroupMap]
+pfc-demo-users=demo_users
+pfc-demo-admins=demo_admins
+
+; The PFC security database (tables security_apps, security_users, security_info, ...),
+; the same as the security administrator's pfcsecad.ini
+[Security]
+DBMS=
+ServerName=
+Database=
+LogID=
+LogPassword=
+DBParm=
+; Group used when none of the user's groups is a PFC security group (empty = none)
+DefaultGroup=

@@ -12,6 +12,11 @@ Once you have forked the project your copy will show you when we have made addit
 
 The `pfc examples` target is a catalog of small windows that each show a PFC service at work.  See [examples/README.md](examples/README.md) for setting it up (the EASDEMO database and the images) and for the list of examples.
 
+## Demo apps
+
+- `openid demo`: signing in with an OpenID Connect identity provider (Authentik, Microsoft Entra ID, Google), the OAuth 2.0 flows, and PFC security from the provider's groups. See [openid demo/README.md](openid%20demo/README.md).
+- `smtp demo`: sending mail with `n_smtpclient` and an OAuth 2.0 token. See [smtp demo/README.md](smtp%20demo/README.md).
+
 ## Documentation
 
 The PFC documentation (the User's Guide and the Object Reference, converted to Markdown and kept up to date) is in the [docs](https://github.com/OpenSourcePFCLibraries/docs) repository.
