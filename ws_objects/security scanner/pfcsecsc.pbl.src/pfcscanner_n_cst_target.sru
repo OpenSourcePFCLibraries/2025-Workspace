@@ -254,13 +254,14 @@ protected function integer of_opentarget (string as_file, ref string as_app, ref
 //
 //	Description:  A target has appname "..."; and LibList "...;...";, with the
 //		libraries relative to the target's folder.  A workspace whose objects are
-//		kept as source (PowerBuilder 2022 and later, with source control) has them
-//		in ws_objects\<library>.src next to the target: that folder is used when it
-//		exists, otherwise the .pbl.
+//		kept as source (with source control) has them in its ws_objects folder, as
+//		<library path relative to the workspace>.src: that folder is used when it
+//		exists, otherwise the .pbl.  The workspace's folder is the nearest folder,
+//		from the target's up, that has a ws_objects folder.
 //
 //////////////////////////////////////////////////////////////////////////////
 
-string	ls_text, ls_line, ls_liblist, ls_folder, ls_lib, ls_source
+string	ls_text, ls_line, ls_liblist, ls_folder, ls_lib, ls_source, ls_root
 long		ll_pos, ll_end, ll_len
 integer	li_count
 pfcscanner_n_cst_string	lnv_string
@@ -283,6 +284,18 @@ Do While ll_pos <= ll_len
 	End If
 Loop
 
+// the workspace's folder, with ws_objects
+ls_root = ls_folder
+Do While ls_root <> ""
+	If DirectoryExists(ls_root + "\ws_objects") Then Exit
+	ll_pos = LastPos(ls_root, "\")
+	If ll_pos = 0 Then
+		ls_root = ""
+	Else
+		ls_root = Left(ls_root, ll_pos - 1)
+	End If
+Loop
+
 Do While Len(ls_liblist) > 0
 	ll_pos = Pos(ls_liblist, ";")
 	If ll_pos = 0 Then ll_pos = Len(ls_liblist) + 1
@@ -292,8 +305,8 @@ Do While Len(ls_liblist) > 0
 
 	li_count++
 	as_libs[li_count] = of_FullPath(ls_folder, ls_lib)
-	If Mid(ls_lib, 2, 1) <> ":" And Left(ls_lib, 1) <> "\" Then
-		ls_source = of_FullPath(ls_folder + "\ws_objects", ls_lib) + ".src"
+	If ls_root <> "" And Lower(Left(as_libs[li_count], Len(ls_root) + 1)) = Lower(ls_root + "\") Then
+		ls_source = ls_root + "\ws_objects\" + Mid(as_libs[li_count], Len(ls_root) + 2) + ".src"
 		If DirectoryExists(ls_source) Then as_libs[li_count] = ls_source
 	End If
 Loop

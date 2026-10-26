@@ -58,37 +58,75 @@ destroy(error)
 destroy(message)
 end on
 
-event open;string ls_ini_file
-integer	li_rc
+event open;string	ls_ini_file, ls_args, ls_values[], ls_path, ls_file
+long		ll_pos
+ContextKeyword	lcx_key
 
-// This script will read all the database values from the ini file
-//   and store them in gnv_app.inv_trans.
-ls_ini_file = "pfcsecad.ini"
+// The security administrator's INI file, with the security database's
+// connection: given on the command line (/ini <file>), or in the
+// PFC_SECURITY_INI environment variable, or pfcsecad.ini in the current
+// folder; otherwise the user chooses it.
+ls_args = Trim(CommandParm())
+ll_pos = Pos(Lower(ls_args), "/ini ")
+If ll_pos > 0 Then
+	ls_ini_file = Trim(Mid(ls_args, ll_pos + 5))
+	If Left(ls_ini_file, 1) = '"' Then
+		ls_ini_file = Mid(ls_ini_file, 2)
+		If Pos(ls_ini_file, '"') > 0 Then ls_ini_file = Left(ls_ini_file, Pos(ls_ini_file, '"') - 1)
+	ElseIf Pos(ls_ini_file, " /") > 0 Then
+		ls_ini_file = Left(ls_ini_file, Pos(ls_ini_file, " /") - 1)
+	End If
+End If
+If ls_ini_file = "" Then
+	If GetContextService("Keyword", lcx_key) = 1 Then
+		lcx_key.GetContextKeywords("PFC_SECURITY_INI", ls_values)
+		If UpperBound(ls_values) > 0 Then ls_ini_file = Trim(ls_values[1])
+	End If
+End If
+If ls_ini_file = "" And FileExists("pfcsecad.ini") Then ls_ini_file = GetCurrentDirectory() + "\pfcsecad.ini"
+
 inv_trans = create transaction
+Do While True
+	If ls_ini_file <> "" And Not FileExists(ls_ini_file) Then
+		MessageBox(gs_displayname, "The INI file " + ls_ini_file + " doesn't exist.", Exclamation!)
+		ls_ini_file = ""
+	End If
+	If ls_ini_file = "" Then
+		ls_path = ""
+		If GetFileOpenName("Select the Security Administrator's INI File", ls_path, ls_file, "ini", "INI Files (*.ini),*.ini") <> 1 Then
+			Halt
+			Return
+		End If
+		ls_ini_file = ls_path
+	End If
 
-inv_trans.DBMS = ProfileString(ls_ini_file,"Database","DBMS", "NA")
-if inv_trans.DBMS = 'NA' then
-	messagebox('Scanner Startup','Unable to open '+ls_ini_file+'. Application halting.')
-	halt close
-	return
-end if
+	// This script will read all the database values from the ini file
+	//   and store them in inv_trans.
+	inv_trans.DBMS = ProfileString(ls_ini_file,"Database","DBMS", "")
+	If Trim(inv_trans.DBMS) = "" Then
+		MessageBox(gs_displayname, ls_ini_file + " has no DBMS in its [Database] section.", Exclamation!)
+		ls_ini_file = ""
+		Continue
+	End If
+	inv_trans.Database		= ProfileString(ls_ini_file,"Database","DataBase",         " ")
+	inv_trans.LogID			= ProfileString(ls_ini_file,"Database","LogID",            " ")
+	inv_trans.LogPass			= ProfileString(ls_ini_file,"Database","LogPassword",      " ")
+	inv_trans.ServerName		= ProfileString(ls_ini_file,"Database","ServerName",       " ")
+	inv_trans.UserID			= ProfileString(ls_ini_file,"Database","UserID",           " ")
+	inv_trans.DBPass			= ProfileString(ls_ini_file,"Database","DatabasePassword", " ")
+	inv_trans.Lock				= ProfileString(ls_ini_file,"Database","Lock",             " ")
+	inv_trans.DbParm			= ProfileString(ls_ini_file,"Database","DbParm",           " ")
 
-inv_trans.Database		= ProfileString(ls_ini_file,"Database","DataBase",         " ")
-inv_trans.LogID			= ProfileString(ls_ini_file,"Database","LogID",            " ")
-inv_trans.LogPass			= ProfileString(ls_ini_file,"Database","LogPassword",      " ")
-inv_trans.ServerName		= ProfileString(ls_ini_file,"Database","ServerName",       " ")
-inv_trans.UserID			= ProfileString(ls_ini_file,"Database","UserID",           " ")
-inv_trans.DBPass			= ProfileString(ls_ini_file,"Database","DatabasePassword", " ")
-inv_trans.Lock				= ProfileString(ls_ini_file,"Database","Lock",             " ")
-inv_trans.DbParm			= ProfileString(ls_ini_file,"Database","DbParm",           " ")
+	connect using inv_trans;
+	If inv_trans.SQLCode = 0 Then Exit
 
-connect using inv_trans;
-
-IF inv_trans.SQLCode <> 0 then
-	messagebox('Database','Unable to connect')
-	halt close
-	return
-end if
+	If MessageBox(gs_displayname, "Unable to connect to the security database with " + ls_ini_file + ":" + &
+			"~r~n~r~n" + inv_trans.SQLErrText + "~r~n~r~nChoose another INI file?", StopSign!, YesNo!) = 2 Then
+		Halt
+		Return
+	End If
+	ls_ini_file = ""
+Loop
 
 open(w_pfcsecurity_targetselection)
 end event
@@ -107,9 +145,8 @@ messagebox('System Error',ls_message, StopSign!, Ok!)
 halt close
 end event
 
-event close;disconnect using inv_trans;
-
-If IsValid(inv_trans) Then
+event close;If IsValid(inv_trans) Then
+	disconnect using inv_trans;
 	destroy inv_trans
 End If
 end event

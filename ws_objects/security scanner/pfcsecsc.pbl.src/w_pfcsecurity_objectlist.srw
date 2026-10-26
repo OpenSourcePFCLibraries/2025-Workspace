@@ -43,8 +43,9 @@ string	is_app
 pfcscanner_n_cst_sourcelibrary	inv_source
 end variables
 
-event ue_scanlist;long ll_r, ll_rows, ll_rc, ll_objects, ll_controls, ll_failed
-string ls_title, ls_object, ls_type, ls_library, ls_failed, ls_summary
+event ue_scanlist;long ll_r, ll_rows, ll_rc, ll_objects, ll_controls, ll_failed, ll_i
+long ll_added, ll_changed, ll_deleted, ll_removed
+string ls_title, ls_object, ls_type, ls_library, ls_failed, ls_summary, ls_removed[]
 boolean lb_error
 pfcscanner_n_cst_securityscanner lnv_security
 
@@ -86,7 +87,11 @@ For ll_r = 1 to ll_rows
 	// windows, menus and user objects, with what they inherit; DataWindow objects' columns
 	ll_rc = lnv_security.of_ScanObject ( ls_object, ls_library )
 	Yield ( )
-	If ll_rc < 0 Then
+	If ll_rc = -2 Then
+		MessageBox ( this.Title, "Error reading the security template for " + ls_type + " - " + ls_object, StopSign! )
+		lb_error = True
+		Exit
+	ElseIf ll_rc < 0 Then
 		ll_failed++
 		If ll_failed <= 10 Then ls_failed += "~r~n   " + ls_type + " " + ls_object
 	Else
@@ -108,12 +113,27 @@ dw_1.SetFilter ( "" )
 dw_1.Filter ( )
 dw_1.Sort ( )
 
-Destroy lnv_security
-cb_cancel.Enabled = False
+lnv_security.of_GetSummary ( ll_added, ll_changed, ll_deleted, ll_removed, ls_removed )
 
 // summary
 ls_summary = "Scanned " + String ( ll_objects ) + " of " + String ( ll_rows ) + " objects of " + is_app + &
-				 ": " + String ( ll_controls ) + " controls, menu items and columns are in the security database."
+				 ": they have " + String ( ll_controls ) + " controls, menu items and columns." + &
+				 "~r~n~r~nAdded to the template: " + String ( ll_added ) + &
+				 "~r~nType changed: " + String ( ll_changed )
+If ll_deleted > 0 Then ls_summary += "~r~nDeleted in Template Management, not added again: " + String ( ll_deleted )
+If ll_removed > 0 Then
+	ls_summary += "~r~n~r~n" + String ( ll_removed ) + " controls in the template no longer exist (they are kept; delete them in Template Management):"
+	For ll_i = 1 To Min ( ll_removed, 15 )
+		ls_summary += "~r~n   " + ls_removed[ll_i]
+	Next
+	If ll_removed > 15 Then ls_summary += "~r~n   ..."
+End If
+If Not lnv_security.of_IsScanTableAvailable ( ) Then
+	ls_summary += "~r~n~r~nThe security database has no security_scan table, and the scanner couldn't create it, " + &
+					  "so controls deleted in Template Management are added again."
+End If
+Destroy lnv_security
+cb_cancel.Enabled = False
 If ib_canceled Then ls_summary += "~r~n~r~nThe scan was canceled."
 If lb_error Then ls_summary += "~r~n~r~nThe scan stopped at an error saving " + ls_object + "."
 If ll_failed > 0 Then
