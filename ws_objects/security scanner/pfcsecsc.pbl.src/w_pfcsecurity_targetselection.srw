@@ -93,7 +93,7 @@ If li_count <= 0 Then
 End If
 
 For li_p = 1 To li_count
-	ls_name = Mid ( is_projects[li_p], LastPos ( is_projects[li_p], "" ) + 1 )
+	ls_name = Mid ( is_projects[li_p], LastPos ( is_projects[li_p], "\" ) + 1 )
 	If Pos ( ls_name, "." ) > 0 Then ls_name = Left ( ls_name, LastPos ( ls_name, "." ) - 1 )
 	ddlb_project.AddItem ( ls_name )
 	If Lower ( is_projects[li_p] ) = Lower ( ls_default ) Then li_default = li_p
@@ -165,7 +165,27 @@ destroy(this.st_project)
 destroy(this.ddlb_project)
 end on
 
-event open;inv_target = Create pfcscanner_n_cst_target
+event open;string ls_target, ls_project
+integer li_index
+
+inv_target = Create pfcscanner_n_cst_target
+
+// the target and project given on the command line: "target~tproject"
+ls_target = Message.StringParm
+If Pos(ls_target, "~t") > 0 Then
+	ls_project = Mid(ls_target, Pos(ls_target, "~t") + 1)
+	ls_target = Left(ls_target, Pos(ls_target, "~t") - 1)
+End If
+If Trim(ls_target) = "" Then Return
+
+sle_targetfile.Text = inv_target.of_FullPath(GetCurrentDirectory(), ls_target)
+If wf_SetTarget(sle_targetfile.Text) = 1 And ls_project <> "" And ddlb_project.Visible Then
+	li_index = ddlb_project.FindItem(ls_project, 0)
+	If li_index > 0 Then
+		ddlb_project.SelectItem(li_index)
+		wf_OpenProject(is_projects[li_index])
+	End If
+End If
 end event
 
 event close;If IsValid ( inv_target ) Then Destroy inv_target
@@ -408,6 +428,7 @@ fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
 string facename = "MS Sans Serif"
 long textcolor = 33554432
+boolean sorted = false
 boolean vscrollbar = true
 borderstyle borderstyle = stylelowered!
 end type
