@@ -46,10 +46,12 @@ end on
 
 event open;call super::open;//////////////////////////////////////////////////////////////////////////////
 //	Event:			open
-//	Description:		Retrieves the example's title from the database.  Embedded SQL is
-// 						passed to the SQL Spy, if valid.
+//	Description:		Takes the example's title, and the number of its topic in the help
+// 						file, from the example catalog.
 //////////////////////////////////////////////////////////////////////////////
 string	ls_title
+long		ll_context
+n_cst_examplecatalog	lnv_catalog
 
 If this.ClassName ( ) = "w_examplemain" Then Return
 
@@ -59,6 +61,11 @@ If ( Pos ( this.title, "PFC Example" ) > 0 ) Then
 		this.title = ls_title
 	End If
 End If
+
+// F1 opens the example's topic in the help file (pfc_help)
+ll_context = lnv_catalog.of_GetHelpContext(this.ClassName())
+If ll_context > 0 Then ia_helptypeid = ll_context
+
 of_SetPreference ( True )
 
 If IsValid(inv_preference) Then
@@ -66,6 +73,10 @@ If IsValid(inv_preference) Then
 		inv_preference.of_Center ( ) 
 	End If
 End If
+end event
+
+event help;// F1: the help file's topic for the example
+this.event pfc_help()
 end event
 
 event activate;call super::activate;//////////////////////////////////////////////////////////////////////////////

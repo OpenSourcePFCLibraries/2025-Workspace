@@ -1,59 +1,59 @@
 0	[Category Header Record]	0	
-1	Save Process: All DW Scenarios	0	w_dw3types
-2	Metaclass Service	0	w_metaclass
-3	Error Service Example	0	w_errormsgservice
-4	Split Bar 3 Pane Style	0	w_splitbar3panestyle
-5	Type Ahead in the DDLB & DDPLB	0	w_dropdownsearchlb
-6	Drop-down Search Service	0	w_dropdownsearchdw
-7	Find and Replace Service	0	w_findreplacedw
-8	Find and Replace in a RTE	0	w_findreplacerte
-9	Basic Retrieval Arguments	0	w_linkageretrieve
-10	Basic Scrolling	0	w_linkagescroll
-11	Basic Filters	0	w_linkagefilter
-12	Filter Service Dialogs	0	w_filterdialogs
-13	Sort Service	0	w_sort
-14	Multiple Table Update	0	w_multiupdate
-15	Print Preview Service	0	w_dwprintpreview
-17	Row Manager Service	0	w_rowmanager
-18	Row Selection Service	0	w_rowselection
-19	Required Columns Service	0	w_requiredfields
-20	File Services Example	0	w_fileserv
-26	Window Resize Service	0	w_resizefind
-27	Status Bar	0	w_statusbarframe
-28	Across Tab Pages	0	w_tablink
-29	Split Bar Explorer Style 	0	w_splitbarexplorerstyle
-30	Resize Dynamic Tab Pages	0	w_tabresize
-31	Filter Service Settings	0	w_filtersettings
-32	Refresh Drop-down DataWindows	0	w_refreshdddws
-33	Dynamic Filter Expressions	0	w_buildfilter
-37	Progress Bar Sampler	0	w_progbarsampler
-38	Retrieval with Auto-updates	0	w_linkautoupdate
-39	Filter with Cascading Keys	0	w_linkcascadekeys
-41	Filter with Cascading Deletes	0	w_linkcascadedeletes
-43	Split Bar Settings	0	w_splitbarwin
-44	Resize Freeform DataWindow	0	w_dwresizeff
-45	Resize Grid DataWindow	0	w_dwresizegrid
-46	DDDW Calculator and Calendar	0	w_ddcalsamp
-47	Weighted Resize of a Window	0	w_resizedwsyntax
-48	Logical Unit of Work	0	w_luw
-49	Basic Treeview	0	w_treeview6
-50	Treeview Linked to a Listview	0	w_treeviewlistview6
-51	Update a Treeview	0	w_treeviewupdate6
-52	Recursive Tree View	0	w_treeviewrecursive6
-53	Basic Listview	0	w_listview6
-55	Date / Time Service	0	w_dateserv
-56	Language Service	0	w_languageserv
-57	Security Service	0	w_securityserv
-58	Query Mode Service	0	w_querymode
-59	Report Service	0	w_reportserv
-60	Grid Service	0	w_gridserv
-61	DataStore Services	0	w_dsserv
-62	Timing Service	0	w_timingserv
-63	Transaction Registration	0	w_trregserv
-64	Sheet Manager	0	w_sheetframe
-65	Utility Services	0	w_utilityserv
-66	Controls Gallery	0	w_controlgallery
-67	Ribbon Bar	0	w_ribbonframe
+1	Save Process: All DW Scenarios	1001	w_dw3types
+2	Metaclass Service	1002	w_metaclass
+3	Error Service Example	1003	w_errormsgservice
+4	Split Bar 3 Pane Style	1004	w_splitbar3panestyle
+5	Type Ahead in the DDLB & DDPLB	1005	w_dropdownsearchlb
+6	Drop-down Search Service	1006	w_dropdownsearchdw
+7	Find and Replace Service	1007	w_findreplacedw
+8	Find and Replace in a RTE	1008	w_findreplacerte
+9	Basic Retrieval Arguments	1009	w_linkageretrieve
+10	Basic Scrolling	1010	w_linkagescroll
+11	Basic Filters	1011	w_linkagefilter
+12	Filter Service Dialogs	1012	w_filterdialogs
+13	Sort Service	1013	w_sort
+14	Multiple Table Update	1014	w_multiupdate
+15	Print Preview Service	1015	w_dwprintpreview
+17	Row Manager Service	1017	w_rowmanager
+18	Row Selection Service	1018	w_rowselection
+19	Required Columns Service	1019	w_requiredfields
+20	File Services Example	1020	w_fileserv
+26	Window Resize Service	1026	w_resizefind
+27	Status Bar	1027	w_statusbarframe
+28	Across Tab Pages	1028	w_tablink
+29	Split Bar Explorer Style 	1029	w_splitbarexplorerstyle
+30	Resize Dynamic Tab Pages	1030	w_tabresize
+31	Filter Service Settings	1031	w_filtersettings
+32	Refresh Drop-down DataWindows	1032	w_refreshdddws
+33	Dynamic Filter Expressions	1033	w_buildfilter
+37	Progress Bar Sampler	1037	w_progbarsampler
+38	Retrieval with Auto-updates	1038	w_linkautoupdate
+39	Filter with Cascading Keys	1039	w_linkcascadekeys
+41	Filter with Cascading Deletes	1041	w_linkcascadedeletes
+43	Split Bar Settings	1043	w_splitbarwin
+44	Resize Freeform DataWindow	1044	w_dwresizeff
+45	Resize Grid DataWindow	1045	w_dwresizegrid
+46	DDDW Calculator and Calendar	1046	w_ddcalsamp
+47	Weighted Resize of a Window	1047	w_resizedwsyntax
+48	Logical Unit of Work	1048	w_luw
+49	Basic Treeview	1049	w_treeview6
+50	Treeview Linked to a Listview	1050	w_treeviewlistview6
+51	Update a Treeview	1051	w_treeviewupdate6
+52	Recursive Tree View	1052	w_treeviewrecursive6
+53	Basic Listview	1053	w_listview6
+55	Date / Time Service	1055	w_dateserv
+56	Language Service	1056	w_languageserv
+57	Security Service	1057	w_securityserv
+58	Query Mode Service	1058	w_querymode
+59	Report Service	1059	w_reportserv
+60	Grid Service	1060	w_gridserv
+61	DataStore Services	1061	w_dsserv
+62	Timing Service	1062	w_timingserv
+63	Transaction Registration	1063	w_trregserv
+64	Sheet Manager	1064	w_sheetframe
+65	Utility Services	1065	w_utilityserv
+66	Controls Gallery	1066	w_controlgallery
+67	Ribbon Bar	1067	w_ribbonframe
 1000	[Major Components Header Record]	0	
 1001	[Methods Header Record]	0	
 1002	[Variables Header Record]	0	

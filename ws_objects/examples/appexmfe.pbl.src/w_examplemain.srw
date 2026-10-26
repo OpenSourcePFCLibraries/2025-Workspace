@@ -631,6 +631,29 @@ event pfc_help;/////////////////////////////////////////////////////////////////
 Long		ll_helptypeid
 String	ls_helpfile
 String	ls_helptypeid
+long		ll_handle, ll_row
+any		la_none
+treeviewitem	ltvi_item
+n_ds		lds_source
+
+// The topic of the example or the category selected in the tree (the example's is in the
+// catalog; a category's is 100 + its category_id), or else the contents
+ia_helptypeid = la_none
+ll_handle = tv_1.FindItem(CurrentTreeItem!, 0)
+If ll_handle > 0 And IsValid(tv_1.inv_levelsource) Then
+	tv_1.GetItem(ll_handle, ltvi_item)
+	If tv_1.inv_levelsource.of_GetDataRow(ll_handle, lds_source, ll_row) = 1 Then
+		Choose Case ltvi_item.Level
+			Case 2
+				ia_helptypeid = 100 + lds_source.GetItemNumber(ll_row, "category_id")
+			Case 3
+				ia_helptypeid = inv_catalog.of_GetHelpContext(lds_source.GetItemNumber(ll_row, "example_id"))
+		End Choose
+	End If
+End If
+If ClassName(ia_helptypeid) = "long" Then
+	If ia_helptypeid = 0 Then ia_helptypeid = la_none
+End If
 
 ls_helpfile = gnv_app.of_GetHelpFile()
 If Not FileExists(ls_helpfile) Then
