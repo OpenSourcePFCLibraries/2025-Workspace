@@ -2,6 +2,8 @@
 
 PEAT (Project Estimation and Actuals Tracker, the `peat demo app.pbt` target, which builds `peat.exe`) is a small MDI application built with PFC. You keep a list of projects, each with categories, team members, complexities and derived items: a wizard sets a project up, you enter estimates and actual hours, and reports compare them. It shows PFC's frame, sheet and response windows, the explorer (a tree and a list view in a sheet, with a split bar), the DataWindow services, and the application manager's services.
 
+![PEAT with the ribbon and the Flat Design Grey theme](screenshots/peat.png)
+
 ## Setting up
 
 ### The database
@@ -35,4 +37,4 @@ Theme=Flat Design Grey
 RibbonBar=1
 ```
 
-The themes are PowerBuilder's Flat Design Grey (the default), Blue and Dark, in `theme`. To offer others, copy them next to these from PowerBuilder's `IDE\theme` folder; the Appearance window lists the folders it finds. PEAT applies the theme with `gnv_app.of_ApplyTheme`, so the status bar takes its colors too. The windows, DataWindows and the ribbon use Segoe UI.
+The themes are PowerBuilder's Flat Design Grey (the default), Blue and Dark, in `theme`. To offer others, copy them next to these from PowerBuilder's `IDE\theme` folder; the Appearance window lists the folders it finds. PEAT applies the theme with `gnv_app.of_ApplyTheme`, so the status bar takes its colors too. The windows, DataWindows and the ribbon use Segoe UI. How to do the same in your own application is in [Giving a PFC application a current look](https://github.com/OpenSourcePFCLibraries/docs/blob/main/user-guide/06-using-pfc-windows-and-menus.md#giving-a-pfc-application-a-current-look), in the PFC User's Guide.
