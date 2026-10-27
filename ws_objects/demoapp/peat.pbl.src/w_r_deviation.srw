@@ -21,8 +21,8 @@ int Y=700
 int Width=1111
 int Height=520
 boolean TitleBar=true
-string Title="Specifiy Deviation"
-string Icon="deviate.ico"
+string Title="Specify Deviation"
+string Icon="images\example_enhanced.svg"
 st_1 st_1
 em_deviation em_deviation
 cb_ok cb_ok
@@ -66,6 +66,7 @@ type st_1 from u_st within w_r_deviation
 int X=73
 int Y=172
 int Width=453
+string facename = "Segoe UI"
 string Text="Analyzer Deviation:  "
 end type
 
@@ -74,6 +75,7 @@ int X=521
 int Y=164
 int Width=279
 int TabOrder=10
+string facename = "Segoe UI"
 string Mask="00.00%"
 boolean Spin=true
 string DisplayData="H"
@@ -86,6 +88,7 @@ type cb_ok from u_cb within w_r_deviation
 int X=283
 int Y=300
 int TabOrder=20
+string facename = "Segoe UI"
 string Text="OK"
 boolean Default=true
 end type
@@ -103,6 +106,7 @@ type cb_cancel from u_cb within w_r_deviation
 int X=663
 int Y=300
 int TabOrder=30
+string facename = "Segoe UI"
 boolean BringToTop=true
 string Text="Cancel"
 boolean Cancel=true
@@ -117,6 +121,7 @@ int X=23
 int Y=12
 int Width=1047
 int Height=108
+string facename = "Segoe UI"
 boolean BringToTop=true
 string Text="Please specify the deviation percent to be used by the analyzer."
 long BackColor=79741120

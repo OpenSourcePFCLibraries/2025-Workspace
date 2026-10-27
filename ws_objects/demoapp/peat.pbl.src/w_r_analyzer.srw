@@ -20,7 +20,7 @@ int Width=2697
 int Height=1872
 boolean TitleBar=true
 string Title="Project Analyzer"
-string Icon="analyze.ico"
+string Icon="images\cat_graphs.svg"
 dw_project_analyzer dw_project_analyzer
 cb_close cb_close
 cb_print cb_print
@@ -117,6 +117,7 @@ type cb_close from u_cb within w_r_analyzer
 int X=2254
 int Y=1636
 int TabOrder=30
+string facename = "Segoe UI"
 string Text="&Close"
 boolean Default=true
 boolean Cancel=true
@@ -136,6 +137,7 @@ type cb_print from u_cb within w_r_analyzer
 int X=1865
 int Y=1636
 int TabOrder=20
+string facename = "Segoe UI"
 string Text="&Print"
 end type
 
@@ -150,6 +152,7 @@ type cb_devation from u_cb within w_r_analyzer
 int X=55
 int Y=1636
 int TabOrder=10
+string facename = "Segoe UI"
 string Text="&Deviation..."
 end type
 

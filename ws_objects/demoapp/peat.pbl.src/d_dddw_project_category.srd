@@ -11,7 +11,7 @@ column=(type=char(50) updatewhereclause=yes name=name dbname="project_category.n
  retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"project_category~" ) COLUMN(NAME=~"project_category.category_id~") COLUMN(NAME=~"project_category.name~")WHERE(    EXP1 =~"project_category.project_id~"   OP =~"=~"    EXP2 =~":project_id~" ) ) ORDER(NAME=~"project_category.name~" ASC=yes ) ARG(NAME = ~"project_id~" TYPE = number) "
   arguments=(("project_id", number))
 )
-column(name=name band=detail id=2 x="1" y="8" height="65" width="1276" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+column(name=name band=detail id=2 x="1" y="8" height="65" width="1276" color="0" border="0" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
 htmltable()
 htmlgen(pagingMethod=0 )
 xhtmlgen() cssgen()

@@ -17,6 +17,7 @@ end variables
 
 global type peat from application
  string appruntimeversion = "25.1.0.6430"
+string appicon = "images\peat.ico"
 integer highdpimode = 0
 end type
 global peat peat

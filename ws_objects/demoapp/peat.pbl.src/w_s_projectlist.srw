@@ -12,7 +12,7 @@ end forward
 global type w_s_projectlist from w_sheet
 string title = "Project List"
 string menuname = "m_peat_master"
-string icon = "project.ico"
+string icon = "images\folder_open.svg"
 event peat_estimate ( )
 event peat_actual ( )
 event peat_analyzer ( )
@@ -221,7 +221,7 @@ CHOOSE CASE atvi_new.level
 			li_rc1 = lv_project_info.of_SetDatasource( "d_ds_ProjectSummary", SQLCA, "name", "1")
 			li_rc1 = lv_project_info.of_addColumn("name","Category Name",Left!,750)
 			li_rc1 = lv_project_info.of_addColumn("estimated_hours","Estimated Hours",Right!,450)
-			li_rc1 = lv_project_info.of_addColumn("actual_hours","Actual Hours",Right!,350)
+			li_rc1 = lv_project_info.of_addColumn("actual_hours","Actual Hours",Right!,450)
 	CASE 2
 		// when a Category Item is selected, set up the following columns
 		// in the Listview, and use the proper datasource.  If the Category
@@ -231,17 +231,17 @@ CHOOSE CASE atvi_new.level
 		IF atvi_new.label <> 'Derived Items' THEN
 			li_rc1 = lv_project_info.of_SetDatasource( "d_ds_CategorySummary", SQLCA, "name", "2")
 			li_rc1 = lv_project_info.of_addColumn("name","Name",Left!,700)
-			li_rc1 = lv_project_info.of_addColumn("estimated_hours","Est Hours",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("actual_hours","Act Hours",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("estimated_cost","Est Cost",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("actual_cost","Act Cost",Right!,300)
+			li_rc1 = lv_project_info.of_addColumn("estimated_hours","Est Hours",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("actual_hours","Act Hours",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("estimated_cost","Est Cost",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("actual_cost","Act Cost",Right!,360)
 		ELSE
 			li_rc1 = lv_project_info.of_SetDatasource( "d_ds_DerivedSummary", SQLCA, "name", "2")
 			li_rc1 = lv_project_info.of_addColumn("name","Name",Left!,700)
-			li_rc1 = lv_project_info.of_addColumn("estimated_hours","Est Hours",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("actual_hours","Act Hours",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("estimated_cost","Est Cost",Right!,300)
-			li_rc1 = lv_project_info.of_addColumn("actual_cost","Act Cost",Right!,300)
+			li_rc1 = lv_project_info.of_addColumn("estimated_hours","Est Hours",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("actual_hours","Act Hours",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("estimated_cost","Est Cost",Right!,360)
+			li_rc1 = lv_project_info.of_addColumn("actual_cost","Act Cost",Right!,360)
 		END IF
 END CHOOSE
 
@@ -318,6 +318,12 @@ event close;call super::close;this.of_setExplorer(FALSE)
 
 end event
 
+event activate;call super::activate;// The frame's ribbon shows this sheet's menu now; it gets the windows' font again
+If IsValid(w_f_peat) Then
+	If w_f_peat.DisplayMenuAsRibbonBar Then w_f_peat.Post of_SetRibbonFont()
+End If
+end event
+
 event open;call super::open;this.of_setExplorer(TRUE)
 inv_Explorer.of_setControls(tv_project_list, lv_project_info)
 end event
@@ -334,10 +340,11 @@ end event
 type tv_project_list from u_tv within w_s_projectlist
 integer y = 24
 integer width = 905
+string facename = "Segoe UI"
 long backcolor = 1090519039
 boolean linesatroot = true
 grsorttype sorttype = ascending!
-string picturename[] = {"popen.bmp","iopen.bmp"}
+string picturename[] = {"images\folder.svg","images\cat_user_objects.svg"}
 long statepicturemaskcolor = 1090519039
 end type
 
@@ -391,10 +398,11 @@ type lv_project_info from u_lv within w_s_projectlist
 integer x = 983
 integer y = 32
 integer taborder = 2
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 1090519039
 listviewview view = listviewreport!
-string largepicturename[] = {"iopen.bmp","object.bmp"}
-string smallpicturename[] = {"iopen.bmp","object.bmp"}
+string largepicturename[] = {"images\cat_user_objects.svg","images\example.svg"}
+string smallpicturename[] = {"images\cat_user_objects.svg","images\example.svg"}
 end type
 

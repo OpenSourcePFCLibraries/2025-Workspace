@@ -9,6 +9,12 @@ global type n_cst_peat from n_cst_appmanager
 end type
 global n_cst_peat n_cst_peat
 
+type variables
+Public:
+// The folder of the application (its themes are in its theme folder)
+string	is_appfolder
+end variables
+
 forward prototypes
 public function integer of_refreshprojects ()
 protected function integer of_opensecured (string as_securityinifile)
@@ -90,6 +96,7 @@ event pfc_open;call super::pfc_open;
 integer	li_return
 string	ls_inifile
 string	ls_securityinifile
+string	ls_theme
 boolean	lb_secured
 
 // OpenID Connect logon and PFC security are optional.  They are only used when
@@ -100,6 +107,15 @@ lb_secured = FileExists(ls_securityinifile)
 
 // PFC texts in another language when lang\pfc.lng is present (see the localization repository)
 this.of_SetLanguage(TRUE)
+
+// The UI theme: Theme in the [Application] section of the INI file, Flat Design Grey by
+// default (the themes are in the theme folder; None uses no theme).  of_ApplyTheme also gives
+// the status bar the theme's colors.
+is_appfolder = GetCurrentDirectory()
+ls_theme = ProfileString(this.of_GetAppIniFile(), "Application", "Theme", "Flat Design Grey")
+If ls_theme <> "" And Lower(ls_theme) <> "none" Then
+	If DirectoryExists(is_appfolder + "\theme\" + ls_theme) Then this.of_ApplyTheme(is_appfolder + "\theme\" + ls_theme)
+End If
 
 // Display the Splash window
 If Not lb_secured Then this.of_Splash(1)
@@ -144,7 +160,7 @@ lcx_key.GetMinorVersion ( li_minor )
 // Set the default information needed for this application
 iapp_object.DisplayName = "PEAT - Project Estimation and Actuals Tracker"
 this.of_SetCopyright("Copyright (c) 2004-" + String ( Year ( ld_now ), "0000" ) + " Open Source PowerBuilder Foundation Class Libraries, All rights reserved.")
-this.of_SetLogo("peat.bmp")
+this.of_SetLogo("images\peat.png")
 this.of_SetVersion("Version " + String ( li_major ) + "." + String ( li_minor ) + ".00")
 this.of_SetAppIniFile("peat.ini")
 

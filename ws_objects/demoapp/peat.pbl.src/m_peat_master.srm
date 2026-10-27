@@ -3,6 +3,11 @@ $PBExportComments$The master menu use for all sheets in PEAT
 forward
 global type m_peat_master from m_master
 end type
+type m_appearance from menu within m_file
+end type
+type m_file from m_master`m_file within m_peat_master
+m_appearance m_appearance
+end type
 type m_project from menu within m_peat_master
 end type
 type m_information from menu within m_project
@@ -54,14 +59,18 @@ destroy(this.m_report)
 end on
 
 type m_file from m_master`m_file within m_peat_master
+m_appearance m_appearance
 end type
 
 on m_file.create
 call super::create
+this.m_appearance=create m_appearance
+this.Item[UpperBound(this.Item)+1]=this.m_appearance
 end on
 
 on m_file.destroy
 call super::destroy
+destroy(this.m_appearance)
 end on
 
 type m_new from m_master`m_new within m_file
@@ -69,6 +78,9 @@ end type
 
 on m_new.create
 call super::create
+this.menuimage = "images\tb_new.svg"
+this.buttonimage = "images\tb_new.svg"
+this.toolbaritemname = "images\tb_new.svg"
 this.text = "&New...~tCtrl+N"
 this.toolbaritemtext = "New,New Project Wizard"
 this.toolbaritemorder = 1
@@ -83,6 +95,9 @@ end type
 
 on m_open.create
 call super::create
+this.menuimage = "images\folder_open.svg"
+this.buttonimage = "images\folder_open.svg"
+this.toolbaritemname = "images\folder_open.svg"
 this.text = "&Open~tCtrl+O"
 this.enabled = false
 this.toolbaritemvisible = false
@@ -98,6 +113,9 @@ end type
 
 on m_close.create
 call super::create
+this.menuimage = "images\tb_close.svg"
+this.buttonimage = "images\tb_close.svg"
+this.toolbaritemname = "images\tb_close.svg"
 end on
 
 on m_close.destroy
@@ -121,6 +139,9 @@ end type
 
 on m_save.create
 call super::create
+this.menuimage = "images\btn_save.svg"
+this.buttonimage = "images\btn_save.svg"
+this.toolbaritemname = "images\btn_save.svg"
 this.visible = false
 this.enabled = false
 this.toolbaritemvisible = false
@@ -135,6 +156,9 @@ end type
 
 on m_saveas.create
 call super::create
+this.menuimage = "images\btn_save.svg"
+this.buttonimage = "images\btn_save.svg"
+this.toolbaritemname = "images\btn_save.svg"
 this.visible = false
 this.enabled = false
 end on
@@ -160,6 +184,9 @@ end type
 
 on m_print.create
 call super::create
+this.menuimage = "images\tb_print.svg"
+this.buttonimage = "images\tb_print.svg"
+this.toolbaritemname = "images\tb_print.svg"
 this.visible = false
 this.enabled = false
 this.toolbaritemvisible = false
@@ -174,6 +201,9 @@ end type
 
 on m_printpreview.create
 call super::create
+this.menuimage = "images\tb_preview.svg"
+this.buttonimage = "images\tb_preview.svg"
+this.toolbaritemname = "images\tb_preview.svg"
 this.visible = false
 this.enabled = false
 this.toolbaritemvisible = false
@@ -188,6 +218,9 @@ end type
 
 on m_pagesetup.create
 call super::create
+this.menuimage = "images\tb_printer_setup.svg"
+this.buttonimage = "images\tb_printer_setup.svg"
+this.toolbaritemname = "images\tb_printer_setup.svg"
 this.visible = false
 this.enabled = false
 this.toolbaritemvisible = false
@@ -202,6 +235,9 @@ end type
 
 on m_printimmediate.create
 call super::create
+this.menuimage = "images\tb_print.svg"
+this.buttonimage = "images\tb_print.svg"
+this.toolbaritemname = "images\tb_print.svg"
 this.toolbaritemvisible = false
 end on
 
@@ -226,6 +262,9 @@ end type
 
 on m_delete.create
 call super::create
+this.menuimage = "images\tb_delete.svg"
+this.buttonimage = "images\tb_delete.svg"
+this.toolbaritemname = "images\tb_delete.svg"
 this.visible = true
 this.text = "&Delete...~tCtrl+D"
 this.enabled = true
@@ -248,6 +287,9 @@ end type
 
 on m_properties.create
 call super::create
+this.menuimage = "images\settings.svg"
+this.buttonimage = "images\settings.svg"
+this.toolbaritemname = "images\settings.svg"
 end on
 
 on m_properties.destroy
@@ -259,9 +301,29 @@ end type
 
 on m_dash14.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_dash14.destroy
+call super::destroy
+end on
+
+type m_appearance from menu within m_file
+end type
+
+on m_appearance.create
+call super::create
+this.text = "Appea&rance..."
+this.microhelp = "Choose the theme, and whether the menu is shown as a ribbon"
+this.toolbaritemvisible = false
+this.menuimage = "images\tb_color.svg"
+this.buttonimage = "images\tb_color.svg"
+end on
+
+event clicked;Open(w_appearance)
+end event
+
+on m_appearance.destroy
 call super::destroy
 end on
 
@@ -270,6 +332,10 @@ end type
 
 on m_exit.create
 call super::create
+this.shifttoright = true
+this.menuimage = "images\exit.svg"
+this.buttonimage = "images\exit.svg"
+this.toolbaritemname = "images\exit.svg"
 this.toolbaritemvisible = true
 this.toolbaritemspace = 0
 end on
@@ -283,6 +349,7 @@ end type
 
 on m_pfcmrudash1.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmrudash1.destroy
@@ -294,6 +361,7 @@ end type
 
 on m_pfcmru1.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmru1.destroy
@@ -305,6 +373,7 @@ end type
 
 on m_pfcmru2.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmru2.destroy
@@ -316,6 +385,7 @@ end type
 
 on m_pfcmru3.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmru3.destroy
@@ -327,6 +397,7 @@ end type
 
 on m_pfcmru4.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmru4.destroy
@@ -338,6 +409,7 @@ end type
 
 on m_pfcmru5.create
 call super::create
+this.shifttoright = true
 end on
 
 on m_pfcmru5.destroy
@@ -362,7 +434,10 @@ end type
 
 on m_undo.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_undo.svg"
+this.buttonimage = "images\tb_undo.svg"
+this.toolbaritemname = "images\tb_undo.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_undo.destroy
@@ -385,7 +460,10 @@ end type
 
 on m_cut.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_cut.svg"
+this.buttonimage = "images\tb_cut.svg"
+this.toolbaritemname = "images\tb_cut.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_cut.destroy
@@ -397,7 +475,10 @@ end type
 
 on m_copy.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_copy.svg"
+this.buttonimage = "images\tb_copy.svg"
+this.toolbaritemname = "images\tb_copy.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_copy.destroy
@@ -409,7 +490,10 @@ end type
 
 on m_paste.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_paste.svg"
+this.buttonimage = "images\tb_paste.svg"
+this.toolbaritemname = "images\tb_paste.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_paste.destroy
@@ -421,6 +505,10 @@ end type
 
 on m_pastespecial.create
 call super::create
+this.menuimage = "images\tb_clipboard.svg"
+this.buttonimage = "images\tb_clipboard.svg"
+this.toolbaritemname = "images\tb_clipboard.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_pastespecial.destroy
@@ -432,7 +520,10 @@ end type
 
 on m_clear.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_clear.svg"
+this.buttonimage = "images\tb_clear.svg"
+this.toolbaritemname = "images\tb_clear.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_clear.destroy
@@ -455,7 +546,10 @@ end type
 
 on m_selectall.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_select_all.svg"
+this.buttonimage = "images\tb_select_all.svg"
+this.toolbaritemname = "images\tb_select_all.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_selectall.destroy
@@ -478,7 +572,10 @@ end type
 
 on m_find.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_quick_select.svg"
+this.buttonimage = "images\tb_quick_select.svg"
+this.toolbaritemname = "images\tb_quick_select.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_find.destroy
@@ -490,7 +587,10 @@ end type
 
 on m_replace.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_reset.svg"
+this.buttonimage = "images\tb_reset.svg"
+this.toolbaritemname = "images\tb_reset.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_replace.destroy
@@ -513,6 +613,10 @@ end type
 
 on m_updatelinks.create
 call super::create
+this.menuimage = "images\tb_ole.svg"
+this.buttonimage = "images\tb_ole.svg"
+this.toolbaritemname = "images\tb_ole.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_updatelinks.destroy
@@ -524,6 +628,10 @@ end type
 
 on m_object1.create
 call super::create
+this.menuimage = "images\tb_ole.svg"
+this.buttonimage = "images\tb_ole.svg"
+this.toolbaritemname = "images\tb_ole.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_object1.destroy
@@ -592,6 +700,9 @@ end type
 
 on m_largeicon.create
 call super::create
+this.menuimage = "images\tb_tile.svg"
+this.buttonimage = "images\tb_tile.svg"
+this.toolbaritemname = "images\tb_tile.svg"
 end on
 
 on m_largeicon.destroy
@@ -603,6 +714,9 @@ end type
 
 on m_smallicons.create
 call super::create
+this.menuimage = "images\tb_arrange_icons.svg"
+this.buttonimage = "images\tb_arrange_icons.svg"
+this.toolbaritemname = "images\tb_arrange_icons.svg"
 end on
 
 on m_smallicons.destroy
@@ -614,6 +728,9 @@ end type
 
 on m_list.create
 call super::create
+this.menuimage = "images\filter_all.svg"
+this.buttonimage = "images\filter_all.svg"
+this.toolbaritemname = "images\filter_all.svg"
 end on
 
 on m_list.destroy
@@ -625,6 +742,9 @@ end type
 
 on m_details.create
 call super::create
+this.menuimage = "images\tab_treeview.svg"
+this.buttonimage = "images\tab_treeview.svg"
+this.toolbaritemname = "images\tab_treeview.svg"
 end on
 
 on m_details.destroy
@@ -647,6 +767,10 @@ end type
 
 on m_arrangeicons.create
 call super::create
+this.menuimage = "images\tb_arrange_icons.svg"
+this.buttonimage = "images\tb_arrange_icons.svg"
+this.toolbaritemname = "images\tb_arrange_icons.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_arrangeicons.destroy
@@ -702,6 +826,9 @@ end type
 
 on m_first.create
 call super::create
+this.menuimage = "images\tb_first.svg"
+this.buttonimage = "images\tb_first.svg"
+this.toolbaritemname = "images\tb_first.svg"
 end on
 
 on m_first.destroy
@@ -713,6 +840,9 @@ end type
 
 on m_priorpage.create
 call super::create
+this.menuimage = "images\chevron_left.svg"
+this.buttonimage = "images\chevron_left.svg"
+this.toolbaritemname = "images\chevron_left.svg"
 end on
 
 on m_priorpage.destroy
@@ -724,6 +854,9 @@ end type
 
 on m_nextpage.create
 call super::create
+this.menuimage = "images\chevron_right.svg"
+this.buttonimage = "images\chevron_right.svg"
+this.toolbaritemname = "images\chevron_right.svg"
 end on
 
 on m_nextpage.destroy
@@ -735,6 +868,9 @@ end type
 
 on m_lastpage.create
 call super::create
+this.menuimage = "images\tb_last.svg"
+this.buttonimage = "images\tb_last.svg"
+this.toolbaritemname = "images\tb_last.svg"
 end on
 
 on m_lastpage.destroy
@@ -757,6 +893,10 @@ end type
 
 on m_sort.create
 call super::create
+this.menuimage = "images\tb_sort.svg"
+this.buttonimage = "images\tb_sort.svg"
+this.toolbaritemname = "images\tb_sort.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_sort.destroy
@@ -768,6 +908,10 @@ end type
 
 on m_filter.create
 call super::create
+this.menuimage = "images\tb_filter.svg"
+this.buttonimage = "images\tb_filter.svg"
+this.toolbaritemname = "images\tb_filter.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_filter.destroy
@@ -790,6 +934,10 @@ end type
 
 on m_zoom.create
 call super::create
+this.menuimage = "images\tb_zoom_in.svg"
+this.buttonimage = "images\tb_zoom_in.svg"
+this.toolbaritemname = "images\tb_zoom_in.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_zoom.destroy
@@ -814,6 +962,10 @@ end type
 
 on m_insertfile.create
 call super::create
+this.menuimage = "images\tb_insert.svg"
+this.buttonimage = "images\tb_insert.svg"
+this.toolbaritemname = "images\tb_insert.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_insertfile.destroy
@@ -847,6 +999,10 @@ end type
 
 on m_object.create
 call super::create
+this.menuimage = "images\tb_ole.svg"
+this.buttonimage = "images\tb_ole.svg"
+this.toolbaritemname = "images\tb_ole.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_object.destroy
@@ -871,6 +1027,10 @@ end type
 
 on m_toolbars.create
 call super::create
+this.menuimage = "images\tb_toolbars.svg"
+this.buttonimage = "images\tb_toolbars.svg"
+this.toolbaritemname = "images\tb_toolbars.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_toolbars.destroy
@@ -893,7 +1053,10 @@ end type
 
 on m_cascade.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_cascade.svg"
+this.buttonimage = "images\tb_cascade.svg"
+this.toolbaritemname = "images\tb_cascade.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_cascade.destroy
@@ -905,7 +1068,10 @@ end type
 
 on m_tilehorizontal.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_tile_horizontal.svg"
+this.buttonimage = "images\tb_tile_horizontal.svg"
+this.toolbaritemname = "images\tb_tile_horizontal.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_tilehorizontal.destroy
@@ -917,7 +1083,10 @@ end type
 
 on m_tilevertical.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_tile.svg"
+this.buttonimage = "images\tb_tile.svg"
+this.toolbaritemname = "images\tb_tile.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_tilevertical.destroy
@@ -929,7 +1098,10 @@ end type
 
 on m_layer.create
 call super::create
-this.toolbaritemname = ""
+this.menuimage = "images\tb_layer.svg"
+this.buttonimage = "images\tb_layer.svg"
+this.toolbaritemname = "images\tb_layer.svg"
+this.toolbaritemvisible = false
 end on
 
 on m_layer.destroy
@@ -953,8 +1125,12 @@ end type
 
 on m_minimizeall.create
 call super::create
+this.menuimage = "images\tb_window.svg"
+this.buttonimage = "images\tb_window.svg"
+this.toolbaritemname = "images\tb_window.svg"
 this.visible = false
 this.enabled = false
+this.toolbaritemvisible = false
 end on
 
 on m_minimizeall.destroy
@@ -966,8 +1142,12 @@ end type
 
 on m_undoarrange.create
 call super::create
+this.menuimage = "images\tb_undo.svg"
+this.buttonimage = "images\tb_undo.svg"
+this.toolbaritemname = "images\tb_undo.svg"
 this.visible = false
 this.enabled = false
+this.toolbaritemvisible = false
 end on
 
 on m_undoarrange.destroy
@@ -990,6 +1170,9 @@ end type
 
 on m_helptopics.create
 call super::create
+this.menuimage = "images\help_contents.svg"
+this.buttonimage = "images\help_contents.svg"
+this.toolbaritemname = "images\help_contents.svg"
 this.visible = false
 this.enabled = false
 this.toolbaritemspace = 3
@@ -1016,8 +1199,10 @@ end type
 
 on m_about.create
 call super::create
+this.menuimage = "images\about.svg"
+this.buttonimage = "images\about.svg"
+this.toolbaritemname = "images\about.svg"
 this.text = "&About..."
-this.toolbaritemname = "Help!"
 this.toolbaritemtext = "About, About PEAT"
 this.toolbaritemorder = 256
 this.toolbaritemspace = 3
@@ -1058,9 +1243,11 @@ end type
 
 on m_information.create
 call super::create
+this.menuimage = "images\tb_describe.svg"
+this.buttonimage = "images\tb_describe.svg"
+this.toolbaritemname = "images\tb_describe.svg"
 this.text = "&Information.."
 this.microhelp = "Run the Project Wizard window"
-this.toolbaritemname = "Project!"
 this.toolbaritemtext = "Properties,Project Information"
 this.toolbaritemorder = 3
 this.toolbaritemspace = 3
@@ -1079,9 +1266,11 @@ end type
 
 on m_estimate.create
 call super::create
+this.menuimage = "images\app_calculator.svg"
+this.buttonimage = "images\app_calculator.svg"
+this.toolbaritemname = "images\app_calculator.svg"
 this.text = "&Estimate..."
 this.microhelp = "Enter estimate information on the current project"
-this.toolbaritemname = "Custom087!"
 this.toolbaritemtext = "Estimate,Project Estimate"
 this.toolbaritemorder = 4
 end on
@@ -1099,9 +1288,11 @@ end type
 
 on m_actual.create
 call super::create
+this.menuimage = "images\checkmark.svg"
+this.buttonimage = "images\checkmark.svg"
+this.toolbaritemname = "images\checkmark.svg"
 this.text = "&Actual..."
 this.microhelp = "Enter actual information on the current project"
-this.toolbaritemname = "Custom038!"
 this.toolbaritemtext = "Actual,Project Actual"
 this.toolbaritemorder = 5
 end on
@@ -1147,9 +1338,11 @@ end event
 
 on m_projectestimation.create
 call super::create
+this.menuimage = "images\example_report.svg"
+this.buttonimage = "images\example_report.svg"
+this.toolbaritemname = "images\example_report.png"
 this.text = "Project Estimation..."
 this.microhelp = "Run Project Estimation Report"
-this.toolbaritemname = "DosEdit!"
 this.toolbaritemtext = "Estimate, Project Estimation Report"
 end on
 
@@ -1166,9 +1359,11 @@ end event
 
 on m_projectanalyzer.create
 call super::create
+this.menuimage = "images\cat_graphs.svg"
+this.buttonimage = "images\cat_graphs.svg"
+this.toolbaritemname = "images\cat_graphs.png"
 this.text = "Project Analyzer..."
 this.microhelp = "Run Project Analyzer Report"
-this.toolbaritemname = "EditDataFreeform!"
 this.toolbaritemtext = "Analyzer,Project Analyzer Report"
 end on
 
