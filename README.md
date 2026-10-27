@@ -14,6 +14,7 @@ The `pfc examples` target is a catalog of small windows that each show a PFC ser
 
 ## Demo apps
 
+- `peat demo app` (PEAT, in `demoapp`): a small project estimation and tracking application built with PFC, with a ribbon, a UI theme and SVG icons. See [demoapp/README.md](demoapp/README.md).
 - `openid demo`: signing in with an OpenID Connect identity provider (Authentik, Microsoft Entra ID, Google), the OAuth 2.0 flows, and PFC security from the provider's groups. See [openid demo/README.md](openid%20demo/README.md).
 - `smtp demo`: sending mail with `n_smtpclient` and an OAuth 2.0 token. See [smtp demo/README.md](smtp%20demo/README.md).
 

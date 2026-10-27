@@ -4,6 +4,8 @@ The Examples app (the `pfc examples` target, `pfc examples.pbt`, which builds `p
 
 The examples' source is in `ws_objects/examples`; to build without the IDE, use `pwsh -File tools\build.ps1 -Target "pfc examples"` (see the top-level README).
 
+![The Examples app with the ribbon and the Flat Design Grey theme](screenshots/examples.png)
+
 Each example's help topic is in [PFCEXAMP.pdf](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest/download/PFCEXAMP.pdf) ([Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file)), and the PFC dialogs' help is in [pfcdlg.pdf](https://github.com/OpenSourcePFCLibraries/docs/raw/main/dialog-help/pfcdlg.pdf); put them in this folder, or beside `pfcexamp.exe`. The PFC documentation is in the [docs](https://github.com/OpenSourcePFCLibraries/docs) repository.
 
 ## Setting up
@@ -59,7 +61,7 @@ RibbonBar=1
 HelpViewer=InApp
 ```
 
-The themes are PowerBuilder's Flat Design Grey (the default), Blue and Dark, in `theme`. To offer others, copy them next to these from PowerBuilder's `IDE\theme` folder; the Appearance window lists the folders it finds. The app applies a theme with `gnv_app.of_ApplyTheme`, so the status bar takes its colors too. The windows, DataWindows and the ribbon use Segoe UI, and the app's icon is `images\pfcexamp.ico`.
+The themes are PowerBuilder's Flat Design Grey (the default), Blue and Dark, in `theme`. To offer others, copy them next to these from PowerBuilder's `IDE\theme` folder; the Appearance window lists the folders it finds. The app applies a theme with `gnv_app.of_ApplyTheme`, so the status bar takes its colors too. The windows, DataWindows and the ribbon use Segoe UI, and the app's icon is `images\pfcexamp.ico`. How to do the same in your own application is in [Giving a PFC application a current look](https://github.com/OpenSourcePFCLibraries/docs/blob/main/user-guide/06-using-pfc-windows-and-menus.md#giving-a-pfc-application-a-current-look), in the PFC User's Guide.
 
 Help (F1, or **Help > Help Topics**) opens the topic of the example, or of the example or category selected in the main window, with PFC's help service: `gnv_app.of_SetHelp(True)` starts it, and `gnv_app.inv_help.of_SetViewer` chooses the app's help window or your PDF viewer. A topic is the named destination `topic_<help context number>` in `PFCEXAMP.pdf`.
 

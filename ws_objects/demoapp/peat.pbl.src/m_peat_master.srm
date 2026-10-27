@@ -5,8 +5,11 @@ global type m_peat_master from m_master
 end type
 type m_appearance from menu within m_file
 end type
+type m_dash15 from menu within m_file
+end type
 type m_file from m_master`m_file within m_peat_master
 m_appearance m_appearance
+m_dash15 m_dash15
 end type
 type m_project from menu within m_peat_master
 end type
@@ -60,17 +63,21 @@ end on
 
 type m_file from m_master`m_file within m_peat_master
 m_appearance m_appearance
+m_dash15 m_dash15
 end type
 
 on m_file.create
 call super::create
 this.m_appearance=create m_appearance
 this.Item[UpperBound(this.Item)+1]=this.m_appearance
+this.m_dash15=create m_dash15
+this.Item[UpperBound(this.Item)+1]=this.m_dash15
 end on
 
 on m_file.destroy
 call super::destroy
 destroy(this.m_appearance)
+destroy(this.m_dash15)
 end on
 
 type m_new from m_master`m_new within m_file
@@ -78,6 +85,7 @@ end type
 
 on m_new.create
 call super::create
+this.paneltext = "Project"
 this.menuimage = "images\tb_new.svg"
 this.buttonimage = "images\tb_new.svg"
 this.toolbaritemname = "images\tb_new.svg"
@@ -262,6 +270,7 @@ end type
 
 on m_delete.create
 call super::create
+this.paneltext = "Delete"
 this.menuimage = "images\tb_delete.svg"
 this.buttonimage = "images\tb_delete.svg"
 this.toolbaritemname = "images\tb_delete.svg"
@@ -313,6 +322,7 @@ end type
 
 on m_appearance.create
 call super::create
+this.paneltext = "Appearance"
 this.text = "Appea&rance..."
 this.microhelp = "Choose the theme, and whether the menu is shown as a ribbon"
 this.toolbaritemvisible = false
@@ -324,6 +334,18 @@ event clicked;Open(w_appearance)
 end event
 
 on m_appearance.destroy
+call super::destroy
+end on
+
+type m_dash15 from menu within m_file
+end type
+
+on m_dash15.create
+call super::create
+this.text = "-"
+end on
+
+on m_dash15.destroy
 call super::destroy
 end on
 
@@ -1053,6 +1075,7 @@ end type
 
 on m_cascade.create
 call super::create
+this.paneltext = "Arrange"
 this.menuimage = "images\tb_cascade.svg"
 this.buttonimage = "images\tb_cascade.svg"
 this.toolbaritemname = "images\tb_cascade.svg"
@@ -1199,6 +1222,7 @@ end type
 
 on m_about.create
 call super::create
+this.paneltext = "Help"
 this.menuimage = "images\about.svg"
 this.buttonimage = "images\about.svg"
 this.toolbaritemname = "images\about.svg"
@@ -1243,6 +1267,7 @@ end type
 
 on m_information.create
 call super::create
+this.paneltext = "Project"
 this.menuimage = "images\tb_describe.svg"
 this.buttonimage = "images\tb_describe.svg"
 this.toolbaritemname = "images\tb_describe.svg"
@@ -1338,6 +1363,7 @@ end event
 
 on m_projectestimation.create
 call super::create
+this.paneltext = "Reports"
 this.menuimage = "images\example_report.svg"
 this.buttonimage = "images\example_report.svg"
 this.toolbaritemname = "images\example_report.png"

@@ -134,6 +134,7 @@ end type
 on m_print.create
 call super::create
 this.Text="&Print..."
+this.PanelText="Print"
 this.Shortcut=0
 this.m_tree=create m_tree
 this.m_listview=create m_listview
@@ -169,6 +170,12 @@ end on
 on m_dash13.create
 call super::create
 this.Visible=true
+end on
+
+on m_delete.create
+call super::create
+// Delete is hidden here, but the ribbon names the panel after its first item
+this.PanelText="Properties"
 end on
 
 on m_properties.create
@@ -306,6 +313,7 @@ end on
 
 on m_largeicon.create
 call super::create
+this.PanelText="List"
 this.Visible=true
 this.Enabled=true
 this.ToolBarItemVisible=true
@@ -852,6 +860,7 @@ end event
 
 on m_expandall.create
 this.Text="&Expand All"
+this.PanelText="Tree"
 this.Microhelp="Expand all items on the selected Tree View Branch."
 this.ToolBarItemText="Expand All"
 this.ToolBarItemVisible=false
@@ -944,6 +953,7 @@ end type
 
 on m_debugservices.create
 this.Text="Stop &Debug Services"
+this.PanelText="Services"
 this.Microhelp="Start/Stop the Debug Service."
 this.ToolBarItemName="images\run_example.svg"
 this.ToolBarItemText="Debug Service On"
@@ -1143,6 +1153,7 @@ end event
 
 on m_debuglog.create
 this.Text="Open Debug &Log Window"
+this.PanelText="Logs"
 this.Microhelp="Open/Close the Debug Log window."
 this.ToolBarItemName="images\app_notepad.svg"
 this.ToolBarItemText="Open Debug Log"
@@ -1253,6 +1264,7 @@ end type
 
 on m_utilitypreferences.create
 this.Text="Set Utility &Preferences..."
+this.PanelText="Settings"
 this.Microhelp="Open the Utilities Preferences window."
 this.ToolBarItemVisible=false
 this.MenuImage="images\settings.svg"
