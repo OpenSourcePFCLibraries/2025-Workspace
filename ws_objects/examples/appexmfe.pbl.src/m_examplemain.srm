@@ -9,6 +9,8 @@ type m_listview from menu within m_print
 end type
 type m_expandall from menu within m_view
 end type
+type m_dash30 from menu within m_view
+end type
 type m_showtoolbar from menu within m_view
 end type
 type m_- from menu within m_view
@@ -279,6 +281,7 @@ end on
 
 type m_view from m_master`m_view within m_examplemain
 m_expandall m_expandall
+m_dash30 m_dash30
 m_showtoolbar m_showtoolbar
 m_- m_-
 end type
@@ -286,9 +289,11 @@ end type
 on m_view.create
 call super::create
 this.m_expandall=create m_expandall
+this.m_dash30=create m_dash30
 this.m_showtoolbar=create m_showtoolbar
 this.m_-=create m_-
 this.Item[UpperBound(this.item)+1]=this.m_expandall
+this.Item[UpperBound(this.item)+1]=this.m_dash30
 this.Item[UpperBound(this.item)+1]=this.m_showtoolbar
 this.Item[UpperBound(this.item)+1]=this.m_-
 end on
@@ -296,6 +301,7 @@ end on
 on m_view.destroy
 call super::destroy
 destroy(this.m_expandall)
+destroy(this.m_dash30)
 destroy(this.m_showtoolbar)
 destroy(this.m_-)
 end on
@@ -928,9 +934,17 @@ end event
 
 on m_showtoolbar.create
 this.Text="Show &Toolbar"
+this.PanelText="Toolbar"
 this.Checked=true
 this.MenuImage="images\tb_toolbars.svg"
 this.ButtonImage="images\tb_toolbars.svg"
+end on
+
+type m_dash30 from menu within m_view
+end type
+
+on m_dash30.create
+this.Text="-"
 end on
 
 type m_- from menu within m_view
