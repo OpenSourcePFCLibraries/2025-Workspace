@@ -190,7 +190,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "PFC's timing object, n_tmg, triggers or posts an event in the objects registered with it: one object, with the single-object service (n_cst_tmgsingle), or several, each at its own interval, with the multiple-object service (n_cst_tmgmultiple)."
@@ -207,7 +207,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Single-object service: the window's ue_tick event, every second"
@@ -235,6 +235,7 @@ integer y = 316
 integer width = 517
 integer taborder = 10
 string text = "&Stop the Clock"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_SetDisabled stops the timer and starts it again
@@ -257,7 +258,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Multiple-object service: three events, each at its own interval, on one timer"
@@ -273,7 +274,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Every 2 seconds: 0"
@@ -290,7 +291,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Every 4 seconds: 0"
@@ -307,7 +308,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Every 8 seconds: 0"
@@ -324,7 +325,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -336,6 +337,7 @@ integer y = 980
 integer width = 640
 integer taborder = 20
 string text = "Stop the &Counters"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;If itmg_multiple.inv_multiple.of_IsDisabled() Then
@@ -354,6 +356,7 @@ integer y = 980
 integer width = 1010
 integer taborder = 30
 string text = "&Unregister the 2-Second Counter"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// The service recalculates the timer's interval from the events still registered:
@@ -369,6 +372,7 @@ integer x = 1792
 integer y = 1196
 integer taborder = 40
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

@@ -106,7 +106,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "A recursive level (of_SetRecursive) repeats under each of its items, as deep as the data goes, as folders do in Windows Explorer.  Here the employees are shown under their managers: expand an employee to see the people who report to them."
@@ -121,6 +121,7 @@ integer height = 1300
 integer taborder = 10
 boolean linesatroot = true
 string picturename[] = {"custom076!","custom050!"}
+string facename = "Segoe UI"
 end type
 
 event pfc_retrieve;call super::pfc_retrieve;// The retrieval arguments of the level under al_parent
@@ -168,7 +169,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -180,6 +181,7 @@ integer y = 560
 integer width = 466
 integer taborder = 20
 string text = "&Expand All"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Expanding an item retrieves the level under it, down to the employees
@@ -198,6 +200,7 @@ integer x = 1792
 integer y = 1568
 integer taborder = 30
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

@@ -64,7 +64,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "The grid service (n_cst_dwsrv_grid) lets users choose which columns a grid DataWindow shows, in which order and how wide, in the Grid Layout dialog: click Grid Layout, or right-click the list and choose Grid Layout.  The layout is saved for each user when the window closes (through the application preference service) and restored the next time it opens."
@@ -77,6 +77,7 @@ integer y = 284
 integer width = 581
 integer taborder = 10
 string text = "&Grid Layout..."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;dw_1.inv_grid.Event pfc_ShowDialog()
@@ -88,6 +89,7 @@ integer y = 284
 integer width = 581
 integer taborder = 20
 string text = "&Original Layout"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Back to the layout of the DataWindow object, as the dialog's own button does
@@ -127,6 +129,7 @@ integer x = 2107
 integer y = 1716
 integer taborder = 40
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

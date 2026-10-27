@@ -110,7 +110,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -122,6 +122,7 @@ integer y = 212
 integer width = 389
 integer taborder = 10
 string text = "&New"
+string facename = "Segoe UI"
 end type
 
 type cb_save from u_cb within w_securityorder
@@ -130,6 +131,7 @@ integer y = 212
 integer width = 389
 integer taborder = 20
 string text = "&Save"
+string facename = "Segoe UI"
 end type
 
 type cb_delete from u_cb within w_securityorder
@@ -138,6 +140,7 @@ integer y = 212
 integer width = 389
 integer taborder = 30
 string text = "&Delete"
+string facename = "Segoe UI"
 end type
 
 type cb_approve from u_cb within w_securityorder
@@ -146,6 +149,7 @@ integer y = 212
 integer width = 389
 integer taborder = 40
 string text = "&Approve"
+string facename = "Segoe UI"
 end type
 
 type cb_print from u_cb within w_securityorder
@@ -154,6 +158,7 @@ integer y = 212
 integer width = 389
 integer taborder = 50
 string text = "&Print"
+string facename = "Segoe UI"
 end type
 
 type st_restrict from statictext within w_securityorder
@@ -166,7 +171,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Code that sets Enabled or Visible after of_SetSecurity can undo the settings.  Enable All Buttons does what such code might do; with the box checked, it then calls of_ApplyRestrictions, which applies the Disable and Invisible settings again (and the default) but never enables or shows anything."
@@ -179,6 +184,7 @@ integer y = 676
 integer width = 640
 integer taborder = 60
 string text = "&Enable All Buttons"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// What application code might do, for example after refreshing the data
@@ -208,7 +214,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Then call of_A&pplyRestrictions"
@@ -221,6 +227,7 @@ integer y = 824
 integer taborder = 70
 string text = "Close"
 boolean cancel = true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Close(parent)

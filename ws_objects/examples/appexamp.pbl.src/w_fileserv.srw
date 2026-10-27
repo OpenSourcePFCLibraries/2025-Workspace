@@ -263,9 +263,10 @@ type st_dir from u_st within w_fileserv
 int X=64
 int Y=56
 int Width=402
-string Text="Current Directory:"
+string Text="Directory:"
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 type st_filespec from u_st within w_fileserv
@@ -277,6 +278,7 @@ string Text="File Spec:"
 Alignment Alignment=Right!
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 type st_filetype from u_st within w_fileserv
@@ -288,6 +290,7 @@ string Text="Type:"
 Alignment Alignment=Right!
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 type sle_dir from u_sle within w_fileserv
@@ -298,6 +301,7 @@ int Height=80
 int TabOrder=10
 long TextColor=41943040
 long BackColor=1080593568
+string facename = "Segoe UI"
 end type
 
 type sle_filespec from u_sle within w_fileserv
@@ -308,6 +312,7 @@ int TabOrder=20
 boolean BringToTop=true
 long TextColor=41943040
 long BackColor=1080593568
+string facename = "Segoe UI"
 end type
 
 type sle_type from u_sle within w_fileserv
@@ -319,6 +324,7 @@ int TabOrder=30
 boolean BringToTop=true
 long TextColor=41943040
 long BackColor=1080593568
+string facename = "Segoe UI"
 end type
 
 type gb_sort from u_gb within w_fileserv
@@ -330,17 +336,19 @@ int TabOrder=40
 string Text="Sort"
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 type rb_filename from u_rb within w_fileserv
 int X=558
 int Y=424
-int Width=315
+int Width=330
 boolean BringToTop=true
 string Text="File Name"
 boolean Checked=true
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;f_DirImport()
@@ -354,6 +362,7 @@ boolean BringToTop=true
 string Text="File Ext."
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;f_DirImport()
@@ -367,6 +376,7 @@ boolean BringToTop=true
 string Text="Date/Time"
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;f_DirImport()
@@ -380,6 +390,7 @@ boolean BringToTop=true
 string Text="Size"
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;f_DirImport()
@@ -451,6 +462,7 @@ int Y=544
 int Width=361
 int TabOrder=60
 string Text="List"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;f_DirImport()
@@ -463,6 +475,7 @@ int Width=361
 int TabOrder=70
 boolean BringToTop=true
 string Text="Drive Info"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;String	ls_Drive
@@ -509,6 +522,7 @@ int Width=361
 int TabOrder=80
 boolean BringToTop=true
 string Text="Create Dir."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row, li_Pos
@@ -540,6 +554,7 @@ int Width=361
 int TabOrder=90
 boolean BringToTop=true
 string Text="Remove Dir."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row
@@ -580,6 +595,7 @@ int Width=361
 int TabOrder=100
 boolean BringToTop=true
 string Text="Delete Tree"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row
@@ -618,6 +634,7 @@ int Width=361
 int TabOrder=110
 boolean BringToTop=true
 string Text="Rename"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row
@@ -660,6 +677,7 @@ int Width=361
 int TabOrder=120
 boolean BringToTop=true
 string Text="Copy File"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row
@@ -696,6 +714,7 @@ int Width=361
 int TabOrder=130
 boolean BringToTop=true
 string Text="Delete File"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row, li_RC
@@ -731,6 +750,7 @@ int Width=361
 int TabOrder=140
 boolean BringToTop=true
 string Text="Set Date/Time"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row, li_RC
@@ -779,6 +799,7 @@ int Width=361
 int TabOrder=150
 boolean BringToTop=true
 string Text="Set Attribute"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer	li_Row
@@ -861,6 +882,7 @@ int TabOrder=160
 boolean BringToTop=true
 string Text="Close"
 boolean Default=true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Parent.Event pfc_close()

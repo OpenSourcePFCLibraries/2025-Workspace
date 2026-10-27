@@ -131,7 +131,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "The report service (n_cst_dwsrv_report) changes a DataWindow at run time to make a report of it: it adds text, computed fields, lines and pictures, changes colors, fonts and borders, zooms, and prints.  Each change can be undone."
@@ -144,6 +144,7 @@ integer y = 208
 integer width = 581
 integer taborder = 10
 string text = "Add a &Title"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Make room at the top of the header (of_ShiftBand makes the band taller and moves its
@@ -163,6 +164,7 @@ integer y = 208
 integer width = 581
 integer taborder = 20
 string text = "Add a &Row Count"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// A computed field in the summary band, made tall enough to show it (of_ShiftBand)
@@ -180,6 +182,7 @@ integer y = 208
 integer width = 581
 integer taborder = 30
 string text = "Add a &Line"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.of_ShowResult("Line added under the headers (of_AddLine)", &
@@ -192,6 +195,7 @@ integer y = 208
 integer width = 626
 integer taborder = 40
 string text = "&Color the Headers"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// "*": every object in the header band
@@ -205,6 +209,7 @@ integer y = 320
 integer width = 581
 integer taborder = 50
 string text = "Zoom &In"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Relative to the current zoom: 125% of it
@@ -217,6 +222,7 @@ integer y = 320
 integer width = 581
 integer taborder = 60
 string text = "Zoom &Out"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.of_ShowResult("Zoomed out (of_SetRelativeZoom)", dw_1.inv_report.of_SetRelativeZoom(80))
@@ -228,6 +234,7 @@ integer y = 320
 integer width = 581
 integer taborder = 70
 string text = "&Undo"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;If dw_1.inv_report.of_GetUndoLevels() < 1 Then
@@ -244,6 +251,7 @@ integer y = 320
 integer width = 626
 integer taborder = 80
 string text = "&Print..."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Prints the report as it is now, with the Cancel dialog while it prints
@@ -260,7 +268,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -296,6 +304,7 @@ integer x = 2107
 integer y = 1716
 integer taborder = 100
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

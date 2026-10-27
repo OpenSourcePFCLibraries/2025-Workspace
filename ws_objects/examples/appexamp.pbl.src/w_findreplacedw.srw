@@ -101,6 +101,7 @@ int X=1376
 int Y=924
 int TabOrder=20
 string Text="&Find"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -123,6 +124,7 @@ int Y=924
 int TabOrder=30
 boolean BringToTop=true
 string Text="&Replace"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -146,6 +148,7 @@ int TabOrder=40
 boolean BringToTop=true
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////

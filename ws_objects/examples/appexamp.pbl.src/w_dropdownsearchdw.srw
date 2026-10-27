@@ -44,6 +44,7 @@ int Y=776
 int TabOrder=20
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////

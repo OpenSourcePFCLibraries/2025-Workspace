@@ -165,6 +165,7 @@ int Width=311
 int TabOrder=30
 string Text="&Filter"
 boolean Default=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -210,6 +211,7 @@ int Width=311
 int TabOrder=40
 boolean BringToTop=true
 string Text="&Reset"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -235,6 +237,7 @@ int TabOrder=50
 boolean BringToTop=true
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -253,17 +256,19 @@ end event
 type cbx_visible from u_cbx within w_filtersettings
 int X=1321
 int Y=196
-int Width=512
+int Width=549
 int TabOrder=20
 boolean BringToTop=true
 string Text="List &visible columns"
+string facename = "Segoe UI"
 end type
 
 type st_1 from u_st within w_filtersettings
 int X=87
 int Y=124
-int Width=617
+int Width=627
 string Text="&Select columns to exclude:"
+string facename = "Segoe UI"
 end type
 
 type lb_1 from u_lb within w_filtersettings
@@ -284,6 +289,7 @@ string Item[]={"cust_id",&
 "zip",&
 "phone",&
 "company_name"}
+string facename = "Segoe UI"
 end type
 
 type gb_1 from u_gb within w_filtersettings
@@ -293,5 +299,6 @@ int Width=1998
 int Height=540
 int TabOrder=0
 string Text="Example Options"
+string facename = "Segoe UI"
 end type
 

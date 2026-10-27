@@ -105,6 +105,7 @@ int Width=320
 int Height=80
 int TabOrder=50
 string Text="&Retrieve"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -130,6 +131,7 @@ int Height=80
 int TabOrder=70
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -383,6 +385,7 @@ int Width=320
 int Height=80
 int TabOrder=60
 string Text="&Update"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -404,7 +407,7 @@ int Y=292
 int Width=73
 int Height=64
 boolean BringToTop=true
-string PictureName="rowind.bmp"
+string PictureName="images\row_arrow.png"
 boolean OriginalSize=true
 end type
 
@@ -414,6 +417,7 @@ int Y=1432
 int Height=80
 int TabOrder=20
 boolean BringToTop=true
+string facename = "Segoe UI"
 end type
 
 type mle_note from u_mle within w_linkcascadedeletes
@@ -427,5 +431,6 @@ boolean Border=false
 BorderStyle BorderStyle=StyleBox!
 string Text="The example uses inv_linkage.of_DeleteStyle(inv_linkage.DELETE_ROWS)   and inv_linkage.of_SetUpdateStyle (inv_linkage.TOPDOWN_BOTTOMUP)"
 long BackColor=80263328
+string facename = "Segoe UI"
 end type
 

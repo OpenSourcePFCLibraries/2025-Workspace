@@ -211,7 +211,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "PFC has a standard visual user object for each of PowerBuilder's newer controls, with PFC's common functions (of_GetParentWindow, and of_MessageBox with the language service) and MicroHelp support.  Some add more, as the tabs show."
@@ -229,7 +229,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long backcolor = 67108864
 boolean raggedright = true
 boolean focusonbuttondown = true
@@ -306,7 +306,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "u_dp, a date picker, edits a date in a box with a drop-down calendar; u_mc, a month calendar, shows whole months and selects a date or a range of dates (drag across the days, or click one and shift-click another).  Here each one follows the other."
@@ -323,7 +323,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Date:"
@@ -335,6 +335,7 @@ integer x = 297
 integer y = 240
 integer width = 686
 integer taborder = 10
+string facename = "Segoe UI"
 end type
 
 event valuechanged;call super::valuechanged;// Show the date on the calendar
@@ -346,6 +347,7 @@ type mc_1 from u_mc within tabpg_dates
 integer x = 32
 integer y = 380
 integer taborder = 20
+string facename = "Segoe UI"
 end type
 
 event datechanged;call super::datechanged;// The date, or the range of dates, selected on the calendar
@@ -377,7 +379,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -429,13 +431,13 @@ type st_trackbars from statictext within tabpg_trackbars
 integer x = 32
 integer y = 24
 integer width = 2350
-integer height = 192
+integer height = 216
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "u_htb and u_vtb are a horizontal and a vertical trackbar.  PFC turns their scroll events into one, pfc_positionchanged, with the kind of move and the new position, and moves the slider with the mouse wheel.  The horizontal trackbar sets the size of the sample text, the vertical one its background."
@@ -488,7 +490,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Aa Bb Cc"
@@ -508,7 +510,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "pfc_positionchanged:"
@@ -526,7 +528,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 boolean vscrollbar = true
 boolean sorted = false
@@ -597,7 +599,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "u_wb is a web browser, which uses Microsoft Edge WebView2; it shows a web page, or HTML from the application.  u_phl is a picture hyperlink: clicking the picture opens its URL in the default browser."
@@ -614,7 +616,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Address:"
@@ -632,7 +634,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "https://github.com/OpenSourcePFCLibraries"
 borderstyle borderstyle = stylelowered!
@@ -644,6 +646,7 @@ integer y = 236
 integer width = 238
 integer taborder = 20
 string text = "&Go"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;wb_1.Navigate(sle_url.Text)
@@ -655,6 +658,7 @@ integer y = 236
 integer width = 238
 integer taborder = 30
 string text = "&Back"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;wb_1.GoBack()
@@ -666,6 +670,7 @@ integer y = 236
 integer width = 393
 integer taborder = 40
 string text = "&Show HTML"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// HTML from the application, not from a web site
@@ -687,8 +692,9 @@ integer x = 32
 integer y = 1120
 integer width = 110
 integer height = 96
-string picturename = "Netdriv.bmp"
+string picturename = "images\drive_network.svg"
 string url = "https://github.com/OpenSourcePFCLibraries"
+string facename = "Segoe UI"
 end type
 
 type st_phl from statictext within tabpg_web
@@ -701,7 +707,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Click the picture to open the PFC project on GitHub in your browser."
@@ -760,7 +766,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "u_oc, an OLE control, holds a document of another application: insert a new object, or a file, then right-click the object for PFC's menu (m_oc) to cut, copy, edit or open it, or double-click it to edit it in place."
@@ -773,6 +779,7 @@ integer y = 236
 integer width = 558
 integer taborder = 10
 string text = "&Insert Object..."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// pfc_insertobject shows the Insert Object dialog box, and activates the new object
@@ -788,6 +795,7 @@ integer y = 236
 integer width = 558
 integer taborder = 20
 string text = "Insert a &File..."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// An object made from a file, by the application that the file type belongs to
@@ -808,6 +816,7 @@ integer y = 236
 integer width = 558
 integer taborder = 30
 string text = "&Clear"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;u_oc	loc_object
@@ -821,6 +830,7 @@ integer x = 2121
 integer y = 1684
 integer taborder = 20
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

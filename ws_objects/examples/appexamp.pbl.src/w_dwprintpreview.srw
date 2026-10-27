@@ -179,6 +179,7 @@ int Y=1276
 int TabOrder=40
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -200,6 +201,7 @@ int X=1294
 int Y=1276
 int TabOrder=30
 string Text="Set &Zoom"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -218,9 +220,10 @@ end event
 type cbx_printpreview from u_cbx within w_dwprintpreview
 int X=73
 int Y=116
-int Width=384
+int Width=403
 int TabOrder=10
 string Text="Print &Preview"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -243,6 +246,7 @@ int Width=366
 int TabOrder=20
 boolean BringToTop=true
 string Text="&Show Ruler"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -267,5 +271,6 @@ int Width=1984
 int Height=188
 int TabOrder=0
 string Text="Example Options"
+string facename = "Segoe UI"
 end type
 

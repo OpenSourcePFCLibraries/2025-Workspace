@@ -13,7 +13,7 @@ Public:
 // The catalog files, in the application's folder (next to examples.ini).  They are
 // tab-delimited, without a header line:
 // exam.txt: example_id, title, exhelp (the help context number of the example's topic in
-//		PFCEXAMP.chm), window
+//		PFCEXAMP.pdf), window
 // examcat.txt: category_id, category_name, category_parent_id, example_id, picture_idx,
 //		selected_picture_idx, state_picture_idx, overlay_picture_idx
 constant string EXAMPLES_FILE = "exam.txt"
@@ -363,7 +363,7 @@ public function long of_gethelpcontext (long al_example);///////////////////////
 //	al_example		An example_id
 //
 //	Returns:			Long
-//						The help context number of the example's topic in PFCEXAMP.chm (the
+//						The help context number of the example's topic in PFCEXAMP.pdf (the
 //						exhelp column of the catalog), or 0 if it has none
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -385,7 +385,7 @@ public function long of_gethelpcontext (string as_window);//////////////////////
 //	as_window		The class name of an example's window
 //
 //	Returns:			Long
-//						The help context number of the example's topic in PFCEXAMP.chm (the
+//						The help context number of the example's topic in PFCEXAMP.pdf (the
 //						exhelp column of the catalog), or 0 if it has none
 //
 //	Description:	Used by the examples' windows for their help (see w_master's open

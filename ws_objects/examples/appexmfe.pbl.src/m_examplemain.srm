@@ -29,6 +29,8 @@ type m_dash54 from menu within m_tools
 end type
 type m_utilitypreferences from menu within m_tools
 end type
+type m_appearance from menu within m_tools
+end type
 end forward
 
 global type m_examplemain from m_master
@@ -618,6 +620,7 @@ m_debuglog m_debuglog
 m_sqlspy m_sqlspy
 m_dash54 m_dash54
 m_utilitypreferences m_utilitypreferences
+m_appearance m_appearance
 end type
 
 on m_tools.create
@@ -631,6 +634,7 @@ this.m_debuglog=create m_debuglog
 this.m_sqlspy=create m_sqlspy
 this.m_dash54=create m_dash54
 this.m_utilitypreferences=create m_utilitypreferences
+this.m_appearance=create m_appearance
 this.Item[UpperBound(this.item)+1]=this.m_dash52
 this.Item[UpperBound(this.item)+1]=this.m_debugservices
 this.Item[UpperBound(this.item)+1]=this.m_sqlspyservices
@@ -639,6 +643,7 @@ this.Item[UpperBound(this.item)+1]=this.m_debuglog
 this.Item[UpperBound(this.item)+1]=this.m_sqlspy
 this.Item[UpperBound(this.item)+1]=this.m_dash54
 this.Item[UpperBound(this.item)+1]=this.m_utilitypreferences
+this.Item[UpperBound(this.item)+1]=this.m_appearance
 end on
 
 on m_tools.destroy
@@ -651,6 +656,7 @@ destroy(this.m_debuglog)
 destroy(this.m_sqlspy)
 destroy(this.m_dash54)
 destroy(this.m_utilitypreferences)
+destroy(this.m_appearance)
 end on
 
 event m_tools::clicked;call super::clicked;//string				ls_ostype
@@ -777,6 +783,8 @@ end event
 
 on m_tree.create
 this.Text="&Tree View"
+this.MenuImage="images\tab_treeview.svg"
+this.ButtonImage="images\tab_treeview.svg"
 end on
 
 type m_listview from menu within m_print
@@ -784,6 +792,8 @@ end type
 
 on m_listview.create
 this.Text="&List View"
+this.MenuImage="images\filter_all.svg"
+this.ButtonImage="images\filter_all.svg"
 end on
 
 type m_expandall from menu within m_view
@@ -845,6 +855,8 @@ this.Text="&Expand All"
 this.Microhelp="Expand all items on the selected Tree View Branch."
 this.ToolBarItemText="Expand All"
 this.ToolBarItemVisible=false
+this.MenuImage="images\expand_all.svg"
+this.ButtonImage="images\expand_all.svg"
 end on
 
 type m_showtoolbar from menu within m_view
@@ -908,6 +920,8 @@ end event
 on m_showtoolbar.create
 this.Text="Show &Toolbar"
 this.Checked=true
+this.MenuImage="images\tb_toolbars.svg"
+this.ButtonImage="images\tb_toolbars.svg"
 end on
 
 type m_- from menu within m_view
@@ -931,10 +945,12 @@ end type
 on m_debugservices.create
 this.Text="Stop &Debug Services"
 this.Microhelp="Start/Stop the Debug Service."
-this.ToolBarItemName="Start5!"
+this.ToolBarItemName="images\run_example.svg"
 this.ToolBarItemText="Debug Service On"
 this.ToolBarItemVisible=false
 this.ToolBarItemOrder=1
+this.MenuImage="images\run_example.svg"
+this.ButtonImage="images\run_example.svg"
 end on
 
 on m_debugservices.destroy
@@ -1010,9 +1026,11 @@ end type
 on m_sqlspyservices.create
 this.Text="Start SQL S&py Service"
 this.Microhelp="Start/Stop the SQL Spy Service."
-this.ToolBarItemName="Search!"
+this.ToolBarItemName="images\tb_quick_select.svg"
 this.ToolBarItemVisible=false
 this.ToolBarItemOrder=2
+this.MenuImage="images\tb_quick_select.svg"
+this.ButtonImage="images\tb_quick_select.svg"
 end on
 
 on m_sqlspyservices.destroy
@@ -1126,10 +1144,12 @@ end event
 on m_debuglog.create
 this.Text="Open Debug &Log Window"
 this.Microhelp="Open/Close the Debug Log window."
-this.ToolBarItemName="Custom088!"
+this.ToolBarItemName="images\app_notepad.svg"
 this.ToolBarItemText="Open Debug Log"
 this.ToolBarItemVisible=false
 this.ToolBarItemOrder=4
+this.MenuImage="images\app_notepad.svg"
+this.ButtonImage="images\app_notepad.svg"
 end on
 
 type m_sqlspy from menu within m_tools
@@ -1213,10 +1233,12 @@ end event
 on m_sqlspy.create
 this.Text="Open &SQL Spy Window"
 this.Microhelp="Open/Close the SQL Spy window."
-this.ToolBarItemName="Custom090!"
+this.ToolBarItemName="images\cat_sql_embedded.svg"
 this.ToolBarItemText="Open SQL Spy"
 this.ToolBarItemVisible=false
 this.ToolBarItemOrder=3
+this.MenuImage="images\cat_sql_embedded.svg"
+this.ButtonImage="images\cat_sql_embedded.svg"
 end on
 
 type m_dash54 from menu within m_tools
@@ -1233,8 +1255,24 @@ on m_utilitypreferences.create
 this.Text="Set Utility &Preferences..."
 this.Microhelp="Open the Utilities Preferences window."
 this.ToolBarItemVisible=false
+this.MenuImage="images\settings.svg"
+this.ButtonImage="images\settings.svg"
 end on
 
 event clicked;Open(w_utilproperties)
+end event
+
+type m_appearance from menu within m_tools
+end type
+
+on m_appearance.create
+this.Text="&Appearance..."
+this.Microhelp="Choose the theme, and whether the menu is shown as a ribbon."
+this.ToolBarItemVisible=false
+this.MenuImage="images\tb_color.svg"
+this.ButtonImage="images\tb_color.svg"
+end on
+
+event clicked;Open(w_appearance)
 end event
 

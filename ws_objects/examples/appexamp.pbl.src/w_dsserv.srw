@@ -182,7 +182,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "PFC's DataStore, n_ds, has services of its own, like u_dw's: the base service (n_cst_dssrv) reads values as they are displayed and builds expressions, and the report and print preview services change and print a DataStore that is never shown."
@@ -199,7 +199,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Base service (n_cst_dssrv), on the employees"
@@ -211,6 +211,7 @@ integer y = 276
 integer width = 562
 integer taborder = 10
 string text = "&Read Values"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// The stored value beside the value as it is displayed (of_GetItem: the display value
@@ -248,7 +249,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Last name:"
@@ -266,7 +267,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "O'Brien"
 borderstyle borderstyle = stylelowered!
@@ -278,6 +279,7 @@ integer y = 276
 integer width = 888
 integer taborder = 30
 string text = "Build a &Filter Expression"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_BuildExpression quotes the value for an expression, so a name with a quote
@@ -328,7 +330,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Report and print preview services (n_cst_dssrv_report, n_cst_dssrv_printpreview), on the customers"
@@ -340,6 +342,7 @@ integer y = 1060
 integer width = 562
 integer taborder = 50
 string text = "Add a &Title"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// The report service changes the DataStore; dw_view then shows it as it is now
@@ -361,6 +364,7 @@ integer y = 1060
 integer width = 562
 integer taborder = 60
 string text = "&Count Pages"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// The print preview service puts the DataStore in preview mode to count its pages
@@ -378,6 +382,7 @@ integer y = 1060
 integer width = 562
 integer taborder = 70
 string text = "&Print..."
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;string	ls_rc
@@ -400,7 +405,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -422,6 +427,7 @@ integer x = 2107
 integer y = 2012
 integer taborder = 90
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

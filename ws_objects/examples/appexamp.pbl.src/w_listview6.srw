@@ -61,6 +61,7 @@ integer x = 59
 integer y = 52
 integer width = 1934
 integer height = 1132
+string facename = "Segoe UI"
 end type
 
 event constructor;of_SetRMBMenu(True)
@@ -86,6 +87,7 @@ string text = "Close"
 integer x = 1637
 integer y = 1240
 integer taborder = 2
+string facename = "Segoe UI"
 end type
 
 event clicked;call u_cb::clicked;parent.event pfc_close()

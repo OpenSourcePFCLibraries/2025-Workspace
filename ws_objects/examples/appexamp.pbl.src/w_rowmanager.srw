@@ -310,6 +310,7 @@ int Y=192
 int Width=517
 int TabOrder=40
 string Text="Add to &End"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -336,9 +337,10 @@ end event
 type cb_insertbeforecurr from u_cb within w_rowmanager
 int X=1760
 int Y=308
-int Width=517
+int Width=549
 int TabOrder=50
 string Text="&Insert Before Current"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -369,6 +371,7 @@ int Y=424
 int Width=517
 int TabOrder=60
 string Text="&Delete Current"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -391,6 +394,7 @@ int Y=540
 int Width=517
 int TabOrder=70
 string Text="Delete all &Selected"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -414,6 +418,7 @@ int Width=517
 int TabOrder=80
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -436,6 +441,7 @@ int Width=517
 int TabOrder=30
 boolean BringToTop=true
 string Text="&Retrieve"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -454,11 +460,12 @@ end event
 type cbx_confirmdeletes from u_cbx within w_rowmanager
 int X=1792
 int Y=812
-int Width=453
+int Width=476
 int TabOrder=20
 string Text="Con&firm Deletes"
 boolean Checked=true
 long TextColor=41943040
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -482,6 +489,7 @@ int Width=2286
 int Height=1056
 int TabOrder=2
 string Text=""
+string facename = "Segoe UI"
 end type
 
 
@@ -491,6 +499,7 @@ int Y=656
 int Width=517
 int TabOrder=25
 string Text="Res&tore Rows..."
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -515,6 +524,7 @@ int TabOrder=22
 string Text="Allo&w Restore"
 boolean Checked=true
 long TextColor=41943040
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////

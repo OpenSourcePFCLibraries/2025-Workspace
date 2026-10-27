@@ -166,6 +166,7 @@ boolean cancel = true
 integer x = 1696
 integer y = 1188
 integer taborder = 40
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -192,6 +193,7 @@ integer y = 32
 integer width = 2011
 integer height = 160
 integer taborder = 10
+string facename = "Segoe UI"
 end type
 
 type rb_1 from u_rb within w_filterdialogs
@@ -199,8 +201,9 @@ string text = "&Simple (a=b) Style"
 boolean checked = true
 integer x = 78
 integer y = 104
-integer width = 480
+integer width = 517
 boolean bringtotop = true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -220,8 +223,9 @@ type rb_2 from u_rb within w_filterdialogs
 string text = "PFC &Extended Wizard"
 integer x = 722
 integer y = 104
-integer width = 581
+integer width = 599
 boolean bringtotop = true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -241,8 +245,9 @@ type rb_3 from u_rb within w_filterdialogs
 string text = "&PowerBuilder Default"
 integer x = 1463
 integer y = 104
-integer width = 558
+integer width = 604
 boolean bringtotop = true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -264,6 +269,7 @@ string text = "&Reset Filter"
 integer x = 1326
 integer y = 1188
 integer taborder = 30
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -286,6 +292,7 @@ string text = "Set &Filter"
 integer x = 951
 integer y = 1188
 integer taborder = 20
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////

@@ -9,3 +9,7 @@ openid demo/openiddemo.ini
 
 # Output of tools/build.ps1
 /build/
+
+# The help files, which are published in their own repositories (see the README)
+examples/pfcexamp.pdf
+examples/pfcdlg.pdf
