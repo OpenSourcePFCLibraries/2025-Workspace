@@ -89,13 +89,13 @@ type st_info from statictext within w_sheetdemo
 integer x = 37
 integer y = 32
 integer width = 1590
-integer height = 228
+integer height = 268
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Arrange the sheets with the Window menu (the sheet manager does Cascade, Tile, Layer, Minimize All and Undo Arrange), open more with File > New, and change the toolbars with Tools > Customize Toolbars.  The frame remembers its size, position and toolbars."
@@ -104,10 +104,11 @@ end type
 
 type cb_list from u_cb within w_sheetdemo
 integer x = 37
-integer y = 284
+integer y = 324
 integer width = 549
 integer taborder = 10
 string text = "&List the Sheets"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_GetSheets, of_GetSheetCount, and the last arrangement (of_GetCurrentState)
@@ -146,7 +147,7 @@ end event
 
 type st_title from statictext within w_sheetdemo
 integer x = 37
-integer y = 404
+integer y = 444
 integer width = 160
 integer height = 64
 integer textsize = -8
@@ -154,7 +155,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Title:"
@@ -163,7 +164,7 @@ end type
 
 type sle_title from singlelineedit within w_sheetdemo
 integer x = 210
-integer y = 392
+integer y = 432
 integer width = 375
 integer height = 84
 integer taborder = 20
@@ -172,7 +173,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "Sheet 1"
 borderstyle borderstyle = stylelowered!
@@ -180,10 +181,11 @@ end type
 
 type cb_find from u_cb within w_sheetdemo
 integer x = 608
-integer y = 392
+integer y = 432
 integer width = 549
 integer taborder = 30
 string text = "&Go to the Sheet"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_GetSheetsByTitle finds the sheets with that title; the first one gets the focus
@@ -203,7 +205,7 @@ end event
 
 type lb_sheets from listbox within w_sheetdemo
 integer x = 37
-integer y = 512
+integer y = 552
 integer width = 1590
 integer height = 440
 integer taborder = 40
@@ -212,7 +214,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 boolean vscrollbar = true
 boolean sorted = false

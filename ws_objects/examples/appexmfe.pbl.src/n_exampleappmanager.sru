@@ -10,6 +10,10 @@ end type
 global n_exampleappmanager n_exampleappmanager
 
 type variables
+Public:
+// The app's folder (the current directory when it starts): the INI file, the themes and the
+// images are in it.  Examples such as the file service change the current directory.
+string	is_appfolder
 end variables
 
 forward prototypes
@@ -57,7 +61,7 @@ of_SetUserKey ( "HKEY_CURRENT_USER\Software\Appeon\PowerBuilder\" + &
 	String ( li_major ) + "." + String ( li_minor ) + "\PFC Examples" )
 	
 // The file name of the application's online help file
-of_SetHelpFile ( "pfcexamp.chm" )
+of_SetHelpFile ( "pfcexamp.pdf" )
 
 // The application version
 of_SetVersion ( "Version " + String ( li_major ) + "." + String ( li_minor ) + ".00" )
@@ -118,6 +122,8 @@ String			ls_inifile
 //Enable the Error service.
 of_SetError ( True )
 
+is_appfolder = GetCurrentDirectory ( )
+
 ls_inifile = gnv_app.of_GetAppIniFile()
 IF SQLCA.of_Init(ls_inifile, "Database") = -1 THEN
 	this.inv_error.of_message(gnv_app.iapp_object.DisplayName, + &
@@ -147,7 +153,24 @@ of_SetTrRegistration ( True )
 of_SetDebug ( True )
 inv_debug.of_SetDWProperty ( True )
 
+// The help service shows the help (pfcexamp.pdf) and the PFC dialog boxes' help (pfcdlg.pdf):
+// in the application, or in the user's PDF viewer when HelpViewer in the [Application]
+// section of the INI file is PDFViewer
+of_SetHelp ( True )
+If Lower ( ProfileString ( ls_inifile, "Application", "HelpViewer", "InApp" ) ) = "pdfviewer" Then
+	inv_help.of_SetViewer ( inv_help.PDFVIEWER )
+End If
+
 //Open Front End GUI window object.
+// The UI theme: Theme in the [Application] section of the INI file, Flat Design Grey by
+// default (the themes are in the theme folder; None uses no theme).  gnv_app.of_ApplyTheme
+// also gives the status bar the theme's colors.
+ls_temp = ProfileString ( ls_inifile, "Application", "Theme", "Flat Design Grey" )
+If ls_temp <> "" And Lower ( ls_temp ) <> "none" Then
+	ls_initpath = is_appfolder + "\theme\" + ls_temp
+	If DirectoryExists ( ls_initpath ) Then gnv_app.of_ApplyTheme ( ls_initpath )
+End If
+
 Open ( w_examplemain )
 end event
 

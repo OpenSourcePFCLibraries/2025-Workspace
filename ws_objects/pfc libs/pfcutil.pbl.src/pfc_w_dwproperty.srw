@@ -271,6 +271,7 @@ event clicked;call super::clicked;//////////////////////////////////////////////
 //
 //	Version
 //	6.0   Initial version
+//	2025	The PDF dialog help (pfcdlg.pdf), shown by of_ShowDialogHelp
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -296,11 +297,18 @@ event clicked;call super::clicked;//////////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-int	li_helpindex
+string	ls_destination
 
-// Determine help index based on selected tab
-li_helpindex = (tab_property.selectedTab * 100) + 10000
+// The topic of the selected tab
+Choose Case tab_property.SelectedTab
+	Case 2
+		ls_destination = "w_dwproperty_bufferstab"
+	Case 3
+		ls_destination = "w_dwproperty_status_flagstab"
+	Case Else
+		ls_destination = "w_dwproperty_servicestab"
+End Choose
 
-showHelp ("pfcdlg.chm", topic!, li_helpindex)
+of_ShowDialogHelp (ls_destination)
 end event
 

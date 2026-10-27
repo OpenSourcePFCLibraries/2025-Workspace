@@ -180,7 +180,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "The transaction registration service (n_cst_trregistration, started with the application manager's of_SetTrRegistration) keeps track of an application's transaction objects (n_tr): code anywhere can find one by name, and the service can destroy them all, for example when the application closes."
@@ -193,6 +193,7 @@ integer y = 228
 integer width = 677
 integer taborder = 10
 string text = "Register &SQLCA"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;If gnv_app.inv_trregistration.of_IsRegistered(sqlca) Then
@@ -213,6 +214,7 @@ integer y = 228
 integer width = 1431
 integer taborder = 20
 string text = "&Connect and Register a Second Transaction, ~"Reports~""
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Another connection to the example database, as an application might open for its
@@ -239,7 +241,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Name:"
@@ -257,7 +259,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "Reports"
 borderstyle borderstyle = stylelowered!
@@ -269,6 +271,7 @@ integer y = 340
 integer width = 677
 integer taborder = 40
 string text = "&Find by Name"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;n_tr	ltr_found
@@ -289,6 +292,7 @@ integer y = 340
 integer width = 731
 integer taborder = 50
 string text = "&Destroy All Registered"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_Destroy unregisters and destroys every registered transaction, SQLCA too by
@@ -319,7 +323,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -336,7 +340,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 boolean vscrollbar = true
 borderstyle borderstyle = stylelowered!
@@ -352,7 +356,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -363,6 +367,7 @@ integer x = 1792
 integer y = 1164
 integer taborder = 70
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

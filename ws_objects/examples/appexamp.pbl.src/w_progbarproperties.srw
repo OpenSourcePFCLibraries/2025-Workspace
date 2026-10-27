@@ -282,6 +282,7 @@ int Y=1656
 int TabOrder=20
 string Text="OK"
 boolean Default=true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////
@@ -335,6 +336,7 @@ int TabOrder=30
 boolean BringToTop=true
 string Text="Cancel"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////
@@ -385,6 +387,7 @@ int Y=1656
 int TabOrder=40
 boolean BringToTop=true
 string Text="&Apply"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////
@@ -437,6 +440,7 @@ int TabOrder=50
 boolean Enabled=false
 boolean BringToTop=true
 string Text="&Help"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////

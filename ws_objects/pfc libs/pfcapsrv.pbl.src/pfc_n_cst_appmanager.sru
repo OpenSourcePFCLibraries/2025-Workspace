@@ -32,6 +32,7 @@ n_cst_security	inv_security
 n_cst_apppreference	inv_apppref
 n_cst_mru		inv_mru
 n_cst_language	inv_language
+n_cst_help		inv_help
 
 Protected:
 boolean	ib_microhelp
@@ -86,6 +87,7 @@ public function integer of_setsecurity (boolean ab_switch)
 public function integer of_setapppreference (boolean ab_switch)
 public function integer of_setmru (boolean ab_switch)
 public function integer of_setlanguage (boolean ab_switch)
+public function integer of_sethelp (boolean ab_switch)
 public function integer of_applytheme (string as_themepath)
 public function string of_getthemepath ()
 end prototypes
@@ -1530,7 +1532,9 @@ public function integer of_sethelpfile (string as_helpfile);////////////////////
 //	Access:  public
 //
 //	Arguments:
-//	as_helpfile:  Full pathname of the application's online help file.
+//	as_helpfile:  The application's online help file: a PDF file, or a compiled HTML Help
+//		(.chm) or WinHelp (.hlp) file.  Without a path, it is looked for in the current
+//		folder and then in the folder of the application (see n_cst_help).
 //
 //	Returns:  Integer
 //	 1 = success
@@ -1544,6 +1548,7 @@ public function integer of_sethelpfile (string as_helpfile);////////////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	A PDF help file
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2774,6 +2779,76 @@ END IF
 Return 0
 end function
 
+public function integer of_sethelp (boolean ab_switch);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_SetHelp
+//
+//	Access:  public
+//
+//	Arguments:
+//	ab_switch	True to start the help service, False to stop it
+//
+//	Returns:  Integer
+//	 1 = successful operation
+//	 0 = no action necessary
+//	-1 = an error was encountered
+//
+//	Description:  Starts or stops the help service (inv_help), which shows the help file
+//		(of_SetHelpFile) and the help of the PFC dialog boxes.  A PDF help file is shown in
+//		the application or in the user's PDF viewer: see inv_help.of_SetViewer.  Without
+//		the service, help is shown in the application.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c) 
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+//Check arguments
+If IsNull(ab_switch) Then
+	Return -1
+End If
+
+IF ab_Switch THEN
+	IF IsNull(inv_help) Or Not IsValid (inv_help) THEN
+		inv_help = CREATE n_cst_help
+		Return 1
+	END IF
+ELSE
+	IF IsValid (inv_help) THEN
+		DESTROY inv_help
+		Return 1
+	END IF
+END IF
+
+Return 0
+end function
+
 event destructor;//////////////////////////////////////////////////////////////////////////////
 //
 //	Event:  destructor
@@ -2788,6 +2863,7 @@ event destructor;///////////////////////////////////////////////////////////////
 //	5.0   Initial version
 //	5.0.02   Destroy security service
 // 6.0	Destroy app preference and MRU services
+//	2025	Destroy the language and help services
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -2821,6 +2897,7 @@ of_SetSecurity (false)
 of_SetAppPreference (false)
 of_SetMRU (false)
 of_SetLanguage (false)
+of_SetHelp (false)
 end event
 
 event constructor;//////////////////////////////////////////////////////////////////////////////

@@ -123,13 +123,13 @@ type st_intro from statictext within w_metaclass
 integer x = 37
 integer y = 32
 integer width = 2130
-integer height = 172
+integer height = 216
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "The metaclass service (n_cst_metaclass) reads a class's definition at run time: its ancestors, events, functions, variables and nested classes, and whether it defines or scripts an event.  Type a class name, for example w_metaclass, u_dw or n_cst_string."
@@ -138,7 +138,7 @@ end type
 
 type st_class from statictext within w_metaclass
 integer x = 37
-integer y = 248
+integer y = 292
 integer width = 160
 integer height = 64
 integer textsize = -8
@@ -146,7 +146,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Class:"
@@ -155,7 +155,7 @@ end type
 
 type sle_class from singlelineedit within w_metaclass
 integer x = 210
-integer y = 236
+integer y = 280
 integer width = 640
 integer height = 84
 integer taborder = 10
@@ -164,7 +164,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "w_metaclass"
 borderstyle borderstyle = stylelowered!
@@ -172,7 +172,7 @@ end type
 
 type st_list from statictext within w_metaclass
 integer x = 887
-integer y = 248
+integer y = 292
 integer width = 128
 integer height = 64
 integer textsize = -8
@@ -180,7 +180,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&List:"
@@ -189,7 +189,7 @@ end type
 
 type ddlb_list from dropdownlistbox within w_metaclass
 integer x = 1024
-integer y = 236
+integer y = 280
 integer width = 640
 integer height = 600
 integer taborder = 20
@@ -198,7 +198,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 boolean sorted = false
 boolean vscrollbar = true
@@ -211,10 +211,11 @@ end event
 
 type cb_show from u_cb within w_metaclass
 integer x = 1701
-integer y = 232
+integer y = 276
 integer width = 466
 integer taborder = 30
 string text = "&Show"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////
@@ -273,7 +274,7 @@ end event
 
 type cbx_skip from checkbox within w_metaclass
 integer x = 37
-integer y = 340
+integer y = 384
 integer width = 2130
 integer height = 72
 integer taborder = 35
@@ -282,7 +283,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Skip the &system-defined events, functions and variables (of_SetSkipSystemMode)"
@@ -294,7 +295,7 @@ end event
 
 type st_overview from statictext within w_metaclass
 integer x = 37
-integer y = 436
+integer y = 480
 integer width = 2130
 integer height = 72
 integer textsize = -8
@@ -302,7 +303,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -310,7 +311,7 @@ end type
 
 type lb_list from listbox within w_metaclass
 integer x = 37
-integer y = 528
+integer y = 572
 integer width = 2130
 integer height = 720
 integer taborder = 40
@@ -319,7 +320,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 boolean hscrollbar = true
 boolean vscrollbar = true
@@ -329,7 +330,7 @@ end type
 
 type st_event from statictext within w_metaclass
 integer x = 37
-integer y = 1300
+integer y = 1344
 integer width = 160
 integer height = 64
 integer textsize = -8
@@ -337,7 +338,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Event:"
@@ -346,7 +347,7 @@ end type
 
 type sle_event from singlelineedit within w_metaclass
 integer x = 210
-integer y = 1288
+integer y = 1332
 integer width = 640
 integer height = 84
 integer taborder = 50
@@ -355,7 +356,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 string text = "open"
 borderstyle borderstyle = stylelowered!
@@ -363,10 +364,11 @@ end type
 
 type cb_check from u_cb within w_metaclass
 integer x = 887
-integer y = 1284
+integer y = 1328
 integer width = 466
 integer taborder = 60
 string text = "Chec&k"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Whether the class has the event (of_IsEventDefined), and whether it or an
@@ -387,7 +389,7 @@ end event
 
 type st_check from statictext within w_metaclass
 integer x = 37
-integer y = 1404
+integer y = 1448
 integer width = 2130
 integer height = 128
 integer textsize = -8
@@ -395,7 +397,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -403,9 +405,10 @@ end type
 
 type cb_close from u_cb within w_metaclass
 integer x = 1792
-integer y = 1568
+integer y = 1612
 integer taborder = 70
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

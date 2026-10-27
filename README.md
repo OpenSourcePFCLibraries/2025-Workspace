@@ -23,11 +23,13 @@ The PFC documentation (the User's Guide and the Object Reference, converted to M
 
 ## Help files
 
-The help files are not included in this repository.  Each one is published as a release in its own repository; download it and put it beside your application's exe:
+The help files are PDF files, and they are not included in this repository.  Download them and put them beside your application's exe:
 
-- [pfcdlg.chm](https://github.com/OpenSourcePFCLibraries/PFCDLG-help-file-and-source/releases/latest/download/pfcdlg.chm): help for the PFC dialogs ([PFCDLG-help-file-and-source](https://github.com/OpenSourcePFCLibraries/PFCDLG-help-file-and-source/releases/latest))
-- [PFCEXAMP.chm](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest/download/PFCEXAMP.chm): help for the PFC example application ([Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest))
-- [pfctutor.chm](https://github.com/OpenSourcePFCLibraries/PFCTUTOR-help-file-and-source/releases/latest/download/pfctutor.chm): help for the PFC tutorial ([PFCTUTOR-help-file-and-source](https://github.com/OpenSourcePFCLibraries/PFCTUTOR-help-file-and-source/releases/latest))
+- [pfcdlg.pdf](https://github.com/OpenSourcePFCLibraries/docs/raw/main/dialog-help/pfcdlg.pdf): help for the PFC dialogs, which their Help buttons open (built from the [dialog help](https://github.com/OpenSourcePFCLibraries/docs/tree/main/dialog-help) in the docs repository)
+- [PFCEXAMP.pdf](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest/download/PFCEXAMP.pdf): help for the PFC example application ([Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest))
+- [pfctutor.pdf](https://github.com/OpenSourcePFCLibraries/PFCTUTOR-help-file-and-source/releases/latest/download/pfctutor.pdf): help for the PFC tutorial ([PFCTUTOR-help-file-and-source](https://github.com/OpenSourcePFCLibraries/PFCTUTOR-help-file-and-source/releases/latest))
+
+PFC's help service (`n_cst_help`, started with `gnv_app.of_SetHelp(True)`) shows a PDF help file at a topic, in a window of the application (`w_helpviewer`, with the Microsoft Edge WebView2 PDF viewer) or, with `gnv_app.inv_help.of_SetViewer(gnv_app.inv_help.PDFVIEWER)`, in the user's PDF viewer.  A topic is a named destination in the PDF file: `topic_<number>` for a help topic number, or a name, such as the PFC dialogs' `w_find`.  Compiled HTML Help (.chm) files are still shown with ShowHelp.
 
 ## Building from the command line
 

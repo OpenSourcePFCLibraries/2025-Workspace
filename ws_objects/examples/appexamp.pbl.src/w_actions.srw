@@ -60,6 +60,7 @@ int Width=1051
 string Text=""
 long TextColor=41943040
 long BackColor=79219928
+string facename = "Segoe UI"
 end type
 
 type sle_name from u_sle within w_actions
@@ -69,6 +70,7 @@ int Width=1211
 int TabOrder=10
 long TextColor=41943040
 long BackColor=1080593568
+string facename = "Segoe UI"
 end type
 
 type cb_ok from u_cb within w_actions
@@ -77,6 +79,7 @@ int Y=256
 int TabOrder=20
 string Text="OK"
 boolean Default=true
+string facename = "Segoe UI"
 end type
 
 event clicked;call u_cb::clicked;CloseWithReturn(Parent, sle_name.text)
@@ -89,6 +92,7 @@ int Y=256
 int TabOrder=30
 boolean BringToTop=true
 string Text="Cancel"
+string facename = "Segoe UI"
 end type
 
 event clicked;call u_cb::clicked;CloseWithReturn(Parent, "")

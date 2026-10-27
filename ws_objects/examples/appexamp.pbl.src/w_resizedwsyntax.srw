@@ -122,6 +122,7 @@ int TabOrder=30
 string Item[]={"DataWindow"}
 string PictureName[]={"DataWindow5!"}
 int ItemPictureIndex[]={1}
+string facename = "Segoe UI"
 end type
 
 event constructor;call super::constructor;//////////////////////////////////////////////////////////////////////////////
@@ -180,6 +181,7 @@ string Item[]={"Attributes",&
 "Crosstab.Rows",&
 "Crosstab.SourceNames",&
 "Crosstab.StaticMode"}
+string facename = "Segoe UI"
 end type
 
 type mle_describe from u_mle within w_resizedwsyntax
@@ -189,6 +191,7 @@ int Width=2469
 int Height=180
 int TabOrder=20
 string Text="<DW Control Name>.Describe(~"DataWindow."
+string facename = "Segoe UI"
 end type
 
 type mle_dotnotation from u_mle within w_resizedwsyntax
@@ -199,20 +202,23 @@ int Height=180
 int TabOrder=10
 boolean BringToTop=true
 string Text="<DW Control Name>.Object.DataWindow."
+string facename = "Segoe UI"
 end type
 
 type st_object from u_st within w_resizedwsyntax
 int X=32
 int Y=36
 string Text="Object:"
+string facename = "Segoe UI"
 end type
 
 type st_describe from u_st within w_resizedwsyntax
 int X=32
 int Y=632
-int Width=416
+int Width=448
 boolean BringToTop=true
 string Text="Describe Function:"
+string facename = "Segoe UI"
 end type
 
 type st_dotnotation from u_st within w_resizedwsyntax
@@ -220,6 +226,7 @@ int X=32
 int Y=912
 boolean BringToTop=true
 string Text="Dot Notation:"
+string facename = "Segoe UI"
 end type
 
 type st_note from u_st within w_resizedwsyntax
@@ -227,6 +234,7 @@ int X=32
 int Y=504
 boolean BringToTop=true
 string Text="Notes:"
+string facename = "Segoe UI"
 end type
 
 type gb_notes from u_gb within w_resizedwsyntax
@@ -236,6 +244,7 @@ int Width=2464
 int Height=36
 int TabOrder=2
 string Text=""
+string facename = "Segoe UI"
 end type
 
 type st_attributes from u_st within w_resizedwsyntax
@@ -243,5 +252,6 @@ int X=1280
 int Y=36
 boolean BringToTop=true
 string Text="Attributes:"
+string facename = "Segoe UI"
 end type
 

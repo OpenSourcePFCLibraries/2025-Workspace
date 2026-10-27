@@ -115,6 +115,7 @@ int Height=224
 string Text="Delete some of the values in the editable columns.  When the DataWindow Required Columns Service is on, there will be no required fields validation messages until you click the  ~"Check Required~" button. "
 long TextColor=33554432
 long BackColor=77571519
+string facename = "Segoe UI"
 end type
 
 type cb_checkrequired from u_cb within w_requiredfields
@@ -123,6 +124,7 @@ int Y=1292
 int Width=439
 int TabOrder=30
 string Text="&Check Required "
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -156,6 +158,7 @@ int Width=416
 int TabOrder=40
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -174,9 +177,10 @@ end event
 type cbx_required from u_cbx within w_requiredfields
 int X=155
 int Y=344
-int Width=1161
+int Width=1226
 int TabOrder=20
 string Text="&Start the DataWindow Required Column Service"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;//////////////////////////////////////////////////////////////////////////////

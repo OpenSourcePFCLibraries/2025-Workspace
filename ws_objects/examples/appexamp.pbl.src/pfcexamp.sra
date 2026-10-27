@@ -16,8 +16,8 @@ end variables
 global type pfcexamp from application
 string appname = "pfcexamp"
 integer highdpimode = 0
-string themepath = "."
-string themename = "Flat Design Grey - Modified"
+string themepath = "C:\Program Files (x86)\Appeon\PowerBuilder 25.0\IDE\theme"
+string themename = "Do Not Use Themes"
 boolean nativepdfvalid = false
 boolean nativepdfincludecustomfont = false
 string nativepdfappname = ""
@@ -25,7 +25,7 @@ long richtextedittype = 5
 long richtexteditx64type = 5
 long richtexteditversion = 3
 string richtexteditkey = ""
-string appicon = ""
+string appicon = "images\pfcexamp.ico"
 string appruntimeversion = "25.1.0.6430"
 boolean manualsession = false
 boolean unsupportedapierror = false

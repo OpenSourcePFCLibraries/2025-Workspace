@@ -122,6 +122,7 @@ int Height=368
 int TabOrder=30
 boolean BringToTop=true
 long TextColor=33554432
+string facename = "Segoe UI"
 end type
 
 type st_h1 from u_st_splitbar within w_splitbar3panestyle

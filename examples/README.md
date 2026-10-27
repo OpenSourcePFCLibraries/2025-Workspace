@@ -4,7 +4,7 @@ The Examples app (the `pfc examples` target, `pfc examples.pbt`, which builds `p
 
 The examples' source is in `ws_objects/examples`; to build without the IDE, use `pwsh -File tools\build.ps1 -Target "pfc examples"` (see the top-level README).
 
-Each example's help topic is in [PFCEXAMP.chm](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest/download/PFCEXAMP.chm) ([Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file)); put it beside `pfcexamp.exe`. The PFC documentation is in the [docs](https://github.com/OpenSourcePFCLibraries/docs) repository.
+Each example's help topic is in [PFCEXAMP.pdf](https://github.com/OpenSourcePFCLibraries/Example-application-help-file/releases/latest/download/PFCEXAMP.pdf) ([Example-application-help-file](https://github.com/OpenSourcePFCLibraries/Example-application-help-file)), and the PFC dialogs' help is in [pfcdlg.pdf](https://github.com/OpenSourcePFCLibraries/docs/raw/main/dialog-help/pfcdlg.pdf); put them in this folder, or beside `pfcexamp.exe`. The PFC documentation is in the [docs](https://github.com/OpenSourcePFCLibraries/docs) repository.
 
 ## Setting up
 
@@ -41,7 +41,27 @@ The Security Service example also needs a `[Security]` section, with the same ke
 
 ### The images
 
-The examples' pictures (toolbar and TreeView images, the drop-down arrows and so on) are in [PFC-Example-App-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Example-App-Image-Files). Clone it, and add its folder to the system path or to PowerBuilder's application path, so both the IDE and `pfcexamp.exe` find them. The project names a resource file, `..\examples.pbr`, that isn't in this repository, so the images aren't compiled into the exe.
+The menu, ribbon and toolbar icons, the tree and list pictures and the examples' pictures are SVG files in `images`, from Microsoft's [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT license, in `images\LICENSE-fluentui-system-icons.txt`). The examples find them by their path relative to this folder, so run the app with this folder as the current directory, as the IDE and `pfcexamp.exe` do when they are here.
+
+A few older bitmaps are still used: the splash screen, the status bar's service indicators, and the pictures of PFC's own dialogs. They are in [PFC-Example-App-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Example-App-Image-Files); clone it and add its folder to the system path or to PowerBuilder's application path. The project names a resource file, `..\examples.pbr`, that isn't in this repository, so the images aren't compiled into the exe.
+
+### The appearance
+
+The app uses a UI theme, shows its menu as a ribbon, and shows help in a window of its own. Change them with **Utilities > Appearance**. A new theme and the ribbon setting apply at once; choosing no theme takes effect the next time the app starts, because PowerBuilder can't remove a theme while the app runs. The window saves the choices as settings in the `[Application]` section of `examples.ini`:
+
+```ini
+[Application]
+; The theme's folder in theme (Flat Design Grey by default), or None for no theme
+Theme=Flat Design Grey
+; 0 shows the classic menu and toolbar instead of the ribbon (1 by default)
+RibbonBar=1
+; PDFViewer shows help in your PDF viewer instead of in the app (InApp by default)
+HelpViewer=InApp
+```
+
+The themes are PowerBuilder's Flat Design Grey (the default), Blue and Dark, in `theme`. To offer others, copy them next to these from PowerBuilder's `IDE\theme` folder; the Appearance window lists the folders it finds. The app applies a theme with `gnv_app.of_ApplyTheme`, so the status bar takes its colors too. The windows, DataWindows and the ribbon use Segoe UI, and the app's icon is `images\pfcexamp.ico`.
+
+Help (F1, or **Help > Help Topics**) opens the topic of the example, or of the example or category selected in the main window, with PFC's help service: `gnv_app.of_SetHelp(True)` starts it, and `gnv_app.inv_help.of_SetViewer` chooses the app's help window or your PDF viewer. A topic is the named destination `topic_<help context number>` in `PFCEXAMP.pdf`.
 
 ## The example catalog
 
@@ -53,7 +73,7 @@ The main window's tree and list come from two tab-delimited files in this folder
 |---|---|
 | example_id | A number, unique in the file |
 | title | The name in the list, and the window's title |
-| exhelp | The help context number of its topic in PFCEXAMP.chm: 1000 + example_id |
+| exhelp | The help context number of its topic in PFCEXAMP.pdf (the named destination topic_<number>): 1000 + example_id |
 | window | The window that the example opens |
 
 `examcat.txt` has a line for each item in the tree, a category or an example:

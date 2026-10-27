@@ -134,6 +134,7 @@ protected function integer of_messagebox (string as_id, string as_title, string 
 public function integer of_setdberrormsg (n_cst_dberrorattrib anv_dberrorattrib)
 public function integer of_setstyle (boolean ab_switch)
 protected subroutine of_getorigsize (ref integer ai_width, ref integer ai_height)
+public function integer of_showdialoghelp (string as_destination)
 end prototypes
 
 event pfc_controlgotfocus;//////////////////////////////////////////////////////////////////////////////
@@ -334,9 +335,10 @@ event pfc_help;/////////////////////////////////////////////////////////////////
 //	-1 = error
 //
 //	Description:
-//	Call the windows help file associated with the application.
-//	Uses the HelpType property of this window to determine what help
-//	to display.
+//	Show the help file of the application (gnv_app.of_SetHelpFile), with
+//	the help service (n_cst_help).  The help type id of this window
+//	(ia_helptypeid) says what help to display: a topic number, a keyword (in a
+//	PDF file, a named destination), or none for the start of the file.
 //
 //////////////////////////////////////////////////////////////////////////////
 //	
@@ -345,6 +347,7 @@ event pfc_help;/////////////////////////////////////////////////////////////////
 //	Version
 //	5.0   Initial version
 // 7.0 	If help type id is not specified open the top-level contents topic.
+//	2025	A PDF help file, shown by the help service
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -373,18 +376,30 @@ event pfc_help;/////////////////////////////////////////////////////////////////
 Long		ll_helptypeid
 String	ls_helpfile
 String	ls_helptypeid
+Integer	li_rc
+Boolean	lb_created
+n_cst_help	lnv_help
 
 ls_helpfile = gnv_app.of_GetHelpFile()
 If Len (Trim (ls_helpfile)) > 0 Then
+	// The application's help service, so that its settings apply, or one for this help
+	If IsValid (gnv_app.inv_help) Then
+		lnv_help = gnv_app.inv_help
+	Else
+		lnv_help = Create n_cst_help
+		lb_created = True
+	End If
 	If Lower (ClassName (ia_helptypeid)) = 'long' Then
 		ll_helptypeid = ia_helptypeid
-		Return ShowHelp (ls_helpfile, Topic! , ll_helptypeid)
+		li_rc = lnv_help.of_ShowHelp (ls_helpfile, ll_helptypeid)
 	ElseIf Lower (ClassName (ia_helptypeid)) = 'string' Then
 		ls_helptypeid = ia_helptypeid
-		Return ShowHelp (ls_helpfile, Keyword!, ls_helptypeid)
+		li_rc = lnv_help.of_ShowHelp (ls_helpfile, ls_helptypeid)
 	Else
-		Return ShowHelp (ls_helpfile, Index!)
+		li_rc = lnv_help.of_ShowHelp (ls_helpfile)
 	End If
+	If lb_created Then Destroy lnv_help
+	Return li_rc
 End If
 
 If IsValid(gnv_app.inv_debug) Then		
@@ -2300,6 +2315,67 @@ If ll_width <= 0 Or ll_height <= 0 Or ll_width > 32767 Or ll_height > 32767 Then
 ai_width = ll_width
 ai_height = ll_height
 end subroutine
+
+public function integer of_showdialoghelp (string as_destination);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  of_ShowDialogHelp
+//
+//	Access:  public
+//
+//	Arguments:
+//	as_destination		The topic of the dialog box in the PFC dialog help (pfcdlg.pdf): the
+//						name of the PFC window without its prefix, for example "w_find"
+//
+//	Returns:  Integer
+//	 1 = success
+//	-1 = error (the help file doesn't exist, or couldn't be shown)
+//
+//	Description:  Shows the help of a PFC dialog box, with the application's help service
+//		(gnv_app.inv_help) if it has started one, so that its settings apply.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c) 
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+n_cst_help	lnv_help
+integer		li_rc
+
+If IsValid(gnv_app) Then
+	If IsValid(gnv_app.inv_help) Then Return gnv_app.inv_help.of_ShowDialogHelp(as_destination)
+End If
+
+lnv_help = Create n_cst_help
+li_rc = lnv_help.of_ShowDialogHelp(as_destination)
+Destroy lnv_help
+Return li_rc
+end function
 
 public function integer of_setbase (boolean ab_switch);//////////////////////////////////////////////////////////////////////////////
 //

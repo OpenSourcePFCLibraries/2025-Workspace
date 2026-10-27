@@ -107,6 +107,7 @@ integer height = 1020
 integer taborder = 10
 boolean linesatroot = true
 string picturename[] = {"globals!","parameter!","library!","custom076!","scriptyes!","update!","custom050!"}
+string facename = "Segoe UI"
 end type
 
 event ue_update;integer		li_rc, li_msg

@@ -109,6 +109,7 @@ integer taborder = 10
 long backcolor = 1080593568
 boolean linesatroot = true
 boolean hideselection = false
+string facename = "Segoe UI"
 end type
 
 event constructor;call super::constructor;of_setbase(true)
@@ -145,6 +146,7 @@ integer taborder = 20
 long backcolor = 1080593568
 integer largepicturewidth = 0
 integer largepictureheight = 0
+string facename = "Segoe UI"
 end type
 
 event constructor;call super::constructor;of_setbase(true)
@@ -274,6 +276,7 @@ integer x = 2272
 integer y = 792
 integer taborder = 30
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Parent.event pfc_close()

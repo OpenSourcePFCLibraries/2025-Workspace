@@ -213,6 +213,7 @@ string Text="This DataWindow joins three tables on ~"Customer ID~".   See the le
 Alignment Alignment=Center!
 long TextColor=33554432
 long BackColor=82889382
+string facename = "Segoe UI"
 end type
 
 type cb_close from u_cb within w_multiupdate
@@ -221,6 +222,7 @@ int Y=1432
 int TabOrder=40
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -241,6 +243,7 @@ int X=2057
 int Y=1432
 int TabOrder=30
 string Text="&Update"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -261,6 +264,7 @@ int X=1678
 int Y=1432
 int TabOrder=20
 string Text="&Retrieve"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -292,6 +296,7 @@ int Width=1339
 int Height=180
 int TabOrder=0
 string Text="Table Legend"
+string facename = "Segoe UI"
 end type
 
 type st_1 from u_st within w_multiupdate
@@ -304,6 +309,7 @@ boolean Border=true
 BorderStyle BorderStyle=StyleLowered!
 string Text=""
 long BackColor=128
+string facename = "Segoe UI"
 end type
 
 type st_3 from u_st within w_multiupdate
@@ -313,6 +319,7 @@ int Width=233
 int Height=76
 boolean BringToTop=true
 string Text="Customer"
+string facename = "Segoe UI"
 end type
 
 type st_4 from u_st within w_multiupdate
@@ -325,6 +332,7 @@ boolean Border=true
 BorderStyle BorderStyle=StyleLowered!
 string Text=""
 long BackColor=32768
+string facename = "Segoe UI"
 end type
 
 type st_5 from u_st within w_multiupdate
@@ -334,6 +342,7 @@ int Width=434
 int Height=76
 boolean BringToTop=true
 string Text="Sales_Order_Items"
+string facename = "Segoe UI"
 end type
 
 type st_6 from u_st within w_multiupdate
@@ -346,15 +355,17 @@ boolean Border=true
 BorderStyle BorderStyle=StyleLowered!
 string Text=""
 long BackColor=8388736
+string facename = "Segoe UI"
 end type
 
 type st_7 from u_st within w_multiupdate
 int X=1088
 int Y=1420
-int Width=274
+int Width=288
 int Height=76
 boolean BringToTop=true
 string Text="Sales_Order"
+string facename = "Segoe UI"
 end type
 
 type st_8 from u_st within w_multiupdate
@@ -366,6 +377,7 @@ string Text="The Multiple Table Update Service will enable you to update several
 Alignment Alignment=Center!
 long TextColor=33554432
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type gb_2 from u_gb within w_multiupdate
@@ -374,5 +386,6 @@ int Y=28
 int Width=2752
 int TabOrder=0
 string Text=""
+string facename = "Segoe UI"
 end type
 

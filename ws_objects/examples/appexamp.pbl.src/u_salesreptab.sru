@@ -237,7 +237,7 @@ int X=2729
 int Y=328
 int Width=73
 int Height=64
-string PictureName="rowind.bmp"
+string PictureName="images\row_arrow.png"
 boolean OriginalSize=true
 end type
 

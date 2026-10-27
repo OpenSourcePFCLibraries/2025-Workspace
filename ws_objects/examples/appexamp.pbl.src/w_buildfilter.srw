@@ -379,6 +379,7 @@ int TabOrder=100
 boolean BringToTop=true
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -401,6 +402,7 @@ int Width=370
 int TabOrder=60
 boolean BringToTop=true
 long BackColor=1090519039
+string facename = "Segoe UI"
 end type
 
 type st_4 from u_st within w_buildfilter
@@ -408,6 +410,7 @@ int X=2249
 int Y=112
 boolean BringToTop=true
 string Text="Enter a Value:"
+string facename = "Segoe UI"
 end type
 
 type st_5 from u_st within w_buildfilter
@@ -415,16 +418,18 @@ int X=1874
 int Y=112
 int Width=361
 boolean BringToTop=true
-string Text="Select Operator:"
+string Text="Operator:"
+string facename = "Segoe UI"
 end type
 
 type cb_dwbuildexpr from u_cb within w_buildfilter
 int X=434
 int Y=344
-int Width=425
+int Width=444
 int TabOrder=30
 boolean BringToTop=true
 string Text="&Build Expression"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -457,21 +462,25 @@ int TabOrder=0
 boolean BringToTop=true
 boolean DisplayOnly=true
 long BackColor=77633680
+string facename = "Segoe UI"
 end type
 
 type st_2 from u_st within w_buildfilter
+integer width = 357
 int X=421
 int Y=112
 boolean BringToTop=true
 string Text="Select Column:"
+string facename = "Segoe UI"
 end type
 
 type st_3 from u_st within w_buildfilter
 int X=878
 int Y=112
-int Width=361
+int Width=389
 boolean BringToTop=true
-string Text="Select Operator:"
+string Text="Operator:"
+string facename = "Segoe UI"
 end type
 
 type ddlb_dwoperator from u_ddlb within w_buildfilter
@@ -487,15 +496,17 @@ string Item[]={"=",&
 "<>",&
 ">=",&
 "<="}
+string facename = "Segoe UI"
 end type
 
 type cb_buildexpr from u_cb within w_buildfilter
 int X=1838
 int Y=344
-int Width=425
+int Width=444
 int TabOrder=70
 boolean BringToTop=true
 string Text="Build &Expression"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -530,6 +541,7 @@ string Item[]={"=",&
 "<>",&
 ">=",&
 "<="}
+string facename = "Segoe UI"
 end type
 
 type gb_2 from u_gb within w_buildfilter
@@ -538,8 +550,9 @@ int Y=28
 int Width=1253
 int Height=816
 int TabOrder=0
-string Text="Build Filter From Supplied Criteria:"
+string Text="Build Filter from Supplied Criteria:"
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type st_1 from u_st within w_buildfilter
@@ -548,6 +561,7 @@ int Y=112
 int Width=265
 boolean BringToTop=true
 string Text="Row:"
+string facename = "Segoe UI"
 end type
 
 type cb_reset from u_cb within w_buildfilter
@@ -556,6 +570,7 @@ int Y=1544
 int TabOrder=90
 boolean BringToTop=true
 string Text="&Clear Filter"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -576,11 +591,13 @@ dw_1.Filter()
 end event
 
 type st_6 from u_st within w_buildfilter
+integer width = 357
 int X=1440
 int Y=112
 int Height=76
 boolean BringToTop=true
 string Text="Select Column:"
+string facename = "Segoe UI"
 end type
 
 type ddlb_dwcolumn from u_ddlb within w_buildfilter
@@ -591,6 +608,7 @@ int Height=264
 int TabOrder=10
 boolean BringToTop=true
 boolean Sorted=false
+string facename = "Segoe UI"
 end type
 
 event constructor;// Build the list of columns.
@@ -612,10 +630,11 @@ end event
 type st_7 from u_st within w_buildfilter
 int X=736
 int Y=896
-int Width=1317
+int Width=1422
 boolean BringToTop=true
 string Text="This is the expression built by the base DataWindow service:"
 long BackColor=77633680
+string facename = "Segoe UI"
 end type
 
 type mle_2 from u_mle within w_buildfilter
@@ -631,6 +650,7 @@ boolean AutoVScroll=false
 boolean DisplayOnly=true
 string Text="You can also build a dynamic filter expression around a value stored in a script variable by simply calling the ~"of_BuildExpression~" function and supplying it with a column, operator and value."
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type mle_1 from u_mle within w_buildfilter
@@ -646,6 +666,7 @@ boolean AutoVScroll=false
 boolean DisplayOnly=true
 string Text="You can use the base DataWindow service to dynamically build a DataWindow filter expression around the data in a selected row and column.  Select a row from the DataWindow below, then select a column and operator.   Click the ~"Build Expression~" button."
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type gb_1 from u_gb within w_buildfilter
@@ -654,8 +675,9 @@ int Y=24
 int Width=1294
 int Height=816
 int TabOrder=0
-string Text="Build Filter from DataWindow Row/Column Specification:"
+string Text="Build Filter from a DataWindow Row and Column:"
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type st_dwrow from u_st within w_buildfilter
@@ -669,6 +691,7 @@ BorderStyle BorderStyle=StyleLowered!
 string Text=""
 Alignment Alignment=Right!
 long BackColor=79741120
+string facename = "Segoe UI"
 end type
 
 type ddlb_column from u_ddlb within w_buildfilter
@@ -678,6 +701,7 @@ int Width=389
 int TabOrder=40
 boolean BringToTop=true
 boolean Sorted=false
+string facename = "Segoe UI"
 end type
 
 event constructor;// Build the list of columns.
@@ -703,6 +727,7 @@ int TabOrder=80
 boolean BringToTop=true
 string Text="&Apply Filter"
 boolean Default=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////

@@ -187,6 +187,7 @@ int Width=2583
 int Height=832
 int TabOrder=0
 string Text="View your changes in the city and state Drop-down DataWindows below"
+string facename = "Segoe UI"
 end type
 
 type gb_1 from u_gb within w_refreshdddws
@@ -196,6 +197,7 @@ int Width=2583
 int Height=568
 int TabOrder=0
 string Text="Edit a State Record"
+string facename = "Segoe UI"
 end type
 
 type dw_2 from u_dw within w_refreshdddws
@@ -280,6 +282,7 @@ int Width=439
 int TabOrder=40
 boolean BringToTop=true
 string Text="&Update"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -302,6 +305,7 @@ int Width=439
 int TabOrder=50
 boolean BringToTop=true
 string Text="Refresh &DDDWs"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -327,6 +331,7 @@ int TabOrder=70
 boolean BringToTop=true
 string Text="Close"
 boolean Cancel=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -349,6 +354,7 @@ int Width=439
 int TabOrder=20
 boolean BringToTop=true
 string Text="&Retrieve"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -370,5 +376,6 @@ int X=2149
 int Y=444
 int Width=439
 int TabOrder=10
+string facename = "Segoe UI"
 end type
 

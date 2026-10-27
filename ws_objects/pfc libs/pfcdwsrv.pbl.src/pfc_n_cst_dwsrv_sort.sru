@@ -1135,6 +1135,8 @@ public function integer of_setstyle (integer ai_style);/////////////////////////
 //	5.0   Initial version
 // 6.0	Use of constants within services.
 //			Default style now has dialog help.
+//	2025	No dialog help: the PFC dialog help is a PDF file now, and the
+//			DataWindow's own dialog box can only show a compiled help file
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1168,17 +1170,6 @@ End If
 CHOOSE CASE ai_style
 	CASE DEFAULT, DRAGDROP, SIMPLE, DROPDOWNLISTBOX
 		ii_style = ai_style
-
-		if ii_style = DEFAULT then
-			if isValid (idw_requestor) then
-				if len (idw_requestor.dataobject) > 0 then
-					idw_requestor.object.datawindow.help.command = 1
-					idw_requestor.object.datawindow.help.file = "pfcdlg.chm"
-					idw_requestor.object.datawindow.help.typeid.setsort = "1200"
-					idw_requestor.object.datawindow.help.typeid.setsortexpr = "800"
-				end if
-			end if
-		end if
 		
 		Return 1
 		

@@ -116,6 +116,7 @@ int Y=204
 int Width=375
 int TabOrder=40
 string Text="&Modify Text"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -140,6 +141,7 @@ int Width=1006
 int TabOrder=50
 string Text="Any Text"
 long BackColor=1086374080
+string facename = "Segoe UI"
 end type
 
 type rb_harddrive from u_rb within w_statusbarframe
@@ -150,6 +152,7 @@ int Width=475
 int Height=64
 boolean BringToTop=true
 string Text="Hard Drive"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -175,6 +178,7 @@ int Width=475
 int Height=64
 string Text="CD Rom Drive"
 boolean Checked=true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -199,6 +203,7 @@ int Width=1093
 int Height=296
 int TabOrder=20
 string Text="Text"
+string facename = "Segoe UI"
 end type
 
 type gb_modifybitmap from u_gb within w_statusbarframe
@@ -208,6 +213,7 @@ int Width=539
 int Height=296
 int TabOrder=30
 string Text="Change the Bitmap"
+string facename = "Segoe UI"
 end type
 
 type cb_1 from u_cb within w_statusbarframe
@@ -217,6 +223,7 @@ int Width=375
 int TabOrder=10
 boolean BringToTop=true
 string Text="&Start"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -250,5 +257,6 @@ int Width=503
 int Height=296
 int TabOrder=11
 string Text="Progress Bar"
+string facename = "Segoe UI"
 end type
 

@@ -92,6 +92,7 @@ integer width = 320
 integer height = 80
 integer taborder = 40
 string text = "&Retrieve"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -117,6 +118,7 @@ integer height = 80
 integer taborder = 60
 string text = "Close"
 boolean cancel = true
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -379,6 +381,7 @@ integer width = 320
 integer height = 80
 integer taborder = 50
 string text = "&Update"
+string facename = "Segoe UI"
 end type
 
 event clicked;//////////////////////////////////////////////////////////////////////////////
@@ -401,6 +404,6 @@ integer width = 73
 integer height = 64
 boolean bringtotop = true
 boolean originalsize = true
-string picturename = "rowind.bmp"
+string picturename = "images\row_arrow.png"
 end type
 

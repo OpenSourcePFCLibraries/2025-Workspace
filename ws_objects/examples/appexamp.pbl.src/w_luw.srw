@@ -178,13 +178,13 @@ type st_intro from statictext within w_luw
 integer x = 37
 integer y = 32
 integer width = 2441
-integer height = 172
+integer height = 216
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "The logical unit of work service (n_cst_luw) saves several DataWindows and DataStores in one transaction: it accepts the text, validates, updates each one and commits, or rolls back all of them if one fails.  Edit some employee names, change the department names (in a DataStore), then save both."
@@ -193,7 +193,7 @@ end type
 
 type st_emp from statictext within w_luw
 integer x = 37
-integer y = 228
+integer y = 272
 integer width = 1189
 integer height = 64
 integer textsize = -8
@@ -201,7 +201,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "&Employees (a DataWindow; edit the names):"
@@ -210,7 +210,7 @@ end type
 
 type dw_emp from u_dw within w_luw
 integer x = 37
-integer y = 300
+integer y = 344
 integer width = 1189
 integer height = 1000
 integer taborder = 10
@@ -225,7 +225,7 @@ end event
 
 type st_depts from statictext within w_luw
 integer x = 1289
-integer y = 228
+integer y = 272
 integer width = 1189
 integer height = 64
 integer textsize = -8
@@ -233,7 +233,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Departments (a DataStore, shown here):"
@@ -242,7 +242,7 @@ end type
 
 type dw_depts from u_dw within w_luw
 integer x = 1289
-integer y = 300
+integer y = 344
 integer width = 1189
 integer height = 580
 integer taborder = 20
@@ -252,10 +252,11 @@ end type
 
 type cb_case from u_cb within w_luw
 integer x = 1289
-integer y = 904
+integer y = 948
 integer width = 1189
 integer taborder = 30
 string text = "Change the &Department Names in the DataStore"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Switches the names between upper case and capitalized words, in the DataStore
@@ -276,10 +277,11 @@ end event
 
 type cb_pending from u_cb within w_luw
 integer x = 1289
-integer y = 1016
+integer y = 1060
 integer width = 1189
 integer taborder = 40
 string text = "Which Have &Changes?"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// of_UpdatesPending gives the objects that have changes to save
@@ -312,10 +314,11 @@ end event
 
 type cb_save from u_cb within w_luw
 integer x = 1289
-integer y = 1128
+integer y = 1172
 integer width = 581
 integer taborder = 50
 string text = "&Save Both"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Choose Case parent.of_Save()
@@ -330,10 +333,11 @@ end event
 
 type cb_error from u_cb within w_luw
 integer x = 1897
-integer y = 1128
+integer y = 1172
 integer width = 581
 integer taborder = 60
 string text = "Save with an E&rror"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;// Gives the second department the first one's key, so updating the departments
@@ -360,10 +364,11 @@ end event
 
 type cb_discard from u_cb within w_luw
 integer x = 1289
-integer y = 1240
+integer y = 1284
 integer width = 1189
 integer taborder = 70
 string text = "Discard the C&hanges"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.of_Retrieve()
@@ -372,7 +377,7 @@ end event
 
 type st_status from statictext within w_luw
 integer x = 37
-integer y = 1340
+integer y = 1384
 integer width = 2441
 integer height = 180
 integer textsize = -8
@@ -380,7 +385,7 @@ integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 boolean focusrectangle = false
@@ -388,9 +393,10 @@ end type
 
 type cb_close from u_cb within w_luw
 integer x = 2103
-integer y = 1600
+integer y = 1644
 integer taborder = 80
 string text = "Close"
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;parent.event pfc_close()

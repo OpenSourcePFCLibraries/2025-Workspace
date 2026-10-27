@@ -102,6 +102,7 @@ integer x = 59
 integer y = 52
 integer width = 1138
 integer height = 132
+string facename = "Segoe UI"
 end type
 
 type tv_1 from u_tvs within w_treeviewupdate6
@@ -115,6 +116,7 @@ integer width = 1138
 integer height = 1540
 integer taborder = 10
 boolean dragauto = true
+string facename = "Segoe UI"
 end type
 
 event begindrag;call super::begindrag;TreeViewItem		ltvi_Source
@@ -208,6 +210,7 @@ integer x = 1280
 integer y = 52
 integer height = 84
 integer taborder = 20
+string facename = "Segoe UI"
 end type
 
 event clicked;ib_Changed = False
@@ -224,6 +227,7 @@ integer y = 152
 integer height = 84
 integer taborder = 30
 boolean bringtotop = true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Integer li_rc
@@ -254,6 +258,7 @@ integer y = 256
 integer height = 84
 integer taborder = 40
 boolean bringtotop = true
+string facename = "Segoe UI"
 end type
 
 event clicked;call super::clicked;Parent.event pfc_close()
