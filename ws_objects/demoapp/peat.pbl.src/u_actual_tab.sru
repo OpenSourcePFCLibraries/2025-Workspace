@@ -7,8 +7,11 @@ type tabpage_derived from userobject within u_actual_tab
 end type
 type dw_project_dervied_actuals from u_dw within tabpage_derived
 end type
+type p_rowfocus from u_p within tabpage_derived
+end type
 type tabpage_derived from userobject within u_actual_tab
 dw_project_dervied_actuals dw_project_dervied_actuals
+p_rowfocus p_rowfocus
 end type
 end forward
 
@@ -21,9 +24,9 @@ int SelectedTab=1
 long BackColor=79741120
 int TextSize=-8
 int Weight=400
-string FaceName="MS Sans Serif"
-FontFamily FontFamily=Swiss!
-FontPitch FontPitch=Variable!
+string FaceName="Segoe UI"
+FontFamily FontFamily=swiss!
+FontPitch FontPitch=variable!
 tabpage_derived tabpage_derived
 end type
 global u_actual_tab u_actual_tab
@@ -100,15 +103,19 @@ long TabBackColor=79741120
 long TabTextColor=33554432
 long PictureMaskColor=536870912
 dw_project_dervied_actuals dw_project_dervied_actuals
+p_rowfocus p_rowfocus
 end type
 
 on tabpage_derived.create
 this.dw_project_dervied_actuals=create dw_project_dervied_actuals
-this.Control[]={ this.dw_project_dervied_actuals}
+this.p_rowfocus=create p_rowfocus
+this.Control[]={ this.dw_project_dervied_actuals,&
+this.p_rowfocus}
 end on
 
 on tabpage_derived.destroy
 destroy(this.dw_project_dervied_actuals)
+destroy(this.p_rowfocus)
 end on
 
 type dw_project_dervied_actuals from u_dw within tabpage_derived
@@ -123,8 +130,18 @@ end type
 event constructor;call u_dw::constructor;
 // Set the transaction object and the focus indicator and turn off the rmb menu
 this.of_SetTransObject(SQLCA)
-this.SetRowFocusIndicator(Hand!)
+// The row pointer is the picture of p_rowfocus
+this.SetRowFocusIndicator(parent.p_rowfocus)
 ib_rmbmenu = FALSE
 
 end event
 
+type p_rowfocus from u_p within tabpage_derived
+boolean visible = false
+integer x = 0
+integer y = 0
+integer width = 73
+integer height = 64
+boolean originalsize = true
+string picturename = "images\row_arrow.png"
+end type

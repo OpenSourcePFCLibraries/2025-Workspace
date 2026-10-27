@@ -13,9 +13,9 @@ long BackColor=12632256
 string Pointer="Split.cur"
 int TextSize=-10
 int Weight=400
-string FaceName="Arial"
-FontFamily FontFamily=Swiss!
-FontPitch FontPitch=Variable!
+string FaceName="Segoe UI"
+FontFamily FontFamily=swiss!
+FontPitch FontPitch=variable!
 event lbuttonup pbm_lbuttonup
 event lbuttondown pbm_lbuttondown
 event mousemove pbm_mousemove

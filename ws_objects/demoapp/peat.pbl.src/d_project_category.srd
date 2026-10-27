@@ -26,8 +26,8 @@ ORDER BY project_category.name ASC
   update="project_category" updatewhere=1 updatekeyinplace=no
   arguments=(("project_id", number))
 )
-text(name=name_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="6" x="10" y="8" height="53" width="1724" text="Category Name" )
-column(name=name band=detail id=4 x="151" y="16" height="65" width="1212" color="0" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=50 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=yes edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=20 )
+text(name=name_t band=header font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="6" x="10" y="8" height="53" width="1724" text="Category Name" )
+column(name=name band=detail id=4 x="151" y="16" height="65" width="1212" color="0" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=50 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=yes edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="1090519039" font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=20 )
 htmltable()
 htmlgen(pagingMethod=0 )
 xhtmlgen() cssgen()

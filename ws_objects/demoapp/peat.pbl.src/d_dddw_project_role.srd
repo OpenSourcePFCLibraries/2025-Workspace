@@ -12,7 +12,7 @@ column=(type=decimal(2) updatewhereclause=yes name=multipler dbname="project_rol
  retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"project_role~" ) COLUMN(NAME=~"project_role.role_id~") COLUMN(NAME=~"project_role.name~") COLUMN(NAME=~"project_role.multipler~")WHERE(    EXP1 =~"project_role.project_id~"   OP =~"=~"    EXP2 =~":project_id~" ) ) ORDER(NAME=~"project_role.name~" ASC=yes ) ARG(NAME = ~"project_id~" TYPE = number) "
   arguments=(("project_id", number))
 )
-compute(name=adjusted_name band=detail font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="1090519039" color="33554432" x="1" y="8" height="65" width="1276" format="[general]" expression="name  +~" * ~" +  multipler" alignment="0" border="0" crosstab.repeat=no )
+compute(name=adjusted_name band=detail font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="2" background.color="1090519039" color="33554432" x="1" y="8" height="65" width="1276" format="[general]" expression="name  +~" * ~" +  multipler" alignment="0" border="0" crosstab.repeat=no )
 htmltable()
 htmlgen(pagingMethod=0 )
 xhtmlgen() cssgen()

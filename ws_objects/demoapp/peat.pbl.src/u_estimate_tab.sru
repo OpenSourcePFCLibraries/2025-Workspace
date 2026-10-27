@@ -14,9 +14,9 @@ int SelectedTab=1
 long BackColor=79741120
 int TextSize=-8
 int Weight=400
-string FaceName="MS Sans Serif"
-FontFamily FontFamily=Swiss!
-FontPitch FontPitch=Variable!
+string FaceName="Segoe UI"
+FontFamily FontFamily=swiss!
+FontPitch FontPitch=variable!
 end type
 global u_estimate_tab u_estimate_tab
 

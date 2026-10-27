@@ -18,7 +18,7 @@ int Width=2697
 int Height=1860
 boolean TitleBar=true
 string Title="Project Report"
-string Icon="report.ico"
+string Icon="images\example_report.svg"
 dw_project_report dw_project_report
 cb_close cb_close
 cb_print cb_print
@@ -138,6 +138,7 @@ type cb_close from u_cb within w_r_projectreport
 int X=2254
 int Y=1636
 int TabOrder=20
+string facename = "Segoe UI"
 string Text="&Close"
 boolean Default=true
 boolean Cancel=true
@@ -157,6 +158,7 @@ type cb_print from u_cb within w_r_projectreport
 int X=1865
 int Y=1636
 int TabOrder=2
+string facename = "Segoe UI"
 string Text="&Print"
 end type
 
