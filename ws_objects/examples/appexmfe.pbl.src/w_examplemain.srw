@@ -167,42 +167,42 @@ Choose Case ls_id
 		choose case as_action
 			case "open"
 				im_debugservices.text = "Stop Debug Services"
-				ls_bitmap = 'dbsvc.bmp'
+				ls_bitmap = 'images\sb_debugsrv.png'
 			case "close"
 				im_debugservices.text = "Start Debug Services"
 
-				ls_bitmap = 'dbsvcoff.bmp'		
+				ls_bitmap = 'images\sb_debugsrv_off.png'		
 		end choose
 
 	Case 'sqlspysrv'
 		choose case as_action
 			case "open"
 				im_sqlspyservices.text = "Stop SQL Spy Services"
-				ls_bitmap = 'sspysvcs.bmp'
+				ls_bitmap = 'images\sb_sqlspysrv.png'
 			case "close"
 				im_sqlspyservices.text = "Start SQL Spy Services"
-				ls_bitmap = 'sssvcoff.bmp'		
+				ls_bitmap = 'images\sb_sqlspysrv_off.png'		
 		end choose
 
 	Case 'debuglogwin'
 		choose case as_action
 			case "open"
 				im_debuglogwindow.text = "Close Debug Log Window"
-				ls_bitmap = 'dblogwin.bmp'
+				ls_bitmap = 'images\sb_debuglogwin.png'
 
 			case "close"
 				im_debuglogwindow.text = "Open Debug Log Window"
-				ls_bitmap = 'dlgwnoff.bmp'
+				ls_bitmap = 'images\sb_debuglogwin_off.png'
 		end choose		
 		
 	Case 'sqlspywin'		
 		choose case Lower(as_action)
 			case "open"
 				im_sqlspywindow.text = "Close SQL Spy Window"
-				ls_bitmap = 'sspywin.bmp'		
+				ls_bitmap = 'images\sb_sqlspywin.png'		
 			case "close"
 				im_sqlspywindow.text = "Open SQL Spy Window"
-				ls_bitmap = 'sswinoff.bmp'
+				ls_bitmap = 'images\sb_sqlspywin_off.png'
 		end choose
 		
 End Choose
@@ -467,10 +467,10 @@ of_SetStatusBar(true)
 if IsValid(inv_statusbar) then
 	inv_statusbar.of_SetBorderType(0)
 	inv_statusbar.of_SetGapWidth(40)
-	inv_statusbar.of_Register('debugsrv', 'bitmap', 'dbsvc.bmp', 80)
-	inv_statusbar.of_Register('sqlspysrv', 'bitmap', 'sssvcoff.bmp', 80)
-	inv_statusbar.of_Register('debuglogwin', 'bitmap', 'dlgwnoff.bmp', 80)
-	inv_statusbar.of_Register('sqlspywin', 'bitmap', 'sswinoff.bmp', 80)
+	inv_statusbar.of_Register('debugsrv', 'bitmap', 'images\sb_debugsrv.png', 80)
+	inv_statusbar.of_Register('sqlspysrv', 'bitmap', 'images\sb_sqlspysrv_off.png', 80)
+	inv_statusbar.of_Register('debuglogwin', 'bitmap', 'images\sb_debuglogwin_off.png', 80)
+	inv_statusbar.of_Register('sqlspywin', 'bitmap', 'images\sb_sqlspywin_off.png', 80)
 	if gnv_app.ienv_object.Win16 then
 		inv_statusbar.of_SetGDI(true)
 		inv_statusbar.of_SetUser(true)

@@ -96,7 +96,7 @@ if not IsValid(inv_statusbar) then return
 
 // In the exact order tell the service what to display.
 inv_statusbar.of_Register('text_id', 'text', sle_modifytext.text, 400)
-inv_statusbar.of_Register('bitmap_id', 'bitmap', 'cdromtpt.bmp', 100)
+inv_statusbar.of_Register('bitmap_id', 'bitmap', 'images\drive_cd.png', 100)
 
 inv_statusbar.of_Setbar(true)
 inv_statusbar.of_SetBarFillColor(255)
@@ -166,7 +166,7 @@ event clicked;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 if IsValid(inv_statusbar) then
-	inv_statusbar.of_Modify('bitmap_id', 'Harddriv.bmp')
+	inv_statusbar.of_Modify('bitmap_id', 'images\drive_hard.png')
 end if
 
 end event
@@ -192,7 +192,7 @@ event clicked;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 if IsValid(inv_statusbar) then
-	inv_statusbar.of_Modify('bitmap_id', 'cdromtpt.bmp')
+	inv_statusbar.of_Modify('bitmap_id', 'images\drive_cd.png')
 end if
 end event
 

@@ -67,7 +67,7 @@ of_SetHelpFile ( "pfcexamp.pdf" )
 of_SetVersion ( "Version " + String ( li_major ) + "." + String ( li_minor ) + ".00" )
 
 // The application logo (bitmap file name)
-of_SetLogo ( "pfcexamp.bmp" )
+of_SetLogo ( "images\pfcexamp.png" )
 
 // Application copyright message
 of_SetCopyRight ( "Copyright (c) 2004-" + String ( Year ( ld_now ), "0000" ) + " Open Source PowerBuilder Foundation Class Libraries" )

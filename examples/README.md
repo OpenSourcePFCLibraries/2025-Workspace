@@ -43,9 +43,9 @@ The Security Service example also needs a `[Security]` section, with the same ke
 
 ### The images
 
-The menu, ribbon and toolbar icons, the tree and list pictures and the examples' pictures are SVG files in `images`, from Microsoft's [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT license, in `images\LICENSE-fluentui-system-icons.txt`). The examples find them by their path relative to this folder, so run the app with this folder as the current directory, as the IDE and `pfcexamp.exe` do when they are here.
+The menu, ribbon and toolbar icons, the tree and list pictures and the examples' pictures are SVG files in `images`, from Microsoft's [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT license, in `images\LICENSE-fluentui-system-icons.txt`). Where a control can't show SVG, the same icons are PNG files next to them: the status bar's indicators (`sb_*.png`, faded when the service or window is off), the drive pictures, and the splash screen's logo (`pfcexamp.png`, from the app's icon). The examples find them by their path relative to this folder, so run the app with this folder as the current directory, as the IDE and `pfcexamp.exe` do when they are here.
 
-A few older bitmaps are still used: the splash screen, the status bar's service indicators, and the pictures of PFC's own dialogs. They are in [PFC-Example-App-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Example-App-Image-Files); clone it and add its folder to the system path or to PowerBuilder's application path. The project names a resource file, `..\examples.pbr`, that isn't in this repository, so the images aren't compiled into the exe.
+The pictures in PFC's own dialogs are still PFC's older bitmaps. They are in [PFC-Example-App-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Example-App-Image-Files); clone it and add its folder to the system path or to PowerBuilder's application path. The project names a resource file, `..\examples.pbr`, that isn't in this repository, so the images aren't compiled into the exe.
 
 ### The appearance
 
