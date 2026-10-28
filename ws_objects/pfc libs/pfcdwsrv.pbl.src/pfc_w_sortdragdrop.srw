@@ -520,7 +520,7 @@ integer y = 108
 integer width = 1111
 integer height = 612
 integer taborder = 0
-string dragicon = "arrowl.ico"
+string dragicon = "pfc_drag_left.ico"
 string dataobject = "d_sortdragdrop"
 end type
 
@@ -818,10 +818,10 @@ integer y = 108
 integer width = 955
 integer height = 612
 integer taborder = 0
-string dragicon = "arrowr.ico"
+string dragicon = "pfc_drag_right.ico"
 string dataobject = "d_sortdragdrop"
 boolean hscrollbar = true
-string icon = "arrowr.ico"
+string icon = "pfc_drag_right.ico"
 end type
 
 event dragdrop;//////////////////////////////////////////////////////////////////////////////
