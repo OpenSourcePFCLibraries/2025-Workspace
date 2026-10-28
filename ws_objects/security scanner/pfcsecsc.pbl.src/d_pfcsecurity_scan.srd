@@ -13,8 +13,8 @@ column=(type=char(128) key=yes update=yes updatewhereclause=yes name=control dbn
   update="security_scan" updatewhere=2 updatekeyinplace=yes
   arguments=(("app", string), ("window", string))
 )
-text(name=control_t band=header font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="6" x="9" y="4" height="57" width="699" text="Control Name" )
-column(name=control band=detail id=3 x="9" y="8" height="53" width="700" color="0" border="5" alignment="0" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=30 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="MS Sans Serif" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
+text(name=control_t band=header font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" background.mode="1" background.color="536870912" color="0" alignment="2" border="6" x="9" y="4" height="57" width="699" text="Control Name" )
+column(name=control band=detail id=3 x="9" y="8" height="53" width="700" color="0" border="5" alignment="0" format="[general]" edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.case=any edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.imemode=0 edit.limit=30 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no edit.useellipsis=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="1" background.color="536870912" font.charset="0" font.face="Segoe UI" font.family="2" font.height="-8" font.pitch="2" font.weight="400" tabsequence=0 )
 htmltable()
 htmlgen(pagingMethod=0 )
 xhtmlgen() cssgen()

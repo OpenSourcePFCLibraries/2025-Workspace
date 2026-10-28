@@ -785,14 +785,14 @@ end event
 type cbx_restore from checkbox within pfc_w_grid
 integer x = 1271
 integer y = 1424
-integer width = 590
+integer width = 660
 integer height = 64
 integer textsize = -8
 integer weight = 400
 fontcharset fontcharset = ansi!
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long textcolor = 33554432
 long backcolor = 67108864
 string text = "Restore original layout"

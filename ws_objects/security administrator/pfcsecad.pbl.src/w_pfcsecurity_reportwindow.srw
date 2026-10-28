@@ -236,11 +236,11 @@ event constructor;call super::constructor;ib_rmbmenu = false // turn off RMB sup
 end event
 
 type st_1 from u_st within w_pfcsecurity_reportwindow
-integer x = 32
+integer x = 14
 integer y = 20
-integer width = 297
+integer width = 315
 long backcolor = 77956459
-string text = "Applications :"
+string text = "Applications:"
 end type
 
 type ddlb_apps from u_ddlb within w_pfcsecurity_reportwindow
