@@ -1258,12 +1258,12 @@ end event
 on m_sqlspy.create
 this.Text="Open &SQL Spy Window"
 this.Microhelp="Open/Close the SQL Spy window."
-this.ToolBarItemName="images\cat_sql_embedded.svg"
+this.ToolBarItemName="images\sql_spy_window.svg"
 this.ToolBarItemText="Open SQL Spy"
 this.ToolBarItemVisible=false
 this.ToolBarItemOrder=3
-this.MenuImage="images\cat_sql_embedded.svg"
-this.ButtonImage="images\cat_sql_embedded.svg"
+this.MenuImage="images\sql_spy_window.svg"
+this.ButtonImage="images\sql_spy_window.svg"
 end on
 
 type m_dash54 from menu within m_tools
