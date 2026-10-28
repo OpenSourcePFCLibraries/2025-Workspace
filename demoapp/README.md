@@ -25,6 +25,8 @@ The menu, ribbon and toolbar icons, the window icons, the tree and list pictures
 
 They replace the images in [PFC-Demo-App-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Demo-App-Image-Files), which PEAT doesn't use any more.
 
+The pictures in PFC's own objects, such as the message box's icons, are in [`pfc libs\images`](../pfc%20libs/images/README.md), and PFC finds them by their file name: add that folder to the system path or to PowerBuilder's application path, or copy its files beside `peat.exe`.
+
 ### The appearance
 
 PEAT uses a UI theme and shows its menu as a ribbon. Change them with **File > Appearance**. A new theme and the ribbon setting apply at once; choosing no theme takes effect the next time PEAT starts, because PowerBuilder can't remove a theme while the app runs. The window saves the choices in the `[Application]` section of `peat.ini`:

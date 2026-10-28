@@ -1,0 +1,47 @@
+pfc libs\pfcapsrv.pbl(d_timerlist)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_userlookup)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_templateupdate)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_groupverify)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_grouplookup)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_controllist)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_applookup)
+pfc libs\pfcapsrv.pbl(d_mruservice)
+pfc libs\pfcapsrv.pbl(d_messageprint)
+pfc libs\pfcapsrv.pbl(d_dirattrib)
+pfc libs\pfcapsrv.pbl(d_pfcsecurity_allcontrollist)
+pfc libs\pfcapsrv.pbl(d_definedmessages)
+pfc libs\pfcdwsrv.pbl(d_valuesdddw)
+pfc libs\pfcdwsrv.pbl(d_svalue)
+pfc libs\pfcdwsrv.pbl(d_sortmulti)
+pfc libs\pfcdwsrv.pbl(d_sortdragdrop)
+pfc libs\pfcdwsrv.pbl(d_filtersimple)
+pfc libs\pfcdwsrv.pbl(d_dwfunctioncategory)
+pfc libs\pfcdwsrv.pbl(d_dwfunction)
+pfc libs\pfcdwsrv.pbl(d_columnsdddw)
+pfc libs\pfcdwsrv.pbl(d_columnnames)
+pfc libs\pfcmain.pbl(d_progress)
+pfc libs\pfcmain.pbl(d_printtree)
+pfc libs\pfcmain.pbl(d_calendar)
+pfc libs\pfcmain.pbl(d_calculator)
+pfc libs\pfcutil.pbl(d_sqlspyprint)
+pfc libs\pfcutil.pbl(d_dwproperty_srvresize)
+pfc libs\pfcutil.pbl(d_dwproperty_srvcal)
+pfc libs\pfcutil.pbl(d_dwproperty_services)
+pfc libs\pfcutil.pbl(d_dwproperty_multitable)
+pfc libs\pfcutil.pbl(d_dwproperty_linkageargs)
+pfc libs\pfcutil.pbl(d_dwproperty_dates)
+pfc libs\pfcutil.pbl(d_debuglog)
+pfc libs\pfcwnsrv.pbl(d_toolbars)
+pfc_drag_left.ico
+pfc_drag_right.ico
+pfc_msg_info.svg
+pfc_msg_question.svg
+pfc_msg_stop.svg
+pfc_msg_warning.svg
+pfc_tree_branch.png
+pfc_tree_folder_open.png
+pfc_tree_folder.png
+pfc_tree_last.png
+pfc_tree_line.png
+pfc_tree_minus.png
+pfc_tree_plus.png
