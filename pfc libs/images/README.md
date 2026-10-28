@@ -21,4 +21,17 @@ pbautobuild250 /pbc /d "myapp.pbt" /o myapp.exe /r "pfc libs\pfc.pbr"
 
 Its DataWindow entries (`pfc libs\pfcapsrv.pbl(d_timerlist)` and so on) are relative to the folder you build from, the folder of the workspace's `.pbt` files; change the paths if your PFC libraries are elsewhere. Its images are listed by file name, as PFC names them, so the build finds them only if this folder is the current folder or on the path when you build (for example, `set PATH=%CD%\pfc libs\images;%PATH%` before `pbautobuild250`). An image the build doesn't find is left out without a warning.
 
+## PowerBuilder 2025 GA
+
+PFC 2025 is meant for PowerBuilder 2025 R2. PowerBuilder 2025 GA (the first release of 2025) doesn't show SVG images, so with it the message box shows no icon and a printed TreeView has no lines, boxes or folders. The `png` folder has a PNG of each SVG, with the same name: `pfc_msg_*.png` at 32 pixels and `pfc_tree_*.png` at the pixels of the SVGs. To use PFC 2025 with 2025 GA:
+
+1. Deploy the PNG files from `png` instead of the SVG files (or as well), and in your PBR, list the `.png` names instead of the `.svg` names.
+2. **Message box:** in `w_message` (`pfeapsrv.pbl`), select the `lv_bmp` ListView and change its four large pictures from `pfc_msg_*.svg` to `pfc_msg_*.png`. Changing them in the extension object leaves PFC's own `pfc_w_message` as it is.
+3. **Printed TreeView lines and boxes:** in `d_printtree` (`pfcmain.pbl`), change the `.svg` file names in the `bitmap()` expressions of its computed fields to `.png` (in Edit Source, replace `.svg` with `.png`).
+4. **Printed TreeView folders:** call `of_PrintTree` with picture names, for example `of_PrintTree(0, False, "pfc_tree_folder.png", "pfc_tree_folder_open.png")`. Alternatively, change the default names in `pfc_u_tv` and `pfc_n_cst_tvsrv_print`.
+
+The drag icons are ICO files and work in both releases. The Examples app and PEAT, the demo apps, use SVG images throughout (menus, ribbon, toolbars and trees), so they need 2025 R2.
+
+## Earlier versions of PFC
+
 These replace the bitmaps and icons of [PFC-Image-Files](https://github.com/OpenSourcePFCLibraries/PFC-Image-Files) (`info.bmp`, `folder.bmp`, `arrowl.ico` and so on), which the 2019 and 2022 versions of PFC still use.
