@@ -465,7 +465,7 @@ int TabOrder=10
 boolean Sorted=false
 int Accelerator=110
 string Item[]={"Arial",&
-"MS Sans Serif",&
+"Segoe UI",&
 "Symbol",&
 "Times New Roman"}
 string facename = "Segoe UI"

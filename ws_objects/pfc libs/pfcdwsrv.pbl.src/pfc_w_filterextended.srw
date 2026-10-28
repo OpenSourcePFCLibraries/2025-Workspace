@@ -641,7 +641,7 @@ integer textsize = -8
 integer weight = 400
 fontpitch fontpitch = variable!
 fontfamily fontfamily = swiss!
-string facename = "MS Sans Serif"
+string facename = "Segoe UI"
 long backcolor = 79741120
 boolean raggedright = true
 boolean showpicture = false
@@ -778,9 +778,9 @@ if li_selectedrow > 0 then
 		// Default presentation
 		ls_presentation = "DataWindow (color=" + WHITE + ") " + &
 			"Column (background.mode=1 border=0 color=0 edit.displayonly='yes' edit.focusrectangle='no' " + &
-			"font.face='MS Sans Serif' font.height='-8' font.weight=400 font.family=2 font.pitch=2 font.charset=0) " + &
+			"font.face='Segoe UI' font.height='-8' font.weight=400 font.family=2 font.pitch=2 font.charset=0) " + &
 			"Text (alignment=0 border=0 color=0 background.mode=1 " + &
-			"font.face='MS Sans Serif' font.height='-8' font.weight=400 font.family=2 font.pitch=2 font.charset=0) " + &
+			"font.face='Segoe UI' font.height='-8' font.weight=400 font.family=2 font.pitch=2 font.charset=0) " + &
 			"Style (Header_Bottom_Margin=0 Header_Top_Margin=0 Report='yes')"
 
 		// Build syntax from sql and create DW

@@ -4700,7 +4700,7 @@ For li_cnt = 1 to li_upper
 					'width="'+ string(inv_dwobjects[li_cnt].i_width) + '" ' + &
 					'background.color="12632256" ' +&	
 					'band=header alignment="0"  color="33554432" y="0" '+  &
-					'font.face="MS Sans Serif" font.height="-8" font.weight="400" '+ &
+					'font.face="Segoe UI" font.height="-8" font.weight="400" '+ &
 					'font.family="2" font.pitch="2" font.charset="0" background.mode="2" ' +&
 				') '
 
@@ -4715,7 +4715,7 @@ For li_cnt = 1 to li_upper
 					'height="'+string(li_microhelpheight)+'" ' + &	
 					'background.color="12632256" ' +&	
 					'band=header alignment="0"  color="33554432" y="0" '+  &
-					'font.face="MS Sans Serif" font.height="-8" font.weight="400" '+ &
+					'font.face="Segoe UI" font.height="-8" font.weight="400" '+ &
 					'font.family="2" font.pitch="2" font.charset="0" background.mode="2" ' +&
 				') '
 				
@@ -4732,7 +4732,7 @@ For li_cnt = 1 to li_upper
 						'height="'+string(li_microhelpheight)+'" ' + &	
 						'background.color="12632256" ' +&	
 						'band=header alignment="0"  color="33554432" y="0" '+  &
-						'font.face="MS Sans Serif" font.height="-8" font.weight="400" '+ &
+						'font.face="Segoe UI" font.height="-8" font.weight="400" '+ &
 						'font.family="2" font.pitch="2" font.charset="0" background.mode="2" ' +&
 					') '			
 			ElseIf inv_dwobjects[li_cnt].s_id = 'pfc_progress' Then
@@ -4758,7 +4758,7 @@ For li_cnt = 1 to li_upper
 						'color="'+string(il_bartextcolor)+'" ' + &
 						'background.color="12632256" ' +&	
 						'band=header alignment="2" y="0" '+  &
-						'font.face="MS Sans Serif" font.height="-8" font.weight="400" '+ &
+						'font.face="Segoe UI" font.height="-8" font.weight="400" '+ &
 						'font.family="2" font.pitch="2" font.charset="0" background.mode="1" ' +&
 					') '		
 					ii_barwidth  = inv_dwobjects[li_cnt].i_width - ii_baroffsetx
@@ -4776,7 +4776,7 @@ For li_cnt = 1 to li_upper
 						'height="'+string(li_microhelpheight)+'" ' + &					
 						'background.color="12632256" ' +&	
 						'band=header alignment="0"  color="33554432" y="0" '+  &
-						'font.face="MS Sans Serif" font.height="-8" font.weight="400" '+ &
+						'font.face="Segoe UI" font.height="-8" font.weight="400" '+ &
 						'font.family="2" font.pitch="2" font.charset="0" background.mode="2" ' +&
 					') '							
 			End IF

@@ -1692,7 +1692,7 @@ protected function string of_setfont (string as_fontface, integer ai_fontsize, i
 //	Access:		protected
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	ai_FontCharSet			The Character set to use for the Font  (0 - ANSI)
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 

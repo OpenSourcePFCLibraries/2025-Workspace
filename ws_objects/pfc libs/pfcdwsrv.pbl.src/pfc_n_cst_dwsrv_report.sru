@@ -334,7 +334,7 @@ protected function integer of_gettextsizepos (string as_text, string as_band, al
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	ai_Height					The height of the object, passed by reference.
 //	ai_Width					The width of the object, passed by reference.
@@ -1338,7 +1338,7 @@ public function string of_setfont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -2057,7 +2057,7 @@ protected function string of_buildtextmodify (string as_type, string as_text, st
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2205,7 +2205,7 @@ protected function string of_addcompute (string as_expr, string as_band, alignme
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2345,7 +2345,7 @@ public function string of_AddCompute (string as_expr, string as_band, alignment 
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2419,7 +2419,7 @@ public function string of_AddCompute (string as_expr, string as_band, integer ai
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2497,7 +2497,7 @@ protected function string of_AddText (string as_text, string as_band, alignment 
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2628,7 +2628,7 @@ public function string of_AddText (string as_text, string as_band, alignment aal
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -2702,7 +2702,7 @@ public function string of_AddText (string as_text, string as_band, integer ai_x,
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -3301,7 +3301,7 @@ public function string of_AddCompute (string as_expr, string as_band, alignment 
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -3373,7 +3373,7 @@ public function string of_AddCompute (string as_expr, string as_band, alignment 
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -3572,7 +3572,7 @@ public function string of_AddCompute (string as_expr, string as_band, integer ai
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -3646,7 +3646,7 @@ public function string of_AddCompute (string as_expr, string as_band, integer ai
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -4424,7 +4424,7 @@ public function string of_AddText (string as_text, string as_band, alignment aal
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -4496,7 +4496,7 @@ public function string of_AddText (string as_text, string as_band, alignment aal
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -4755,7 +4755,7 @@ public function string of_AddText (string as_text, string as_band, integer ai_x,
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -4829,7 +4829,7 @@ public function string of_AddText (string as_text, string as_band, integer ai_x,
 //	ab_Bold						True - Bold, False - Normal.
 //	ab_Italic					True - Yes, False - No.
 //	ab_Underline				True - Yes, False - No.
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	afc_CharSet				The character set to use (Ansi!, DefaultCharSet!, Symbol!, 
 //									Shiftjis!, OEM!)
@@ -5771,7 +5771,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -5838,7 +5838,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -5901,7 +5901,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -5963,7 +5963,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -6030,7 +6030,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -6093,7 +6093,7 @@ public function string of_SetFont (string as_fontface, integer ai_fontsize, font
 //	Access:  public
 //
 //	Arguments:
-//	as_FontFace				The font to use (i.e. "MS Sans Serif")
+//	as_FontFace				The font to use (i.e. "Segoe UI")
 //	ai_FontSize				The point size of the font.
 //	aff_FontFamily			The font family (AnyFont!, Roman!, Swiss!, Modern!, 
 //									Script!, Decorative!)
@@ -6820,7 +6820,7 @@ event constructor;call super::constructor;//////////////////////////////////////
 
 ibo_DefaultBorder = NoBorder!
 
-is_DefaultFontFace = "MS Sans Serif"
+is_DefaultFontFace = "Segoe UI"
 ii_DefaultFontSize = 8
 ifc_DefaultCharSet = DefaultCharSet!
 
