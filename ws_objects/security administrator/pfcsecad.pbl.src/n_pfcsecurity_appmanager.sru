@@ -44,7 +44,7 @@ of_SetAppIniFile ('pfcsecad.ini')
 of_SetVersion ("Version " + String ( li_major ) + "." + String ( li_minor ) + ".00")
 
 // The application bitmap name
-of_SetLogo ("key.bmp")
+of_SetLogo ("images\pfcsecad.png")
 
 // No help file: Help > Help Topics opens the PFC documentation (see m_pfcsecurity_master)
 
