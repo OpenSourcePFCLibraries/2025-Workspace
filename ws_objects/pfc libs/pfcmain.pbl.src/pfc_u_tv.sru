@@ -3014,7 +3014,7 @@ public function integer of_printtree (long al_handle, boolean ab_canceldialog);/
 //						This function overloads the real of_PrintTree which is protected.  Use this
 //						format of the function when the same picture is desired for all levels of the tree.
 //
-//						This function will default to using "pfc_tree_folder.png" for the picture and "pfc_tree_folder_open.png"
+//						This function will default to using "pfc_tree_folder.svg" for the picture and "pfc_tree_folder_open.svg"
 //						for the selected picture.
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -3049,7 +3049,7 @@ public function integer of_printtree (long al_handle, boolean ab_canceldialog);/
 
 String	ls_Picts[10], ls_SelPicts[10]
 
-Return of_PrintTree(al_Handle, ab_CancelDialog, "pfc_tree_folder.png", "pfc_tree_folder_open.png", ls_Picts, ls_SelPicts)
+Return of_PrintTree(al_Handle, ab_CancelDialog, "pfc_tree_folder.svg", "pfc_tree_folder_open.svg", ls_Picts, ls_SelPicts)
 
 end function
 
@@ -3070,7 +3070,7 @@ public function integer of_printtree ();////////////////////////////////////////
 //						format of the function to print the entire tree with the same picture for all 
 //						levels.
 //
-//						This function will default to using "pfc_tree_folder.png" for the picture and "pfc_tree_folder_open.png"
+//						This function will default to using "pfc_tree_folder.svg" for the picture and "pfc_tree_folder_open.svg"
 //						for the selected picture.
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -3105,7 +3105,7 @@ public function integer of_printtree ();////////////////////////////////////////
 
 String	ls_Picts[10], ls_SelPicts[10]
 
-Return of_PrintTree(0, False, "pfc_tree_folder.png", "pfc_tree_folder_open.png", ls_Picts, ls_SelPicts)
+Return of_PrintTree(0, False, "pfc_tree_folder.svg", "pfc_tree_folder_open.svg", ls_Picts, ls_SelPicts)
 
 end function
 
@@ -3127,7 +3127,7 @@ public function integer of_printtree (long al_Handle);//////////////////////////
 //						This function overloads the real of_PrintTree which is protected.  Use this
 //						format of the function when the same picture is desired for all levels.
 //
-//						This function will default to using "pfc_tree_folder.png" for the picture and "pfc_tree_folder_open.png"
+//						This function will default to using "pfc_tree_folder.svg" for the picture and "pfc_tree_folder_open.svg"
 //						for the selected picture.
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -3162,7 +3162,7 @@ public function integer of_printtree (long al_Handle);//////////////////////////
 
 String	ls_Picts[10], ls_SelPicts[10]
 
-Return of_PrintTree(al_Handle, False, "pfc_tree_folder.png", "pfc_tree_folder_open.png", ls_Picts, ls_SelPicts)
+Return of_PrintTree(al_Handle, False, "pfc_tree_folder.svg", "pfc_tree_folder_open.svg", ls_Picts, ls_SelPicts)
 
 end function
 

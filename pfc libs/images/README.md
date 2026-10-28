@@ -6,10 +6,10 @@ The pictures that PFC's own objects show. An application finds them by their fil
 |---|---|
 | `pfc_msg_info.svg`, `pfc_msg_stop.svg`, `pfc_msg_warning.svg`, `pfc_msg_question.svg` | The message box (`w_message`), as the icon of an information, error, warning or question message |
 | `pfc_drag_left.ico`, `pfc_drag_right.ico` | The drag-and-drop Sort dialog box (`w_sortdragdrop`), as the drag icons |
-| `pfc_tree_line.png`, `pfc_tree_branch.png`, `pfc_tree_last.png`, `pfc_tree_plus.png`, `pfc_tree_minus.png` | A printed TreeView (`d_printtree`, from `u_tv` and `n_cst_tvsrv_print` `of_PrintTree`), as the lines and the expand and collapse boxes |
-| `pfc_tree_folder.png`, `pfc_tree_folder_open.png` | A printed TreeView, as the default item and selected item pictures |
+| `pfc_tree_line.svg`, `pfc_tree_branch.svg`, `pfc_tree_last.svg`, `pfc_tree_plus.svg`, `pfc_tree_minus.svg` | A printed TreeView (`d_printtree`, from `u_tv` and `n_cst_tvsrv_print` `of_PrintTree`), as the lines and the expand and collapse boxes |
+| `pfc_tree_folder.svg`, `pfc_tree_folder_open.svg` | A printed TreeView, as the default item and selected item pictures |
 
-The icons are from Microsoft's [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT license, in `LICENSE-fluentui-system-icons.txt`). The printed tree's pictures are PNG because a DataWindow's `bitmap()` expression can't show SVG, and the drag icons are ICO files because a drag icon must be one.
+The icons are from Microsoft's [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT license, in `LICENSE-fluentui-system-icons.txt`). The printed tree's lines and boxes are drawn for PFC, at the pixels of the older bitmaps, and the drag icons are ICO files because a drag icon must be one.
 
 ## Compiling them into the executable
 
