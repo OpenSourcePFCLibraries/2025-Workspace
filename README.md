@@ -51,6 +51,19 @@ The exe and PBDs go to `build\<target>\`. The script exits with 0 on success, 1 
 
 The refresh uses `refresh.json`, a PBAutoBuild build file with a "Merging" entry for each target, which can also be run on its own: `pbautobuild250 /f refresh.json`.
 
+## Adding an intermediate extension level (Library Extender)
+
+`tools\New-PfcExtensionLayer.ps1` does what the Library Extender in the Sybase PFC did: it adds an intermediate extension level (`pfd_` objects in `pfd*` libraries) between the PFC ancestor level (`pfc_` objects) and the extension level (the `pfe*` libraries), so corporate or departmental changes have a place of their own. For each extension object `X` that inherits from `pfc_X`, it creates an empty `pfd_X`, changes `X` to inherit from `pfd_X`, and adds the new libraries to the library list of every target that uses the extension libraries. It works in workspaces and in solutions, and it's safe to run again: after you install a new PFC release, it points the new extension objects back at your existing `pfd_` objects. Close PowerBuilder and commit first.
+
+In a workspace it changes the source in `ws_objects`; `-Build` then imports that source into the PBLs (a PBAutoBuild "Merging" step with `RefreshPbl` false), which also creates the new PBLs.
+
+```
+pwsh -File tools\New-PfcExtensionLayer.ps1 -Path PFC.pbw -WhatIf     # show what would change
+pwsh -File tools\New-PfcExtensionLayer.ps1 -Path PFC.pbw -Build      # change it, then import into the PBLs
+```
+
+Once a workspace has an intermediate level, don't refresh its PBLs with `"RefreshPbl": true` in a PBAutoBuild build file: in PowerBuilder 2025 that full refresh fails to compile it. See `tools\New-PfcExtensionLayer.md` for details, the options, taking a new PFC release, and adding more than one level.
+
 If you would like to contribute to the project, please watch this video:
 
 https://vimeo.com/478243534
