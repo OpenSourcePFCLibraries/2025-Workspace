@@ -5,7 +5,7 @@
     solution (.pbsln) or workspace (.pbw).
 
 .DESCRIPTION
-    This does what the PFC Library Extender that shipped with the Sybase PFC did. For each
+    This does what the PowerBuilder IDE's PFC Library Extender wizard did. For each
     object X in the extension libraries (pfe*.pbl) that inherits directly from pfc_X, it:
 
       1. Creates pfd_X, inheriting from pfc_X, in an intermediate library (pfemain.pbl's
