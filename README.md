@@ -62,7 +62,7 @@ pwsh -File tools\New-PfcExtensionLayer.ps1 -Path PFC.pbw -WhatIf     # show what
 pwsh -File tools\New-PfcExtensionLayer.ps1 -Path PFC.pbw -Build      # change it, then import into the PBLs
 ```
 
-Once a workspace has an intermediate level, don't refresh its PBLs with `"RefreshPbl": true` in a PBAutoBuild build file: in PowerBuilder 2025 that full refresh fails to compile it. See `tools\New-PfcExtensionLayer.md` for details, the options, taking a new PFC release, and adding more than one level.
+Once a workspace has an intermediate level, prefer an incremental merge (`"RefreshPbl": false`) to a full refresh (`"RefreshPbl": true`) in a PBAutoBuild build file: in PowerBuilder 2025 the full refresh sometimes fails, with an exception in the merge followed by compile errors such as `Illegal data type: u_dw`. It's intermittent, and running the refresh again usually works. See `tools\New-PfcExtensionLayer.md` for details, the options, taking a new PFC release, and adding more than one level.
 
 If you would like to contribute to the project, please watch this video:
 

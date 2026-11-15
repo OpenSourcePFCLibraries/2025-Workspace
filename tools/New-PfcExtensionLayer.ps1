@@ -118,10 +118,12 @@
     Exit code: 0 = done (and, with -Build, built without errors), 1 = PBAutoBuild reported
     errors, 2 = the script could not run (file not found, bad source, ...).
 
-    Workspace mode: don't use a PBAutoBuild "Merging" step with RefreshPbl true (a full
-    refresh of the PBLs) on a workspace that has an intermediate level. PowerBuilder 2025's
-    full refresh fails to compile it ("Illegal data type: u_dw" and similar errors), even
-    though an incremental merge, a full PBC build and the IDE all compile it.
+    Workspace mode: -Build uses an incremental merge (RefreshPbl false). PowerBuilder 2025's
+    full refresh (RefreshPbl true) of a workspace with an intermediate level sometimes
+    fails: PBAutoBuild logs "An exception occurred in the merge object, try again" and the
+    retry fails with "Illegal data type: u_dw" and similar errors. It's intermittent; running
+    the refresh again usually works. An incremental merge and a full PBC build compile the
+    same source without errors.
 #>
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
