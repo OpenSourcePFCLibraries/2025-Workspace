@@ -155,9 +155,15 @@ With PowerBuilder 2025 R2 (build 6430), on copies of the PFC 2025 solution and w
 
 ## Known issue (workspace mode)
 
-Don't use a PBAutoBuild "Merging" step with `"RefreshPbl": true` (a full refresh of the
-PBLs from source) on a workspace that has an intermediate level. In PowerBuilder 2025
-(25.1.0.6430), that full refresh fails with errors such as `Illegal data type: u_dw` from
-`pfc_u_dw::of_setbase`, even though an incremental merge (`"RefreshPbl": false`, what
-`-Build` uses), a full PBC build and the IDE all compile the same source without errors.
-The same full refresh works on a workspace without an intermediate level.
+Prefer an incremental merge (`"RefreshPbl": false`, which is what `-Build` uses) to a full
+refresh of the PBLs from source (`"RefreshPbl": true`) on a workspace that has an
+intermediate level. In PowerBuilder 2025 (25.1.0.6430), the full refresh sometimes fails.
+PBAutoBuild logs `An exception occurred in the merge object, try again` during
+`cm_rebuild_application`, and the retry then fails with errors such as `Illegal data type:
+u_dw` from `pfc_u_dw::of_setbase`.
+
+It's intermittent. In our tests, 5 of 26 full refreshes with an intermediate level failed,
+and running the refresh again on the same source then succeeded. None of 10 without an
+intermediate level failed, though that's too few runs to say it never happens. An
+incremental merge and a full PBC build compiled the same source every time. If a full
+refresh fails this way, run it again.
