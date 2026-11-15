@@ -2,8 +2,8 @@
 
 `tools\New-PfcExtensionLayer.ps1` adds an *intermediate extension level* (a "PFD" layer) to the
 PowerBuilder Foundation Classes (PFC), in a PowerBuilder 2025 solution (`.pbsln`) or
-workspace (`.pbw`). It does what the Library Extender that shipped with the Sybase PFC did
-(see "Library Extender" in the PFC User's Guide, chapter 7).
+workspace (`.pbw`). It does what the Library Extender wizard in the PowerBuilder IDE did
+for the Sybase PFC (see "Library Extender" in the PFC User's Guide, chapter 7).
 
 ## Why an intermediate level?
 
