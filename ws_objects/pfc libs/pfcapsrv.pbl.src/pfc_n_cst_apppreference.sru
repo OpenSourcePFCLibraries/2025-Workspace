@@ -1405,11 +1405,10 @@ protected function integer of_restoreapp (boolean ab_useregistry, string as_keyo
 //////////////////////////////////////////////////////////////////////////////
 
 boolean		lb_microhelp, lb_righttoleft, lb_toolbarusercontrol
-integer		li_ddetimeout
 integer		li_rc
 string		ls_userinifile, ls_userkey, ls_microhelp, ls_helpfile
 string		ls_version, ls_logo, ls_copyright 
-string		ls_ddetimeout, ls_displayname, ls_dwmessagetitle
+string		ls_displayname, ls_dwmessagetitle
 string		ls_microhelpdefault, ls_righttoleft, ls_toolbarframetitle
 string		ls_toolbarpopmenutext, ls_toolbarsheettitle, ls_toolbarusercontrol
 string		ls_toolbartext, ls_toolbartips, ls_userid
@@ -1436,8 +1435,6 @@ li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'copyright', ls_
 li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'userid', ls_userid, &
 	inv_appmanager.of_GetUserid() )
 		
-li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'ddetimeout',  ls_ddetimeout, &
-	string(inv_appmanager.iapp_object.ddetimeout))
 li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'displayname', ls_displayname, &
 	inv_appmanager.iapp_object.displayname)
 li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'dwmessagetitle',   ls_dwmessagetitle, &
@@ -1459,11 +1456,6 @@ li_rc = of_Restore (ab_useregistry, as_keyorini, as_inisection, 'toolbarusercont
 lb_microhelp = lnv_conversion.of_Boolean(ls_microhelp)
 lb_righttoleft = lnv_conversion.of_Boolean(ls_righttoleft)
 lb_toolbarusercontrol = lnv_conversion.of_Boolean(ls_toolbarusercontrol)
-If isnumber(ls_ddetimeout) then 
-	li_ddetimeout = integer(ls_ddetimeout)
-else
-	li_ddetimeout = 0
-end if
 
 // Important values so validate them.
 if isnull(lb_microhelp) then lb_microhelp = false
@@ -1481,7 +1473,6 @@ if ls_userid <> ""      then inv_appmanager.of_SetUserid(ls_userid)
 inv_appmanager.of_SetMicrohelp(lb_microhelp)
 
 // application object properties - if value is blank then we don't want to change the current setting
-inv_appmanager.iapp_object.ddetimeout = li_DDEtimeOut
 if ls_DisplayName <> ""        then inv_appmanager.iapp_object.displayname = ls_DisplayName
 if ls_dwMessageTitle <> ""     then inv_appmanager.iapp_object.dwmessagetitle = ls_dwMessageTitle
 if ls_MicroHelpDefault <> ""   then inv_appmanager.iapp_object.microhelpdefault = ls_MicroHelpDefault
@@ -1564,8 +1555,6 @@ li_rc = of_Save (ab_UseRegistry, as_KeyOrIni, as_IniSection, 'logo', &
 li_rc = of_Save (ab_UseRegistry, as_KeyOrIni, as_IniSection, 'copyright', &
 	inv_appmanager.of_GetCopyright() )
 		
-li_rc = of_Save (ab_UseRegistry, as_KeyOrIni, as_IniSection, 'ddetimeout', &
-	string(inv_appmanager.iapp_object.ddetimeout))
 li_rc = of_Save (ab_UseRegistry, as_KeyOrIni, as_IniSection, 'displayname', &
 	inv_appmanager.iapp_object.displayname)
 li_rc = of_Save (ab_UseRegistry, as_KeyOrIni, as_IniSection, 'dwmessagetitle', &
@@ -2066,11 +2055,10 @@ protected function integer of_restoreapp (integer ai_filetype, string as_keyorin
 //////////////////////////////////////////////////////////////////////////////
 
 boolean		lb_microhelp, lb_righttoleft, lb_toolbarusercontrol
-integer		li_ddetimeout
 integer		li_rc
 string		ls_userinifile, ls_userkey, ls_microhelp, ls_helpfile
 string		ls_version, ls_logo, ls_copyright 
-string		ls_ddetimeout, ls_displayname, ls_dwmessagetitle
+string		ls_displayname, ls_dwmessagetitle
 string		ls_microhelpdefault, ls_righttoleft, ls_toolbarframetitle
 string		ls_toolbarpopmenutext, ls_toolbarsheettitle, ls_toolbarusercontrol
 string		ls_toolbartext, ls_toolbartips, ls_userid
@@ -2089,7 +2077,6 @@ li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'logo',
 li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'copyright', ls_copyright, 	inv_appmanager.of_GetCopyright() )
 li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'userid', ls_userid, 	inv_appmanager.of_GetUserid() )
 		
-li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'ddetimeout',  ls_ddetimeout, string(inv_appmanager.iapp_object.ddetimeout))
 li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'displayname', ls_displayname, inv_appmanager.iapp_object.displayname)
 li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'dwmessagetitle',   ls_dwmessagetitle, inv_appmanager.iapp_object.dwmessagetitle)
 li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'microhelpdefault', ls_microhelpdefault, inv_appmanager.iapp_object.microhelpdefault)
@@ -2103,11 +2090,6 @@ li_rc = of_Restore (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'toolba
 lb_microhelp = lnv_conversion.of_Boolean(ls_microhelp)
 lb_righttoleft = lnv_conversion.of_Boolean(ls_righttoleft)
 lb_toolbarusercontrol = lnv_conversion.of_Boolean(ls_toolbarusercontrol)
-If isnumber(ls_ddetimeout) then 
-	li_ddetimeout = integer(ls_ddetimeout)
-else
-	li_ddetimeout = 0
-end if
 
 // Important values so validate them.
 if isnull(lb_microhelp) then lb_microhelp = false
@@ -2125,7 +2107,6 @@ if ls_userid <> ""      then inv_appmanager.of_SetUserid(ls_userid)
 inv_appmanager.of_SetMicrohelp(lb_microhelp)
 
 // application object properties - if value is blank then we don't want to change the current setting
-inv_appmanager.iapp_object.ddetimeout = li_DDEtimeOut
 if ls_DisplayName <> ""        then inv_appmanager.iapp_object.displayname = ls_DisplayName
 if ls_dwMessageTitle <> ""     then inv_appmanager.iapp_object.dwmessagetitle = ls_dwMessageTitle
 if ls_MicroHelpDefault <> ""   then inv_appmanager.iapp_object.microhelpdefault = ls_MicroHelpDefault
@@ -2277,7 +2258,6 @@ li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'version',
 li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'logo', 			inv_appmanager.of_GetLogo() )
 li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'copyright', 	inv_appmanager.of_GetCopyright() )
 		
-li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'ddetimeout', 				string(inv_appmanager.iapp_object.ddetimeout))
 li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'displayname', 			inv_appmanager.iapp_object.displayname)
 li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'dwmessagetitle', 		inv_appmanager.iapp_object.dwmessagetitle)
 li_rc = of_Save (ai_filetype, as_keyoriniorxml, as_inisectionxmlroot, 'microhelpdefault', 		inv_appmanager.iapp_object.microhelpdefault)

@@ -2161,11 +2161,7 @@ end on
 
 event clicked;// The PFC documentation, in the docs repository, in the default browser.  (It replaces the
 // PFC help file, PBPFC110.chm, which is out of date and no longer published.)
-inet	linet_help
-
-If GetContextService("Internet", linet_help) = 1 Then
-	linet_help.HyperlinkToURL("https://github.com/OpenSourcePFCLibraries/docs/tree/main/object-reference")
-End If
+OpenURL("https://github.com/OpenSourcePFCLibraries/docs/tree/main/object-reference")
 end event
 
 type m_dash61 from pfc_m_master`m_dash61 within m_help
