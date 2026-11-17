@@ -13,3 +13,11 @@ openid demo/openiddemo.ini
 # The help files, which are published in their own repositories (see the README)
 examples/pfcexamp.pdf
 examples/pfcdlg.pdf
+
+# Binary PowerBuilder libraries: build them from ws_objects instead. A PBL
+# kept in git still holds objects later deleted from ws_objects, and
+# rebuilding into it (as Connect to Workspace does) brings them back.
+# Converting to Solution mode turns these paths into source folders, so
+# remove these lines (or add !/examples/*.pbl/ and !/demoapp/peat.pbl/) then.
+/demoapp/peat.pbl
+/examples/*.pbl
