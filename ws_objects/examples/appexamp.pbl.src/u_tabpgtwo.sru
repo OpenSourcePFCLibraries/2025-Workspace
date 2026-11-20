@@ -303,7 +303,6 @@ int Width=371
 int TabOrder=40
 boolean Enabled=false
 MaskDataType MaskDataType=DateMask!
-string DisplayData=""
 double Increment=0
 string MinMax=""
 string facename = "Segoe UI"
@@ -317,7 +316,6 @@ int TabOrder=50
 boolean Enabled=false
 boolean BringToTop=true
 MaskDataType MaskDataType=DateMask!
-string DisplayData=""
 double Increment=0
 string MinMax=""
 string facename = "Segoe UI"
@@ -339,7 +337,6 @@ boolean Enabled=false
 boolean BringToTop=true
 string Mask="####"
 boolean Spin=true
-string DisplayData="Øh"
 string MinMax="1~~30"
 string facename = "Segoe UI"
 end type
@@ -352,7 +349,6 @@ boolean Enabled=false
 boolean BringToTop=true
 string Mask="####"
 boolean Spin=true
-string DisplayData=""
 string MinMax="1~~30"
 string facename = "Segoe UI"
 end type
