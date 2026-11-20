@@ -123,6 +123,8 @@ event ue_statusbarclicked;choose case as_name
 		im_debuglogwindow.Event clicked()
 	case "sqlspywin"
 		im_sqlspywindow.Event clicked()
+	case else
+		// Other status bar items have no action
 end choose
 end event
 
@@ -172,6 +174,8 @@ Choose Case ls_id
 				im_debugservices.text = "Start Debug Services"
 
 				ls_bitmap = 'images\sb_debugsrv_off.svg'		
+			case else
+				// Other actions don't change the status bar
 		end choose
 
 	Case 'sqlspysrv'
@@ -182,6 +186,8 @@ Choose Case ls_id
 			case "close"
 				im_sqlspyservices.text = "Start SQL Spy Services"
 				ls_bitmap = 'images\sb_sqlspysrv_off.svg'		
+			case else
+				// Other actions don't change the status bar
 		end choose
 
 	Case 'debuglogwin'
@@ -193,6 +199,8 @@ Choose Case ls_id
 			case "close"
 				im_debuglogwindow.text = "Open Debug Log Window"
 				ls_bitmap = 'images\sb_debuglogwin_off.svg'
+			case else
+				// Other actions don't change the status bar
 		end choose		
 		
 	Case 'sqlspywin'		
@@ -203,8 +211,12 @@ Choose Case ls_id
 			case "close"
 				im_sqlspywindow.text = "Open SQL Spy Window"
 				ls_bitmap = 'images\sb_sqlspywin_off.svg'
+			case else
+				// Other actions don't change the status bar
 		end choose
 		
+	Case Else
+		// Other objects have no status bar item
 End Choose
 
 If Len(ls_id) > 0 And Len(ls_bitmap) > 0 Then
@@ -972,6 +984,8 @@ choose case ll_level
 		inv_datasource.of_SetPictureColumn("7")
 		inv_datasource.of_SetStatePictureColumn("overlay_picture_idx")
 //		inv_datasource.of_SetOverlayPictureColumn("overlay_picture_idx")
+	case else
+		// Other levels have no list
 end choose
 
 // clear the listview

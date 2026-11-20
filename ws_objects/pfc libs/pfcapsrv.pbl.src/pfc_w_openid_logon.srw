@@ -515,6 +515,8 @@ If lnv_json.LoadString(as_json) = "" Then
 				Case JsonStringItem!
 					li_count = 1
 					as_groups[1] = lnv_json.GetItemString(ll_claim)
+				Case Else
+					// Any other type of claim has no groups
 			End Choose
 			Exit
 		End If
@@ -594,6 +596,8 @@ For ll_pos = 1 To Len(ls_payload)
 			ls_payload = Replace(ls_payload, ll_pos, 1, "+")
 		Case "_"
 			ls_payload = Replace(ls_payload, ll_pos, 1, "/")
+		Case Else
+			// Any other character is the same in Base64 and Base64url
 	End Choose
 Next
 Do While Mod(Len(ls_payload), 4) <> 0

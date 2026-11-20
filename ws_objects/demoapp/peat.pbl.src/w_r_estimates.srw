@@ -293,6 +293,8 @@ CHOOSE CASE dwo.name
 		this.object.adjusted_hours[row] = + &
 						idwc_projectrole.GetItemDecimal(ll_FindRow, "multipler") * +&
 						Dec(data)
+	CASE ELSE
+		// Other columns don't change the estimate
 END CHOOSE
 
 

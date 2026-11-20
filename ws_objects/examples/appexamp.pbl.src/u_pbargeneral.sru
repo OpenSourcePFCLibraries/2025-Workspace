@@ -132,6 +132,8 @@ choose case ddlb_borderstyle.text
 		iuo_progbar.borderstyle = styleshadowbox!
 	case "None"
 		iuo_progbar.border = false
+	case else
+		// Unrecognized border style - leave the current border style unchanged
 end choose
 
 li_index = ddlb_displaystyle.FindItem(ddlb_displaystyle.text, 0)
@@ -288,6 +290,8 @@ if iuo_progbar.border = true then
 			ddlb_borderstyle.SelectItem("3D Raised", li_borderindex)
 		case styleshadowbox!
 			ddlb_borderstyle.SelectItem("ShadowBox", li_borderindex)
+		case else
+			// Another border style - leave nothing selected
 	end choose
 else
 	ddlb_borderstyle.SelectItem("None", li_borderindex)

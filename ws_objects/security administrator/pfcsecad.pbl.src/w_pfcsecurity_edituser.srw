@@ -109,6 +109,8 @@ choose case istr_data.status // make it look correct
 	case 3 
 		this.title = 'Delete'
 		dw_user.object.datawindow.readonly = true
+	case else
+		// Any other status - leave the window as it is
 end choose
 if istr_data.user_type = 0 then
 	this.title = this.title + ' User'

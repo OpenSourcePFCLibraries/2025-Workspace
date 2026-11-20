@@ -146,6 +146,8 @@ Choose Case ai_treelevel
 	Case 3
 		ids_list.DataObject = "d_windows"
 		of_FillWindows(ids_list, al_key)
+	Case Else
+		// Other levels have no list
 End Choose
 
 Return ids_list

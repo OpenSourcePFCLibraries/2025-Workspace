@@ -4104,6 +4104,8 @@ Do While ll_pos > 0 And ll_pos < ll_len
 		Case "1", "2", "3", "4", "5", "6", "7", "8", "9"
 			li_index = Integer(ls_next)
 			If li_index <= li_count Then ls_value = as_parms[li_index]
+		Case Else
+			// Not a placeholder: the text is kept as it is
 	End Choose
 	If Not IsNull(ls_value) Then
 		ls_result += Mid(as_text, ll_start, ll_pos - ll_start) + ls_value

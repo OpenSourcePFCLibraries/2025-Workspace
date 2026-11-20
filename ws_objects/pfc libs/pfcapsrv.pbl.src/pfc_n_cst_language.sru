@@ -728,6 +728,8 @@ Do While ll_pos > 0
 			Return True
 		Case "%"
 			ll_pos++
+		Case Else
+			// Any other character after % is not a placeholder
 	End Choose
 	ll_pos = Pos(as_text, "%", ll_pos + 1)
 Loop
@@ -1338,6 +1340,8 @@ Choose Case TypeOf(awo_control)
 		ldw = awo_control
 		li_rc = of_TranslateDWObjects(ldw)
 		If li_rc > 0 Then li_count += li_rc
+	Case Else
+		// Other controls have no text to translate
 End Choose
 
 Return li_count
@@ -1490,6 +1494,8 @@ Do While Len(ls_objects) > 0
 				apo_dw.Dynamic Modify(ls_object + ".Values=~"" + of_Escape(ls_newvalues) + "~"")
 				li_count++
 			End If
+		Case Else
+			// Other DataWindow objects have no text to translate
 	End Choose
 Loop
 

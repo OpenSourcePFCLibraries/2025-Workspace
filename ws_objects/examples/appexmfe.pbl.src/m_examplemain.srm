@@ -70,6 +70,8 @@ choose case ilv_parent.view
 		this.m_view.m_list.checked = true
 	case listviewreport!
 		this.m_view.m_details.checked = true
+	case else
+		// Another view - leave the menu items unchecked
 end choose
 
 

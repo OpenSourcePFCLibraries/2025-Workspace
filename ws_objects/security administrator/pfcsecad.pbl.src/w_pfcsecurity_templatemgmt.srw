@@ -261,6 +261,8 @@ choose case ltvi_this.level
 		if dw_windows.rowcount() = 0 then
 			li_rc = dw_windows.retrieve(is_app, is_window)
 		end if
+	case else
+		// Other levels need no filter
 end choose
 
 
