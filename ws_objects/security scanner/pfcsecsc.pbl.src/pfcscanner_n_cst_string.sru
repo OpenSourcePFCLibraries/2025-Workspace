@@ -836,6 +836,9 @@ ElseIf ab_remove_spaces Then
 	//Remove spaces from the beginning and end of a string.
 	as_source = Trim(as_source)
 
+Else
+	//Nothing to remove: return the string as it is
+
 End If
 
 return as_source
@@ -973,6 +976,8 @@ For ll_pos = 1 to ll_stringlength
 		lc_string[ll_pos] = Upper(lc_char)
 		//The next character should not be capitalized
 		lb_capnext = False
+	Else
+		//A letter inside a word stays lowercase
 	End If
 Next
 

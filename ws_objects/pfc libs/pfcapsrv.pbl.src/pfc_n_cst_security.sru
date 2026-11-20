@@ -3995,6 +3995,8 @@ ElseIf of_IsDefaultEligible(am_menu) And Not of_IsSettled(am_menu) Then
 		is_forcedstatus = ""
 		ib_restrictonly = lb_restrictonly
 	END TRY
+Else
+	// Not eligible for the default status, or already settled: leave it as it is
 End If
 
 Return li_numset

@@ -118,6 +118,8 @@ if li_entries < 0 then
 elseif li_entries = 0 then
 	MessageBox("File Services", "No files found", Exclamation!)
 	return
+else
+	// Files were found: list them below
 end if
 
 if rb_filename.checked then
@@ -128,6 +130,8 @@ elseif rb_datetime.checked then
 	inv_filesrv.of_SortDirList(inv_dirlist, 3)
 elseif rb_size.checked then
 	inv_filesrv.of_SortDirList(inv_dirlist, 4)
+else
+	// No sort option is selected: keep the order of_DirList returned
 end if
 
 dw_dirlist.SetRedraw(false)

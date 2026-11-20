@@ -86,6 +86,8 @@ If li_rc = 1 Then
 	gnv_app.inv_language.of_AddLanguageFile(ls_folder + "pfcexamp.lng")
 ElseIf li_rc = -1 Then
 	MessageBox(this.Title, "The language file " + as_file + " could not be read.", Exclamation!)
+Else
+	// 0: English, PFC's own language, so there is no application file to add
 End If
 
 of_ShowLanguage()
@@ -152,6 +154,8 @@ If ib_startedservice Then
 ElseIf IsValid(gnv_app.inv_language) Then
 	gnv_app.inv_language.of_SetLanguageFile(gnv_app.inv_language.of_GetDefaultLanguageFile())
 	gnv_app.inv_language.of_AddLanguageFile(gnv_app.inv_language.of_GetDefaultApplicationFile())
+Else
+	// The language service is not running: there is nothing to undo
 End If
 end event
 

@@ -549,6 +549,8 @@ ELSEIF this.object.start_date[1] > this.object.end_date[1] THEN
 	this.SetColumn("start_date")
 	lb_Error = TRUE
 	
+ELSE
+	// The project name and dates are valid
 END IF
 
 
