@@ -703,6 +703,8 @@ Choose Case ai_rc
 		Return "The identity provider's response is not valid."
 	Case -6
 		Return ls_error
+	Case Else
+		// Any other code: returns the code below
 End Choose
 
 Return "Error " + String(ai_rc)

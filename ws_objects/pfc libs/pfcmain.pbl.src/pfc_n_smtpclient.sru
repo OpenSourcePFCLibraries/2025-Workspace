@@ -339,6 +339,8 @@ If IsNull(Host) Or Trim(Host) = "" Then
 			Host = "smtp.office365.com"
 		Case inv_oauth2.GOOGLE
 			Host = "smtp.gmail.com"
+		Case Else
+			// Other providers: the application sets Host
 	End Choose
 	Port = 587
 	EnableTLS = True
@@ -626,6 +628,8 @@ Choose Case inv_oauth2.of_GetProvider()
 		Return "https://outlook.office.com/SMTP.Send offline_access"
 	Case inv_oauth2.GOOGLE
 		Return "https://mail.google.com/"
+	Case Else
+		// Other providers have no default scope: returns an empty string below
 End Choose
 
 Return ""

@@ -243,6 +243,8 @@ CHOOSE CASE atvi_new.level
 			li_rc1 = lv_project_info.of_addColumn("estimated_cost","Est Cost",Right!,360)
 			li_rc1 = lv_project_info.of_addColumn("actual_cost","Act Cost",Right!,360)
 		END IF
+		CASE ELSE
+			// Other levels have no columns to show
 END CHOOSE
 
 end subroutine

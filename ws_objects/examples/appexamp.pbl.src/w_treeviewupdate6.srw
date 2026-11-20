@@ -242,6 +242,8 @@ If ib_Changed Then
 			cb_update.Trigger Event Clicked()
 		Case 3
 			Return
+		Case Else
+			// No: refresh without saving
 	End Choose
 End If
 

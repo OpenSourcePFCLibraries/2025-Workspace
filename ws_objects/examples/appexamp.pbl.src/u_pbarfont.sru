@@ -129,6 +129,8 @@ choose case sle_fontstyles.text
 	case "Bold Italic"
 		iuo_progbar.of_SetFontItalic(true)
 		iuo_progbar.of_SetFontBold(true)
+	case else
+		// Unrecognized font style - leave the current style unchanged
 end choose
 
 iuo_progbar.of_SetFontUnderline(cbx_underline.checked)
@@ -154,6 +156,8 @@ choose case ddlb_bkgdcolor.text
 		iuo_progbar.of_SetBackColor(RGB(255,255,0))
 	case "Buttonface"
 		iuo_progbar.of_SetBackColor(this.backcolor)
+	case else
+		// Unrecognized color - leave the current background color unchanged
 end choose
 
 choose case ddlb_fillcolor.text
@@ -177,6 +181,8 @@ choose case ddlb_fillcolor.text
 		iuo_progbar.of_SetFillColor(RGB(255,255,0))
 	case "Buttonface"
 		iuo_progbar.of_SetFillColor(this.backcolor)
+	case else
+		// Unrecognized color - leave the current fill color unchanged
 end choose
 
 choose case ddlb_textcolor.text
@@ -200,6 +206,8 @@ choose case ddlb_textcolor.text
 		iuo_progbar.of_SetTextColor(RGB(255,255,0))
 	case "Buttonface"
 		iuo_progbar.of_SetTextColor(this.backcolor)
+	case else
+		// Unrecognized color - leave the current text color unchanged
 end choose
 end event
 
@@ -402,6 +410,8 @@ choose case iuo_progbar.of_GetBackColor()
 		ddlb_bkgdcolor.SelectItem(9)
 	case ll_buttonface
 		ddlb_bkgdcolor.SelectItem(10)
+	case else
+		// A color that isn't in the list - leave nothing selected
 end choose
 
 choose case iuo_progbar.of_GetFillColor()
@@ -425,6 +435,8 @@ choose case iuo_progbar.of_GetFillColor()
 		ddlb_fillcolor.SelectItem(9)
 	case ll_buttonface
 		ddlb_fillcolor.SelectItem(10)
+	case else
+		// A color that isn't in the list - leave nothing selected
 end choose
 dw_sample.object.pbar_sampler.background.color = iuo_progbar.of_GetFillColor()
 dw_sample.object.datawindow.color = iuo_progbar.of_GetFillColor()
@@ -450,6 +462,8 @@ choose case iuo_progbar.of_GetTextColor()
 		ddlb_textcolor.SelectItem(9)
 	case ll_buttonface
 		ddlb_textcolor.SelectItem(10)
+	case else
+		// A color that isn't in the list - leave nothing selected
 end choose
 dw_sample.object.pbar_sampler.color = iuo_progbar.of_GetTextColor()		
 
@@ -587,6 +601,8 @@ choose case sle_fontstyles.text
 	case "Bold Italic"
 		dw_sample.Object.pbar_sampler.font.weight = 700
 		dw_sample.Object.pbar_sampler.font.italic = true
+	case else
+		// Unrecognized font style - leave the sample unchanged
 end choose
 end event
 
@@ -862,6 +878,8 @@ choose case this.Text(index)
 		dw_sample.object.pbar_sampler.color = RGB(255,255,0)
 	case "Buttonface"
 		dw_sample.object.pbar_sampler.color = 78682240
+	case else
+		// Unrecognized color - leave the sample unchanged
 end choose
 end event
 
@@ -940,6 +958,8 @@ event selectionchanged;call super::selectionchanged;choose case ddlb_fillcolor.T
 	case "Buttonface"
 		dw_sample.object.pbar_sampler.background.color = 78682240
 		dw_sample.object.datawindow.color = 78682240
+	case else
+		// Unrecognized color - leave the sample unchanged
 end choose
 end event
 

@@ -206,6 +206,8 @@ Choose Case ltvi_selecteditem.Level
 		// not on the tree so register normally
 		li_RC = lv_1.inv_datasource.of_register("product_description", "d_regionstatecustreporditm", SQLCA)
 		li_RC = lv_1.inv_datasource.of_SetPictureColumn("product_picture_name")
+	Case Else
+		// Other levels have no data source
 End Choose
 
 // add all the visible columns of the datasource to the report view

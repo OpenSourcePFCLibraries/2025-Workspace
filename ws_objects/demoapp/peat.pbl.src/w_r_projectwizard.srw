@@ -157,6 +157,8 @@ IF as_direction = "back" THEN
 			// to finish.  Since the user moved back, change the
 			// text back to next.
 			cb_next.Text = "&Next >"	
+		CASE ELSE
+			// Page 1 is the first page: there is no page before it
 		END CHOOSE
 		
 	// User pressed next
@@ -187,6 +189,8 @@ IF as_direction = "back" THEN
 			
 			// on the last datawindow, the next button should be changed to finish
 			cb_next.text = "&Finish"
+		CASE ELSE
+			// The last page shows Finish, so this function isn't called for it
 		END CHOOSE
 	END IF
 
