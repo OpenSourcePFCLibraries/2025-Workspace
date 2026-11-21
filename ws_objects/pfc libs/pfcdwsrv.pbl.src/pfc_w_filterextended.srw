@@ -101,6 +101,72 @@ n_cst_filterattrib	inv_filterattrib
 n_cst_returnattrib	inv_return
 end variables
 
+forward prototypes
+protected function string of_getvaluessql (string as_dddw, string as_dbname)
+end prototypes
+
+protected function string of_getvaluessql (string as_dddw, string as_dbname);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:		of_GetValuesSQL
+//
+//	Access:			Protected
+//
+//	Arguments:
+//	as_dddw			The column's DropDownDataWindow, as Describe("<column>.dddw.name")
+//						returns it: the DataWindow object's name, or "!", "?" or "" if
+//						the column has none
+//	as_dbname		The column's database name, "table.column"
+//
+//	Returns:			String
+//						The SQL that lists the column's values for the Values tab: the
+//						DropDownDataWindow's SELECT, or a "select distinct" of the column.
+//						"" if as_dbname has no table name
+//
+//	Description:	Chooses the SQL for the Values tab.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c)
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+string		ls_sql
+string		ls_table
+datastore	lds
+
+if as_dddw <> "!" and as_dddw <> "?" and as_dddw <> "" then
+	// The column has a dddw: use the SQL of its dataobject
+	lds = create datastore
+	lds.dataobject = as_dddw
+	ls_sql = lds.object.datawindow.table.select
+	destroy lds
+else
+	// Otherwise, build the SQL from the column's dbname
+	ls_table = Left (as_dbname, Pos (as_dbname, ".") - 1)
+	if ls_table = "" then return ""
+	ls_sql = "select distinct " + as_dbname + " from " + ls_table
+end if
+
+return ls_sql
+end function
+
 event pfc_verify;call super::pfc_verify;//////////////////////////////////////////////////////////////////////////////
 //
 //	Event:  pfc_verify
@@ -732,7 +798,6 @@ string		ls_editstyle
 string		ls_replacesyntax
 string		ls_dddw
 n_cst_string	lnv_string
-datastore	lds
 
 // Check for values tabpage
 if newindex <> 4 then
@@ -765,16 +830,7 @@ if li_selectedrow > 0 then
 		// SQL
 		// Check if a dddw is associated with the selected column
 		ls_dddw = inv_filterattrib.idw_dw.describe( ls_col+".dddw.name")
-		if ls_dddw <> "!" and ls_dddw <> "?" and ls_dddw <> "" then
-			// if so, extract sql from dddw dataobject
-			lds = create datastore
-			lds.dataobject = ls_dddw
-			ls_sql = lds.object.datawindow.table.select
-			destroy lds
-		else
-			// otherwise, build sql based on selected column's dbname
-			ls_sql = "select distinct " + ls_dbname + " from " + ls_table
-		end if
+		ls_sql = parent.of_GetValuesSQL (ls_dddw, ls_dbname)
 
 		// Default presentation
 		ls_presentation = "DataWindow (color=" + WHITE + ") " + &
