@@ -234,7 +234,7 @@ End If
 li_limit = UpperBound (am_source.item)
 For li_cnt = 1 to li_limit
 	lb_toolbarexists = of_ToolbarExists (am_source.item[li_cnt])
-	If lb_toolbarexists = True or IsNull(lb_toolbarexists) Then
+	If lb_toolbarexists or IsNull(lb_toolbarexists) Then
 		Return lb_toolbarexists
 	End If
 Next

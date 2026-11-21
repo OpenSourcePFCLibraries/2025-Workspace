@@ -382,13 +382,13 @@ End If
 //		according to Win95 the processing will be performed (by this same function)
 //		when the Button is released.	
 //////////////////////////////////////////////////////////////////////////////
-If ((ib_lbuttonpressed or ib_rbuttonpressed) And ab_cntrlpressed And ab_shiftpressed=False) Or &
+If ((ib_lbuttonpressed or ib_rbuttonpressed) And ab_cntrlpressed And Not ab_shiftpressed) Or &
 	(this.IsSelected(al_row) And ib_lbuttonpressed And &
-	ab_cntrlpressed=False And ab_shiftpressed=False)  Then
+	Not ab_cntrlpressed And Not ab_shiftpressed)  Then
 	// Wait for the button up to process click.
 	lb_waitforbuttonup = True
 ElseIf this.IsSelected(al_row) And ib_rbuttonpressed And &
-	ab_cntrlpressed=False And ab_shiftpressed=False  Then
+	Not ab_cntrlpressed And Not ab_shiftpressed  Then
 	// Right Clicking on an already Highlighted row requires a No Action process.
 	lb_takenoaction = True
 Else
@@ -425,7 +425,7 @@ End If
 //			variables: (il_prevclickedrow, il_prevcntrl, il_prevshift)
 //////////////////////////////////////////////////////////////////////////////
 
-If ab_cntrlpressed And ab_shiftpressed=False Then
+If ab_cntrlpressed And Not ab_shiftpressed Then
 	// Select or De-Select (as appropriate) the current row.
 	this.SelectRow ( al_row, Not this.IsSelected(al_row) ) 
 
@@ -441,7 +441,7 @@ ElseIf ab_cntrlpressed Or ab_shiftpressed Then
 /*		+++++++ Because of the "If" prior to this "ElseIf", it is 			*/
 /* 	impossible for ab_cntrlpressed=True and ab_shiftpressed=False.		*/
 
-	If ab_cntrlpressed=False Then
+	If Not ab_cntrlpressed Then
 		//Clear all previously selected rows.	
 		this.SelectRow (0, false)	
 	End If

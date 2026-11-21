@@ -7182,7 +7182,7 @@ For li_i = 1 to li_upperbound
 	End If
 	
 	If IsNull(ls_expression) Then ls_expression = ""
-	If Not Len(Trim(ls_expression))=0 Then
+	If Len(Trim(ls_expression)) <> 0 Then
 		// Construct the Find expression.
 		If (ls_find <> "") Then ls_find += " And "
 		If Pos(Lower(ls_expression), 'null') > 0 Then

@@ -1301,7 +1301,7 @@ scriptdefinition lsd_script
 if isnull( acd_class ) or not isvalid( acd_class ) then return -1
 
 // if asked, append scripts found to the specified result list
-if ab_append = true then
+if ab_append then
 	li_index = upperbound( as_scriptslist )
 end if
 
@@ -1311,8 +1311,8 @@ for li_i = 1 to li_limit
 	lsd_script = acd_class.scriptlist[li_i]
 	
 	// Skip System script, if needed
-	if this.of_isSkipsystemmodeenabled( ) = true then
-		if this.of_issystemdefined( lsd_script ) = true then
+	if this.of_isSkipsystemmodeenabled( ) then
+		if this.of_issystemdefined( lsd_script ) then
 			continue
 		end if
 	end if
@@ -1323,8 +1323,8 @@ for li_i = 1 to li_limit
 		as_scriptslist[ li_index ] = lsd_script.name
 		
 		// check if it is Obsolete or not, if needed
-		if this.of_isnotifyObsoleteenabled( ) = true then
-			if this.of_isObsolete( lsd_script ) = true then
+		if this.of_isnotifyObsoleteenabled( ) then
+			if this.of_isObsolete( lsd_script ) then
 				// if, yes apply Obsolete label
 				as_scriptslist[ li_index ] += " (obs)"
 			end if
@@ -3093,7 +3093,7 @@ variabledefinition lvd_variable
 if isnull( acd_class ) or not isvalid( acd_class ) then return -1
 
 // if asked, append variables found to the specified result list
-if ab_append = true then
+if ab_append then
 	li_index = upperbound( as_varslist )
 end if
 
@@ -3103,8 +3103,8 @@ for li_i = 1 to li_limit
 	lvd_variable = acd_class.variablelist[li_i]
 	
 	// Skip System defined variable, if needed
-	if this.of_IsSkipSystemModeEnabled( ) = true then
-		if this.of_isystsemdefined( lvd_variable ) = true then
+	if this.of_IsSkipSystemModeEnabled( ) then
+		if this.of_isystsemdefined( lvd_variable ) then
 			continue
 		end if
 	end if
@@ -3854,7 +3854,7 @@ if this.of_GetVariables( acd_class, variableargument!, public!,  ls_tmp, true ) 
 li_limit =upperbound( ls_tmp )
 
 // Handle append mode, if needed
-if ab_append = true then
+if ab_append then
 	li_startindex = upperbound( as_varslist )
 	for li_i = li_limit to li_end step -1
 		as_varslist[li_startindex + li_i] = ls_tmp[li_i]
@@ -3938,7 +3938,7 @@ if this.of_GetVariables( acd_class, variableinstance!, public!,  ls_tmp, true ) 
 li_limit =upperbound( ls_tmp )
 
 // Handle append mode, if needed
-if ab_append = true then
+if ab_append then
 	li_StartIndex = upperbound( as_varslist )
 	for li_i = li_limit to li_end step -1
 		as_varslist[li_StartIndex + li_i] = ls_tmp[li_i]
@@ -4022,7 +4022,7 @@ if this.of_GetVariables( acd_class, variableglobal!, public!,  ls_tmp, true ) = 
 li_limit =upperbound( ls_tmp )
 
 // Handle append mode, if needed
-if ab_append = true then
+if ab_append then
 	li_StartIndex = upperbound( as_varslist )
 	for li_i = li_limit to li_end step -1
 		as_varslist[li_StartIndex + li_i] = ls_tmp[li_i]
@@ -4106,7 +4106,7 @@ if this.of_GetVariables( acd_class, variablelocal!, public!,  ls_tmp, true ) = -
 li_limit =upperbound( ls_tmp )
 
 // Handle append mode, if needed
-if ab_append = true then
+if ab_append then
 	li_StartIndex = upperbound( as_varslist )
 	for li_i = li_limit to li_end step -1
 		as_varslist[li_StartIndex + li_i] = ls_tmp[li_i]
@@ -4190,7 +4190,7 @@ if this.of_GetVariables( acd_class, variableshared!, public!,  ls_tmp, true ) = 
 li_limit =upperbound( ls_tmp )
 
 // Handle append mode, if needed
-if ab_append = true then
+if ab_append then
 	li_StartIndex = upperbound( as_varslist )
 	for li_i = li_limit to li_end step -1
 		as_varslist[li_StartIndex + li_i] = ls_tmp[li_i]
@@ -4726,7 +4726,7 @@ lb_handleLocalStructure = (ai_handlingmode = cst_all) or (ai_handlingmode = cst_
 lb_handleNonVisual = (ai_handlingmode = cst_all) or (ai_handlingmode = cst_nonvisual )
 
 // if asked, append nested classes found to the specified result list
-if ab_append = true then
+if ab_append then
 	li_index = upperbound( as_classeslist )
 end if
 
@@ -4736,9 +4736,9 @@ for li_i = 1 to li_limit
 	lcd_class = acd_class.nestedclasslist[li_i]
 	
 	// Store current nested class into result list according to the specified handling mode 
-	lb_store = ( lb_handleLocalStructure = true and lcd_class.isstructure = true ) or (lb_handleNonVisual = true and lcd_class.isstructure = false )
+	lb_store = ( lb_handleLocalStructure and lcd_class.isstructure ) or (lb_handleNonVisual and Not lcd_class.isstructure )
 
-	if lb_store = true then
+	if lb_store then
 		li_index++
 		as_classeslist[ li_index ] = lcd_class.name
 	end if
@@ -5963,8 +5963,8 @@ lcd_test = acd_sourceclass.ancestor
 do while isValid (lcd_test)
 	
 	// Skip system class, if Skip System Mode is enabled
-	if this.of_isskipsystemmodeenabled( ) = true then
-		if this.of_isSystemDefined( lcd_test ) = true then
+	if this.of_isskipsystemmodeenabled( ) then
+		if this.of_isSystemDefined( lcd_test ) then
 			lcd_test = lcd_test.ancestor
 			continue
 		end if

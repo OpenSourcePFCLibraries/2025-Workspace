@@ -3270,7 +3270,7 @@ public function boolean of_isenabledallowed (string as_window, string as_control
 string	ls_status
 
 ls_status = of_GetStatus(as_window, as_control)
-Return Not (ls_status = DISABLE Or ls_status = INVISIBLE)
+Return ls_status <> DISABLE And ls_status <> INVISIBLE
 end function
 
 public function boolean of_isvisibleallowed (string as_window, string as_control);//////////////////////////////////////////////////////////////////////////////
@@ -3373,7 +3373,7 @@ string	ls_name, ls_status
 If of_GetControlName(ado_control, lw_window, ls_name) <> 1 Then Return True
 // The default status only applies to the controls of_SetSecurity applies it to
 ls_status = of_GetStatus(lw_window.ClassName(), ls_name, of_IsDefaultEligible(ado_control))
-Return Not (ls_status = DISABLE Or ls_status = INVISIBLE)
+Return ls_status <> DISABLE And ls_status <> INVISIBLE
 end function
 
 public function boolean of_isvisibleallowed (dragobject ado_control);//////////////////////////////////////////////////////////////////////////////

@@ -187,7 +187,7 @@ li_rc = of_RestoreUpdateSettings ( lnv_originalupdate )
 If li_rc < 0 Then Return li_rc
 
 // All updates have succesfully occurred, Reset the flags if appropriate.
-IF ab_resetflags = TRUE THEN idw_Requestor.ResetUpdate ( ) 
+IF ab_resetflags THEN idw_Requestor.ResetUpdate ( ) 
 
 Return 1
 end function
