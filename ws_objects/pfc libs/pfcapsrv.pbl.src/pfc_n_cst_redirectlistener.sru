@@ -744,13 +744,12 @@ Do While CPU() < ll_end
 		lblb_request += BlobMid(lblb_buffer, 1, ll_read)
 		ls_request = String(lblb_request, EncodingUTF8!)
 		If Pos(ls_request, "~r~n~r~n") > 0 Or Len(lblb_request) > 65536 Then Exit
-	ElseIf ll_read = 0 Then
-		// The browser closed the connection
-		Exit
-	ElseIf ws_WSAGetLastError() = WSAEWOULDBLOCK Then
+	ElseIf ll_read < 0 And ws_WSAGetLastError() = WSAEWOULDBLOCK Then
+		// Nothing to read yet
 		Yield()
 		ws_Sleep(20)
 	Else
+		// The browser closed the connection (0), or the read failed
 		Exit
 	End If
 Loop
