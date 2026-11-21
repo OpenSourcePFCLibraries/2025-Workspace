@@ -765,11 +765,12 @@ if li_selectedrow > 0 then
 		// SQL
 		// Check if a dddw is associated with the selected column
 		ls_dddw = inv_filterattrib.idw_dw.describe( ls_col+".dddw.name")
-		if ls_dddw <> "!" or ls_dddw <> "?" then
+		if ls_dddw <> "!" and ls_dddw <> "?" and ls_dddw <> "" then
 			// if so, extract sql from dddw dataobject
 			lds = create datastore
 			lds.dataobject = ls_dddw
 			ls_sql = lds.object.datawindow.table.select
+			destroy lds
 		else
 			// otherwise, build sql based on selected column's dbname
 			ls_sql = "select distinct " + ls_dbname + " from " + ls_table
