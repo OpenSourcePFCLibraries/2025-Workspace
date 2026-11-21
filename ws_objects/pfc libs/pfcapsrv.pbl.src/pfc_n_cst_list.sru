@@ -645,8 +645,6 @@ public function integer of_addhead (n_cst_linkedlistnode anv_newheadnode);//////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer li_rc
-n_cst_linkedlistnode lnv_locatenode
 
 // Not a valid request when the list is sorted.
 If ib_sorted Then Return FAILURE
@@ -713,8 +711,6 @@ public function integer of_addtail (n_cst_linkedlistnode anv_newtailnode);//////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer li_rc
-n_cst_linkedlistnode lnv_locatenode
 
 // Not a valid request when the list is sorted.
 If ib_sorted Then Return FAILURE
@@ -846,7 +842,6 @@ public function integer of_add (n_cst_linkedlistnode anv_newnode);//////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer		li_rc
-n_cst_linkedlistnode	lnv_locatenode
 n_cst_linkedlistnode	lnv_insertpointnode
 n_cst_linkedlistnode	lnv_temp
 

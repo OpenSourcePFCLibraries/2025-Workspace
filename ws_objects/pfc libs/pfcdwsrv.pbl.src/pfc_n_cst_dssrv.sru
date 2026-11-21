@@ -2219,7 +2219,7 @@ public function string of_getitem (long al_row, string as_column, dwbuffer adw_b
 //////////////////////////////////////////////////////////////////////////////
 string 	ls_col_format, ls_col_mask, ls_string_format, ls_string
 string	ls_coltype, ls_editstyle
-string	ls_computeexp, ls_evaluateexp
+string	ls_evaluateexp
 string	edit_codetable, editmask_codetable
 boolean 	lb_editmask_used=False
 long		ll_pos
@@ -2827,15 +2827,6 @@ public function integer of_setitem (long al_row, string as_column, string as_val
 */
 //////////////////////////////////////////////////////////////////////////////
 integer	li_rc
-date		ld_val
-decimal	ldc_val
-double	ldb_val
-long		ll_val
-real		lr_val
-string		ls_string_value
-time		ltm_val
-n_cst_string	lnv_string
-n_cst_conversion	lnv_conversion
 
 // Check arguments
 if IsNull (al_row) or IsNull (as_column) then
@@ -3111,7 +3102,7 @@ public function long of_dwarguments (datawindowchild adwc_obj, ref string as_arg
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-string ls_dwargs, ls_dwargswithtype[], ls_args[], ls_types[]
+string ls_dwargs, ls_dwargswithtype[]
 long ll_a, ll_args, ll_pos
 n_cst_string lnv_string
 
@@ -3173,7 +3164,7 @@ public function long of_dwarguments (ref string as_argnames[], ref string as_arg
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-string ls_dwargs, ls_dwargswithtype[], ls_args[], ls_types[]
+string ls_dwargs, ls_dwargswithtype[]
 long ll_a, ll_args, ll_pos
 n_cst_string lnv_string
 

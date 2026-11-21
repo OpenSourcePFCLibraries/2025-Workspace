@@ -209,8 +209,8 @@ event type integer pfc_undodelete();////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 integer	li_rc, li_numbertoundo, li_cnt, li_end = 1
 long		ll_row, ll_rowcount, ll_undohandle, ll_deleterowid
-long		ll_emptyhandle[], ll_numbertoundo, ll_cnt
-string	ls_key, ls_undokey
+long		ll_emptyhandle[]
+string	ls_undokey
 listviewitem	llvi_undo
 listviewitem	llvi_empty, llvi_emptyitem[]
 
@@ -829,7 +829,6 @@ public function integer of_Register (string as_labelcolumn, string as_dwobjectna
 */
 //////////////////////////////////////////////////////////////////////////////
 n_tr			ltr_obj
-string		ls_dwobjectname
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -890,9 +889,7 @@ public function integer of_Register (string as_labelcolumn, string as_dwobjectna
 */
 //////////////////////////////////////////////////////////////////////////////
 n_tr			ltr_obj
-string		ls_dwobjectname
 string		ls_sql
-powerobject lpo_obj[]
 datawindow	ldw_control
 datastore	lds_control
 string		ls_importfile
@@ -951,8 +948,6 @@ public function integer of_Register (string as_labelcolumn, string as_dwobjectna
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-n_tr			ltr_obj
-string		ls_dwobjectname
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1012,8 +1007,6 @@ public function integer of_Register (string as_labelcolumn, string as_dwobjectna
 */
 //////////////////////////////////////////////////////////////////////////////
 n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 string		ls_importfile
 powerobject lpo_obj[]
@@ -1135,14 +1128,12 @@ public function integer of_Register (string as_labelcolumn, n_tr atr_obj, string
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-string		ls_dwobjectname
 string		ls_sql
 string		ls_importfile
 string		ls_dwsyntax, ls_Sqlerr
 powerobject lpo_obj[]
 datawindow	ldw_control
 datastore	lds_control
-n_tr			ltr_obj
 
 // Check transaction objects
 if IsNull(atr_obj) or not IsValid(atr_obj) then return -1
@@ -1872,8 +1863,7 @@ public function integer of_SetItemAttributes (n_ds ads_source, long al_row, ref 
 //////////////////////////////////////////////////////////////////////////////
 Integer			li_Cnt, li_Cols
 Integer			li_picture, li_state, li_overlay, li_x, li_y
-Long				ll_Handle
-string			ls_Label, ls_Column, ls_picture, ls_key
+string			ls_Label, ls_Column, ls_picture
 
 // Validate required reference.
 if IsNull(ilv_requestor) or not IsValid(ilv_requestor) then return -1
@@ -2572,7 +2562,7 @@ protected function integer of_Register (string as_labelcolumn, string as_dwobjec
 */
 //////////////////////////////////////////////////////////////////////////////
 integer	li_rc
-string	ls_sqlerr, ls_empty[]
+string	ls_sqlerr
 window	lw_parentwindow
 n_ds		lds_test
 
@@ -2679,7 +2669,6 @@ public function integer of_UnRegister ();///////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-integer	li_rc
 n_tr		ltr_obj
 
 // reset the values in the array structure
@@ -3340,8 +3329,7 @@ public function string of_DecodeKey (string as_decodekey);//////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-long				ll_rowid
-string			ls_key, ls_data
+string			ls_key
 n_cst_string	lnv_string
 
 // Validate required reference.
@@ -3646,7 +3634,6 @@ public function long of_Retrieve (any aa_args[20], ref n_ds ads_data);//////////
 */
 //////////////////////////////////////////////////////////////////////////////
 long	ll_NewRows, ll_cnt
-window	lw_parentwindow
 
 if IsNull(ilv_requestor) or not Isvalid(ilv_requestor) then return -1
 
@@ -3760,8 +3747,8 @@ public function integer of_insertitem (ref n_ds ads_obj, long al_row, listviewit
 */
 //////////////////////////////////////////////////////////////////////////////
 integer				li_rc
-integer				li_index, li_newindex, li_totalitems, li_after
-long					ll_rowcount, ll_rowid
+integer				li_index, li_newindex, li_after
+long					ll_rowcount
 string				ls_key, ls_syntax1, ls_syntax2
 ListViewItem		llvi_temp
 

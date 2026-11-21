@@ -2161,7 +2161,7 @@ public function string of_getkeyvalue (string as_source, string as_keyword, stri
 
 boolean	lb_done=false
 integer	li_keyword, li_separator, li_equal
-string	ls_keyvalue, ls_source, ls_exact
+string	ls_keyvalue, ls_source
 
 //Check parameters
 If IsNull(as_source) or IsNull(as_keyword) or IsNull(as_separator) Then

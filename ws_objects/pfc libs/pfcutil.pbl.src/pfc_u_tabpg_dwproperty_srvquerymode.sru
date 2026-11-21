@@ -316,9 +316,7 @@ event pfc_propertyapply;call super::pfc_propertyapply;//////////////////////////
 integer	li_upper
 integer	li_cnt
 integer 	li_rc
-integer	li_index
 integer	li_querycnt = 0
-string	ls_allcols[]
 string	ls_querycols[]
 boolean	lb_current
 boolean	lb_desired
@@ -419,11 +417,7 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 
 integer	li_upper
 integer	li_cnt
-integer 	li_rc
-integer	li_styledesired
-integer	li_index
 integer	li_columncount=0
-string	ls_columnscols[]
 string	ls_columns
 string	ls_syntax
 boolean	lb_desired

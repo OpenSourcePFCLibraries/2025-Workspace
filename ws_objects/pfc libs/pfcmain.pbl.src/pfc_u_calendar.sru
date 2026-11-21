@@ -1931,8 +1931,6 @@ protected function integer of_dropdown ();//////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 Integer 	li_rc
 String	ls_colname
-Integer	li_x
-Integer	li_y
 
 // Check the required references.
 If IsNull(inv_dropdown) or Not IsValid(inv_dropdown) or &
@@ -2467,13 +2465,7 @@ protected function integer of_reset ();/////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-string				ls_date, ls_colname
-Integer				li_FirstDayNum, li_Cell, li_DaysInMonth
-String				ls_Year, ls_Return
-Date					ld_FirstDay
-Integer 				li_month
-Integer 				li_year
-Integer 				li_day
+string				ls_date
 n_cst_conversion	lnv_conv
 
 // Validate Reference.
@@ -2572,7 +2564,7 @@ Integer 	li_year
 Integer 	li_day
 Integer	li_loop, li_daycount
 Integer	li_upperbound
-Integer  li_FirstDayNum, li_cell, li_daysinmonth
+Integer  li_FirstDayNum, li_daysinmonth
 Integer	li_days[12]={31,28,31,30,31,30,31,31,30,31,30,31}
 Date		ldt_special
 String	ls_monthname
@@ -3087,7 +3079,6 @@ public function long of_getregistered (ref string as_dwcolumns[], ref integer ai
 //
 //////////////////////////////////////////////////////////////////////////////
 integer 	li_i
-integer	li_loop
 integer	li_upper
 integer	li_cnt
 string	ls_empty[]
@@ -3223,7 +3214,7 @@ public function long of_register (integer ai_style);////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-integer		li_colcount, li_i, li_count, li_rc
+integer		li_colcount, li_i, li_rc
 string		ls_colname
 string		ls_coltype
 string		ls_editstyle
@@ -3370,12 +3361,11 @@ public function long of_register (string as_dwcolumn, integer ai_style);////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-integer 		li_cnt, li_rc
+integer 		li_cnt
 integer		li_availableentry
 integer		li_upperbound
 string		ls_coltype
 string		ls_modexp
-string		ls_descexp
 string		ls_descret
 string		ls_editstyle
 string		ls_storemodify=''
@@ -4105,7 +4095,7 @@ Integer 	li_month
 Integer 	li_year
 Integer 	li_day
 String 	ls_clickedcolumn, ls_clickedcolumnID
-String 	ls_day, ls_return
+String 	ls_day
 
 //Return if click was not on a valid dwobject, depending on what was
 //clicked, dwo will be null or dwo.name will be "datawindow"

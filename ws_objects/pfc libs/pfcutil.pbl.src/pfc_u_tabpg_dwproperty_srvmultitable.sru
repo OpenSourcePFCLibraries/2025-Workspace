@@ -120,7 +120,6 @@ event pfc_propertypopulateds;call super::pfc_propertypopulateds;////////////////
 integer	li_tablecnt
 integer	li_cnt
 integer 	li_rc
-integer	li_index
 integer	li_row
 string	ls_registered
 string	ls_keyinplace
@@ -297,7 +296,6 @@ integer 	li_rowcount
 integer 	li_row
 integer	li_item
 integer	li_whereoption
-boolean	lb_keyoption
 
 // Validate arguments.
 If Len(Trim(as_table)) = 0 Then li_rc = -1
@@ -939,8 +937,6 @@ integer	li_tablecnt
 integer	li_newupper
 integer	li_cnt
 integer 	li_rc
-integer	li_stylecurrent, li_styledesired
-integer	li_index
 string	ls_parms[]
 string	ls_tables[]
 string	ls_table
@@ -1084,11 +1080,6 @@ event pfc_propertyvalidation;call super::pfc_propertyvalidation;////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer	li_rowcount
-Integer	li_row
-Integer	li_itemcount
-Integer	li_item
-string	ls_column
 
 // Only validate if the table is to be registered.
 If cbx_register.Checked Then
@@ -1196,10 +1187,8 @@ boolean	lb_keyinplace
 
 n_cst_conversion lnv_conversion
 
-integer	li_upper
 integer	li_cnt
 
-integer	li_index
 
 
 // Validate references.

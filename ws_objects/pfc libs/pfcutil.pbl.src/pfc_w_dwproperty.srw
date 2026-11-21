@@ -60,9 +60,6 @@ destroy(this.cb_dlghelp)
 end on
 
 event open;integer 	li_rc
-integer	li_row
-u_dw		ldw_obj
-string	ls_dataobject
 
 SetPointer (HourGlass!)
 

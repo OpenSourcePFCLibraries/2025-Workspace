@@ -1376,7 +1376,6 @@ integer	li_rc
 long		ll_selected[]
 long		ll_selectedcount
 long		ll_cnt
-string		ls_val
 datastore				lds_selection
 
 // Print selection
@@ -4913,7 +4912,6 @@ event clicked;//////////////////////////////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-integer li_rc
 boolean lb_disablelinkage
 
 // Check arguments
@@ -5310,7 +5308,6 @@ event rbuttondown;//////////////////////////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-integer	li_rc
 long		ll_currow
 string	ls_colname
 string	ls_curcolname

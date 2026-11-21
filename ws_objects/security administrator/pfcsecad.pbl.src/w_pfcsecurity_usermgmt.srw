@@ -366,7 +366,6 @@ event pfc_updatespending;// ancestor has been overridden because we are using da
 // determine if any of the treeviews have updates pending
 // and return 1 if they do
 integer li_cnt
-TreeViewItem	ltvi_This
 n_ds l_ds
 
 if not ib_externalgroups then
@@ -407,7 +406,7 @@ long picturemaskcolor = 12632256
 long statepicturemaskcolor = 12632256
 end type
 
-event selectionchanged;call super::selectionchanged;Integer	li_RC
+event selectionchanged;call super::selectionchanged;
 TreeViewItem	ltvi_This
 n_ds l_ds
 long ll_row
@@ -458,7 +457,7 @@ end if
 
 end event
 
-event clicked;call u_tv::clicked;Integer	li_RC
+event clicked;call u_tv::clicked;
 TreeViewItem	ltvi_This
 n_ds l_ds
 long ll_row
@@ -523,11 +522,10 @@ long picturemaskcolor = 12632256
 long statepicturemaskcolor = 12632256
 end type
 
-event selectionchanged;call super::selectionchanged;Integer	li_RC
+event selectionchanged;call super::selectionchanged;
 TreeViewItem	ltvi_This
 n_ds l_ds
 long ll_row
-string ls_filter
 this.GetItem(newhandle, ltvi_This)
 if ltvi_this.level = 1 then
 	il_currhandle = newhandle
@@ -611,11 +609,10 @@ tv_groups.selectitem(handle)
 
 end event
 
-event clicked;call u_tv::clicked;Integer	li_RC
+event clicked;call u_tv::clicked;
 TreeViewItem	ltvi_This
 n_ds l_ds
 long ll_row
-string ls_filter
 if handle = 0 then
 	if not im_popmenu.m_edit.m_additem.enabled then im_popmenu.m_edit.m_additem.enabled = true
 	if im_popmenu.m_edit.m_edititem.enabled then im_popmenu.m_edit.m_edititem.enabled = false

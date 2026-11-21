@@ -410,7 +410,6 @@ protected function integer of_save (boolean ab_useregistry, boolean ab_processap
 integer				li_rc
 
 n_cst_inifile		lnv_inifile
-n_cst_conversion 	lnv_conversion
 
 //Check arguments
 If IsNull(ab_UseRegistry) or IsNull(ab_ProcessApp) or IsNull(as_KeyOrIni) or (as_keyorini = "") Then
@@ -1411,8 +1410,7 @@ string		ls_version, ls_logo, ls_copyright
 string		ls_displayname, ls_dwmessagetitle
 string		ls_microhelpdefault, ls_righttoleft, ls_toolbarframetitle
 string		ls_toolbarpopmenutext, ls_toolbarsheettitle, ls_toolbarusercontrol
-string		ls_toolbartext, ls_toolbartips, ls_userid
-n_cst_string		lnv_string
+string		ls_userid
 n_cst_conversion	lnv_conversion
 
 //Parameter checking done in calling function
@@ -2061,8 +2059,7 @@ string		ls_version, ls_logo, ls_copyright
 string		ls_displayname, ls_dwmessagetitle
 string		ls_microhelpdefault, ls_righttoleft, ls_toolbarframetitle
 string		ls_toolbarpopmenutext, ls_toolbarsheettitle, ls_toolbarusercontrol
-string		ls_toolbartext, ls_toolbartips, ls_userid
-n_cst_string		lnv_string
+string		ls_userid
 n_cst_conversion	lnv_conversion
 
 //Parameter checking done in calling function

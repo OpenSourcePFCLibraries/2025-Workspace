@@ -849,11 +849,8 @@ public function integer of_getminmaxpoints (windowobject awo_control[], ref inte
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-oval				loval_cntrl
-rectangle		lrec_cntrl
-roundrectangle	lrrec_cntrl
 
-integer			li_x, li_y, li_width, li_height, li_temp
+integer			li_x, li_y, li_width, li_height
 integer			li_upperbound
 integer			li_cnt
 

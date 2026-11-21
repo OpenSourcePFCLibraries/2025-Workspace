@@ -2183,8 +2183,6 @@ public function integer of_message (string as_msgid, string as_msgparms[], strin
 Integer	li_rc
 Long		ll_rowcount
 Long		ll_row
-Boolean	lb_log=False
-Boolean	lb_notify=False
 
 // Clear and Initialize instance structure.
 n_cst_errorattrib ls_errorpass 

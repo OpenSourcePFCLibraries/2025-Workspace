@@ -339,7 +339,7 @@ event pfc_undodelete;call super::pfc_undodelete;////////////////////////////////
 integer			li_undolevel
 long				ll_row, ll_rowcount
 long				ll_undoparenthandle, ll_undoafterhandle, ll_newhandle, ll_deleterowid
-string			ls_undokey, ls_key
+string			ls_undokey
 treeviewitem	ltvi_undo, ltvi_empty
 n_ds				lds_undo
 
@@ -927,7 +927,6 @@ event pfc_refreshlevel;/////////////////////////////////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-Integer	li_rc
 long		ll_handle, ll_row, ll_rowcount
 n_ds		lds_source
 
@@ -1455,7 +1454,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 
 n_tr			ltr_obj
 string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1552,7 +1550,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 
 n_tr			ltr_obj
 string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1650,8 +1647,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //////////////////////////////////////////////////////////////////////////////
 
 n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1745,9 +1740,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //
 //////////////////////////////////////////////////////////////////////////////
 
-n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1842,9 +1834,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //
 //////////////////////////////////////////////////////////////////////////////
 
-n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -1946,8 +1935,6 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //////////////////////////////////////////////////////////////////////////////
 
 n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
 powerobject lpo_obj[]
 datawindow	ldw_control
@@ -2041,10 +2028,7 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //////////////////////////////////////////////////////////////////////////////
 
 n_tr			ltr_obj
-string		ls_dwobjectname
-string		ls_retrieveargs
 string		ls_sql
-powerobject lpo_obj[]
 datawindow	ldw_control
 datastore	lds_control
 string		ls_importfile
@@ -2145,8 +2129,8 @@ public function integer of_register (integer ai_level, string as_labelcolumn, st
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer	li_NumDS, li_Cnt, li_rc
-String	ls_rc, ls_columncount, ls_sqlerr
+Integer	li_NumDS, li_rc
+String	ls_sqlerr
 window	lw_parentwindow
 n_ds		lds_test
 
@@ -2452,8 +2436,6 @@ public function integer of_resettree ();////////////////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-long 		ll_rootitem
-integer	li_index, li_level
 
 // reset all datastores
 If this.of_reset() <> 1 Then Return -1
@@ -3120,7 +3102,6 @@ public function integer of_removechildren (long al_handle);/////////////////////
 Integer			li_level
 Long				ll_Child, ll_Next, ll_Row
 n_ds				ads_obj
-TreeViewItem	ltvi_Item
 
 // check reference variables
 If IsNull(itv_requestor) or Not IsValid(itv_requestor) Then Return -1
@@ -3662,7 +3643,6 @@ public function integer of_setoverlaypicturecolumn (integer ai_level, string as_
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-string	ls_coltype
 
 // Verify that this is a valid level
 If ai_Level > UpperBound(inv_attrib) Then
@@ -3741,7 +3721,6 @@ public function integer of_setpicturecolumn (integer ai_level, string as_column)
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-string	ls_coltype
 
 // Verify that this is a valid level
 If ai_Level > UpperBound(inv_attrib) Then
@@ -3820,7 +3799,6 @@ public function integer of_setstatepicturecolumn (integer ai_level, string as_co
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-string	ls_coltype
 
 // Verify that this is a valid level
 If ai_Level > UpperBound(inv_attrib) Then
@@ -3899,7 +3877,6 @@ public function integer of_setselectedpicturecolumn (integer ai_level, string as
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-string	ls_coltype
 
 // Verify that this is a valid level
 If ai_Level > UpperBound(inv_attrib) Then
@@ -4203,7 +4180,7 @@ public function integer of_setitemattributes (ref n_ds ads_source, long al_row, 
 
 Integer	li_overlay, li_picture, li_selected, li_state, li_level, li_levelcount
 string	ls_picturecolumn, ls_statecolumn, ls_overlaycolumn, ls_selectedcolumn
-string	ls_picture, ls_key
+string	ls_picture
 
 // Validate required reference.
 If IsNull(itv_requestor) or Not IsValid(itv_requestor) Then Return -1
@@ -4732,7 +4709,6 @@ public function integer of_setrecursive (integer ai_level, boolean ab_switch);//
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-string	ls_coltype
 
 // Verify that this is a valid level
 If ai_Level > UpperBound(inv_attrib) Then
@@ -4960,7 +4936,6 @@ public function long of_gethandle (ref n_ds ads_obj, long al_row, integer ai_lev
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Long		ll_rowid
 String	ls_Key
 
 // Check Arguments
@@ -5404,7 +5379,6 @@ public function integer of_update (integer ai_level, boolean ab_accepttext, bool
 boolean	lb_focusonerror = False
 Integer	li_Index, li_Start, li_Cnt, li_rc
 n_ds		lds_updatearray[]
-powerobject lpo_pending[]
 
 // Verify passed arguments.
 IF IsNull ( ab_AcceptText ) Or IsNull ( ab_ResetFlags ) THEN Return -1 
@@ -5702,7 +5676,6 @@ public function integer of_getdatasource (integer ai_level, ref n_ds ads_obj);//
 //////////////////////////////////////////////////////////////////////////////
 
 Integer				li_Limit
-TreeViewItem		ltvi_Item
 
 // check arguments
 If IsNull(ai_level) or (ai_level < 1) Then Return -1
@@ -5768,8 +5741,7 @@ public function string of_decodekey (string as_decodekey);//////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-long				ll_rowid
-string			ls_key, ls_data
+string			ls_key
 n_cst_string	lnv_string
 
 // Validate arguments
@@ -6260,10 +6232,8 @@ public function integer of_discardchildren (long al_handle);////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer			li_level
 Long				ll_Child, ll_Next, ll_Row
 n_ds				ads_obj
-TreeViewItem	ltvi_Item
 
 // check reference variables
 If IsNull(itv_requestor) or Not IsValid(itv_requestor) Then Return -1
@@ -6383,11 +6353,10 @@ public function long of_retrieve (integer ai_level, any aa_arg[20], ref n_ds ads
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-Integer		li_Cnt, li_Index, li_numcols
-Long			ll_NewRows, ll_Rows
+Integer		li_Cnt, li_Index
+Long			ll_NewRows
 String		ls_cacheid, ls_filter, ls_expression
 string		ls_column[], ls_operators[]
-window		lw_parentwindow
 
 //	Check arguments
 If IsNull(itv_requestor) or not isvalid(itv_requestor) Then Return -1

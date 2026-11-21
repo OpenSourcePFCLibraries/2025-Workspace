@@ -140,7 +140,6 @@ public function integer of_populate ();/////////////////////////////////////////
 integer 	li_rc = success
 integer	li_i
 integer	li_limit
-long		ll_row
 string		ls_dwobject[]
 string		ls_name[]
 string		ls_visible[]

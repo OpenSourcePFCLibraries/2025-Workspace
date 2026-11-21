@@ -351,7 +351,7 @@ long statepicturemaskcolor = 1090519039
 end type
 
 event selectionchanged;call super::selectionchanged;INTEGER 			li_rc1
-LONG 				ll_row, ll_current
+LONG 				ll_row
 N_DS 				lds_current
 TreeViewItem 	ltvi_new, ltvi_old
 any 				la_any[20]

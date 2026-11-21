@@ -516,9 +516,6 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-integer	li_upper
-integer	li_cnt
-integer 	li_rc
 integer	li_styledesired
 string	ls_desired
 string	ls_syntax

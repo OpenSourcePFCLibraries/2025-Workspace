@@ -262,7 +262,6 @@ integer	li_count
 integer	li_displaystyle
 integer  li_fillstyle
 integer	li_msgcount
-integer	li_style
 
 iuo_progbar = message.powerobjectparm
 

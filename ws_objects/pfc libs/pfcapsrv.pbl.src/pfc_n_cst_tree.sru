@@ -1340,7 +1340,6 @@ public function long of_get (ref n_cst_treenode anv_list[]);////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 long ll_cnt = 0
-integer li_rc
 
 setpointer(hourglass!)
 if isvalid(inv_root) then 

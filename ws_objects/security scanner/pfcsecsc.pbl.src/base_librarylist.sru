@@ -33,7 +33,7 @@ public function long f_GetLibraries (ref string as_libraries[]);//*-------------
 //*    f_GetLibraries: Return the Library List
 //*-----------------------------------------------------------------*/
 long ll_l, ll_libs
-string ls_libraries[], ls_liblist
+string ls_libraries[]
 pfcscanner_n_cst_string lnv_string
 
 ll_libs = lnv_string.of_ParseToArray ( this.Text, ";~r~n", ls_libraries ) 
@@ -73,7 +73,7 @@ public function integer f_populate (string as_libraries[]);//*------------------
 //*    f_Populate: Initialize the list
 //*-----------------------------------------------------------------*/
 long ll_o, ll_objects
-string ls_libraries[], ls_app, ls_applib, ls_text
+string ls_text
 
 ls_text = ""
 ll_objects = UpperBound ( as_libraries )

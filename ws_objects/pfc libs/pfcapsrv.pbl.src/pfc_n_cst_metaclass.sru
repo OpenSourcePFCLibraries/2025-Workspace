@@ -603,7 +603,6 @@ public function boolean of_isancestorclass (string as_sourceclass, string as_anc
 //
 //////////////////////////////////////////////////////////////////////////////
 
-boolean	lb_ancestor
 classdefinition	lcd_source
 
 // Validate source classname
@@ -741,7 +740,6 @@ public function boolean of_iseventdefined (classdefinition acd_source, string as
 boolean	lb_found
 int		li_scripts
 int		li_cnt = 1
-scriptdefinition	lscrd_object
 
 // Check class definition
 if not isValid (acd_source) or isNull (acd_source) then
@@ -816,7 +814,6 @@ boolean	lb_found
 boolean	lb_implemented
 int		li_scripts
 int		li_cnt = 1
-scriptdefinition	lscrd_object
 
 // Check class definition
 if not isValid (acd_source) or isNull (acd_source) then
@@ -2824,7 +2821,6 @@ public function boolean of_isancestorclass (string as_sourceclass, string as_anc
 //
 //////////////////////////////////////////////////////////////////////////////
 
-boolean	lb_ancestor
 classdefinition	lcd_source
 
 // Validate source classname

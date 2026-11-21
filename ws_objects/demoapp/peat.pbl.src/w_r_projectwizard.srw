@@ -263,7 +263,7 @@ private function boolean of_delete (string as_type);// This function will check 
 // displays the count).  If it does, the user will be warned that the dependent
 // rows will be deleted and ask if they wish to continue.  
 
-long	ll_row, ll_limit
+long	ll_row
 
 ll_row = idw_active.GetRow()
 IF idw_active.Object.dependent_count[ll_row] > 0 THEN
@@ -332,7 +332,7 @@ end on
 
 event open;call super::open;
 w_s_projectlist	w_Active
-string				ls_ini, ls_tag
+string				ls_ini
 
 // Get the project id sent in
 il_ProjectId = message.DoubleParm
@@ -630,7 +630,6 @@ event pfc_deleterow;// Override the ancestor and call the of_delete function to 
 // user before deleteing.  of_delete will return a true if the user still
 // wants to delete
 
-long	ll_row, ll_limit
 
 IF parent.of_delete("category") THEN
 	call super::pfc_deleterow
@@ -666,7 +665,6 @@ event pfc_deleterow;// Override the ancestor and call the of_delete function to 
 // user before deleteing.  of_delete will return a true if the user still
 // wants to delete
 
-long	ll_row, ll_limit
 
 IF parent.of_delete("category") THEN
 	call super::pfc_deleterow
@@ -704,7 +702,6 @@ event pfc_deleterow;// Override the ancestor and call the of_delete function to 
 // user before deleteing.  of_delete will return a true if the user still
 // wants to delete
 
-long	ll_row, ll_limit
 
 IF parent.of_delete("category") THEN
 	call super::pfc_deleterow

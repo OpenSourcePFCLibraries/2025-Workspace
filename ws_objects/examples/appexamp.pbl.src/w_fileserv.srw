@@ -99,7 +99,6 @@ end prototypes
 
 public subroutine f_dirimport ();integer		li_cnt
 integer		li_entries
-integer		li_sort
 string		ls_import
 string		ls_filespec
 
@@ -529,7 +528,7 @@ string Text="Create Dir."
 string facename = "Segoe UI"
 end type
 
-event clicked;call super::clicked;Integer	li_Row, li_Pos
+event clicked;call super::clicked;
 String	ls_Directory
 
 OpenWithParm(w_actions, "Enter new directory name:")
@@ -721,7 +720,7 @@ string Text="Delete File"
 string facename = "Segoe UI"
 end type
 
-event clicked;call super::clicked;Integer	li_Row, li_RC
+event clicked;call super::clicked;Integer	li_Row
 String	ls_File
 
 li_Row = dw_dirlist.GetSelectedRow(0)
@@ -757,7 +756,7 @@ string Text="Set Date/Time"
 string facename = "Segoe UI"
 end type
 
-event clicked;call super::clicked;Integer	li_Row, li_RC
+event clicked;call super::clicked;Integer	li_Row
 Date	ld_Date
 Time	lt_Time
 String	ls_File, ls_Parm, ls_Date, ls_Time

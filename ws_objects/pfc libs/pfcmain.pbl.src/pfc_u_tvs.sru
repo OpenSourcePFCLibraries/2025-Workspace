@@ -308,7 +308,7 @@ event pfc_deleteitem;///////////////////////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-long		ll_currentitem, ll_rc
+long		ll_currentitem
 
 // find the current/selected item
 ll_currentitem = this.FindItem ( CurrentTreeItem!, 0 ) 
@@ -408,7 +408,6 @@ event pfc_updatespending;///////////////////////////////////////////////////////
 constant integer NO_UPDATESPENDING =0
 Integer	li_rc
 PowerObject lpo_pending[]
-powerobject lpo_updatearray[]
 
 // Clear the pending by reference array.
 apo_pending = lpo_pending
@@ -2332,7 +2331,6 @@ public function integer of_reset ();////////////////////////////////////////////
 */
 //////////////////////////////////////////////////////////////////////////////
 long 		ll_rootitem
-integer	li_index, li_level
 
 this.setredraw(false)
 
@@ -2947,7 +2945,6 @@ event endlabeledit;/////////////////////////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-integer	li_rc
 
 if isvalid(inv_levelsource) then
 	If inv_levelsource.event pfc_endlabeledit(handle, newtext) <> CONTINUE_ACTION Then
@@ -3090,13 +3087,11 @@ event rightclicked;/////////////////////////////////////////////////////////////
 */
 //////////////////////////////////////////////////////////////////////////////
 boolean		lb_frame
-long			ll_selected
 window		lw_parent
 window		lw_frame
 window		lw_sheet
 window		lw_childparent
 m_tvs			lm_view
-treeviewitem lvi_item
 
 // Determine if RMB popup menu should occur
 if not ib_rmbmenu then

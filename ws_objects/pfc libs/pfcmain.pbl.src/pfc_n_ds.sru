@@ -353,7 +353,6 @@ long		ll_selectedcount
 long		ll_selectedrow
 long		ll_selected[]
 long		ll_cnt
-string		ls_val
 datastore lds_selection
 
 // this variable can be set in "n_ds" by the developer with a call to of_setLegacyPrint(true/false). The default value = True
@@ -3042,7 +3041,6 @@ event dberror;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 w_master	lw_parent
-boolean 	lb_pfcsaveprocess=False
 string	ls_message
 string	ls_msgparm[1]
 string	ls_sqlspyheading

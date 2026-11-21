@@ -756,7 +756,6 @@ integer	li_return =1
 integer 	li_cnt
 integer	li_rc
 string	ls_servicename
-boolean	lb_currentstate
 boolean	lb_desiredstate
 
 // Validate the required reference.
@@ -1212,7 +1211,6 @@ event clicked;call super::clicked;//////////////////////////////////////////////
 
 long		ll_currentrow
 string 	ls_servicename
-boolean	lb_desiredestate = False
 
 // Get the current row.
 ll_currentrow = dw_services.GetRow()
