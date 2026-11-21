@@ -99,7 +99,7 @@ dw_1.ResetUpdate ( )
 end event
 
 type tv_1 from u_tvs within w_treeview6
-event ue_update ( integer ai_level )
+event ue_update ( )
 integer x = 14
 integer y = 4
 integer width = 859
@@ -157,7 +157,7 @@ If	newhandle > 0 Then
 	li_level = ltvi_item.Level
 	
 	// Ask for save if data has changed
-	this.event ue_update( li_level)
+	this.event ue_update()
 	
 	this.inv_levelsource.of_GetDataSource ( li_level,  lds_datastore )
 	if inv_levelsource.of_GetDataRow(newhandle, lds_datastore, ll_row) = -1 then

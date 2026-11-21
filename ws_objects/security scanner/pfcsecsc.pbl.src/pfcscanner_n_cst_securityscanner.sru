@@ -41,7 +41,7 @@ string							is_removed[]
 end variables
 
 forward prototypes
-public function integer of_scandatawindow (string as_dataobjectname, string as_library)
+public function integer of_scandatawindow (string as_dataobjectname)
 public function integer of_initscanprocess (transaction a_trans, string as_app, string as_lib_list[])
 public function integer of_initscanprocess (transaction a_trans, string as_app, pfcscanner_n_cst_sourcelibrary anv_source)
 protected function string of_getdesc (string as_text, string as_tag)
@@ -61,7 +61,7 @@ public function boolean of_isscantableavailable ()
 public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls)
 end prototypes
 
-public function integer of_scandatawindow (string as_dataobjectname, string as_library);//////////////////////////////////////////////////////////////////////////////
+public function integer of_scandatawindow (string as_dataobjectname);//////////////////////////////////////////////////////////////////////////////
 //	Function: 		of_ScanDatawindow
 //	Description:  	Scans the datawindow object and captures the information about each column
 //						called from the scan window for an individual dw selection
@@ -398,7 +398,7 @@ as_object = Lower ( Trim ( as_object ) )
 
 ls_type = inv_source.of_GetObjectType ( as_object )
 If ls_type = "" Then Return -1
-If ls_type = "datawindow" Then Return of_ScanDataWindow ( as_object, as_library )
+If ls_type = "datawindow" Then Return of_ScanDataWindow ( as_object )
 If Not inv_source.of_IsVisual ( as_object ) Then Return 0
 
 // load the object being scanned from its source

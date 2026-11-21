@@ -44,7 +44,6 @@ string title = "PFC Example - Progress Bar Sampler"
 boolean resizable = false
 long backcolor = 77633680
 toolbaralignment toolbaralignment = alignatleft!
-event type long pfc_progressbarincrement ( integer ai_increment )
 event type integer ue_startprocess ( )
 cb_close cb_close
 cb_start cb_start
