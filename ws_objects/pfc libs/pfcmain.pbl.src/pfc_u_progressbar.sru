@@ -1166,8 +1166,8 @@ if isnull(ai_fillstyle) then
 	return -1
 end if
 
-if NOT ((ai_fillstyle = TOPDOWN) or (ai_fillstyle = BOTTOMUP) or &
-			(ai_fillstyle = LEFTRIGHT) or (ai_fillstyle = RIGHTLEFT)) then 
+if ((ai_fillstyle <> TOPDOWN) and (ai_fillstyle <> BOTTOMUP) and &
+			(ai_fillstyle <> LEFTRIGHT) and (ai_fillstyle <> RIGHTLEFT)) then 
 	return -1
 end if
 
@@ -1347,8 +1347,8 @@ if isnull(ai_displaystyle) then
 	return -1
 end if
 
-if NOT ((ai_displaystyle = BAR) or (ai_displaystyle = PCTCOMPLETE) or &
-			(ai_displaystyle = POSITION) or (ai_displaystyle = MSGTEXT)) then 
+if ((ai_displaystyle <> BAR) and (ai_displaystyle <> PCTCOMPLETE) and &
+			(ai_displaystyle <> POSITION) and (ai_displaystyle <> MSGTEXT)) then 
 	return -1
 end if
 

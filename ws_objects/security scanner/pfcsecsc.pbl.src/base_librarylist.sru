@@ -59,8 +59,8 @@ ll_pos = this.SelectedStart ( )
 ll_len = this.SelectedLength ( ) 
 If ll_pos + ll_len > Len ( this.Text ) Then ll_len = 0
 
-If ll_pos > 1 Then lb_linefeedbegin = Not ( Mid ( this.Text, ll_pos - 2, 2 ) = "~r~n" )
-lb_linefeedend = Not ( Mid ( this.Text, ll_pos + ll_len, 2 ) = "~r~n" )
+If ll_pos > 1 Then lb_linefeedbegin = ( Mid ( this.Text, ll_pos - 2, 2 ) <> "~r~n" )
+lb_linefeedend = ( Mid ( this.Text, ll_pos + ll_len, 2 ) <> "~r~n" )
 
 If lb_linefeedbegin Then ls_text = "~r~n"
 ls_text = ls_text + as_library + ";"
@@ -99,8 +99,8 @@ ll_pos = this.SelectedStart ( )
 ll_len = this.SelectedLength ( ) 
 If ll_pos + ll_len > Len ( this.Text ) Then ll_len = 0
 
-If ll_pos > 1 Then lb_linefeedbegin = Not ( Mid ( this.Text, ll_pos - 2, 2 ) = "~r~n" )
-lb_linefeedend = Not ( Mid ( this.Text, ll_pos + ll_len, 2 ) = "~r~n" )
+If ll_pos > 1 Then lb_linefeedbegin = ( Mid ( this.Text, ll_pos - 2, 2 ) <> "~r~n" )
+lb_linefeedend = ( Mid ( this.Text, ll_pos + ll_len, 2 ) <> "~r~n" )
 
 If lb_linefeedbegin Then ls_text = "~r~n"
 ll_libs = UpperBound ( as_libraries )

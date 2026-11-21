@@ -90,7 +90,7 @@ End If
 inv_findattrib = anv_findattrib
 
 //Set up direction.
-lb_forward = (Not Lower(inv_findattrib.is_direction)='up')
+lb_forward = (Lower(inv_findattrib.is_direction) <> 'up')
 
 //Determine if this is the first find or an ongoing find.
 if ib_ongoingfind THEN
@@ -199,7 +199,7 @@ If ls_selectedtext = inv_findattrib.is_find Then
 End If
 
 //Set up direction.
-lb_forward = (Not Lower(inv_findattrib.is_direction)='up')
+lb_forward = (Lower(inv_findattrib.is_direction) <> 'up')
 
 //Determine if this is the first find or an ongoing find.
 If ib_ongoingfind Then

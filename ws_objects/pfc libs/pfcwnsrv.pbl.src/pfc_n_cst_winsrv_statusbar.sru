@@ -3557,8 +3557,8 @@ If IsNull(ai_fillstyle) Then
 	Return -1
 End If
 
-if NOT ((ai_fillstyle = LEFTRIGHT) or (ai_fillstyle = RIGHTLEFT) or &
-			(ai_fillstyle = TOPDOWN) or (ai_fillstyle = BOTTOMUP)) then 
+if ((ai_fillstyle <> LEFTRIGHT) and (ai_fillstyle <> RIGHTLEFT) and &
+			(ai_fillstyle <> TOPDOWN) and (ai_fillstyle <> BOTTOMUP)) then 
 	return -1
 end if
 
@@ -3880,8 +3880,8 @@ If IsNull(ai_displaystyle) Then
 	Return -1
 End If
 
-if NOT ((ai_displaystyle = BAR) or (ai_displaystyle = PCTCOMPLETE) or &
-			(ai_displaystyle = POSITION)) then 
+if ((ai_displaystyle <> BAR) and (ai_displaystyle <> PCTCOMPLETE) and &
+			(ai_displaystyle <> POSITION)) then 
 	return -1
 end if
 

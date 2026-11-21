@@ -212,7 +212,7 @@ Do Until li_Pos <= 0
 				Exit
 			End If
 		Loop
-		if lb_isUnion = TRUE then
+		if lb_isUnion then
 			// check if "ALL" follows "UNION"
 			li_PosAll = li_pos
 			ls_right = Mid(Trim(as_SQL), li_PosAll,3)
@@ -228,7 +228,7 @@ Do Until li_Pos <= 0
 					End IF
 				Loop
 			End if
-			If lb_isUnionAll = TRUE Then
+			If lb_isUnionAll Then
 				as_SQL = Replace(as_SQL, li_PosAll, 3, LI_ALLREPLACE)
 			Else
 				li_Pos = li_PosAll

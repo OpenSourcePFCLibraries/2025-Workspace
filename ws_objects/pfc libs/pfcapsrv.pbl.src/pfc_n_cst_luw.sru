@@ -2644,7 +2644,7 @@ For li_i = 1 to li_max
 		End If		
 	End If
 	
-	If lb_performedtest = False Then
+	If Not lb_performedtest Then
 		// Handle NonPFC DataWindows/DataStores.
 		If TypeOf (lpo_tocheck) = DataWindow! Then
 			ldw_nonpfc = lpo_tocheck

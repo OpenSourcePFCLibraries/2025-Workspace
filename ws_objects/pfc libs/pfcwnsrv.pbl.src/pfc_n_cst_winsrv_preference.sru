@@ -410,11 +410,11 @@ For li_cnt = 1 to li_upperbound
 
 	//Call the appropriate function for a Floating Toolbar.
 	If ltb_alignment = Floating! Then
-		If Not iw_requestor.GetToolbarPos &
-			(li_tbindex, li_x, li_y, li_width, li_height) = 1 Then Continue
+		If iw_requestor.GetToolbarPos &
+			(li_tbindex, li_x, li_y, li_width, li_height) <> 1 Then Continue
 	Else
-		If Not iw_requestor.GetToolbarPos &
-			(li_tbindex, li_x, li_y) = 1 Then Continue
+		If iw_requestor.GetToolbarPos &
+			(li_tbindex, li_x, li_y) <> 1 Then Continue
 	End If
 
 	//Save the Toolbar information.
@@ -1887,7 +1887,7 @@ If ib_menuitems Then
 End If
 
 //Check if the last functionality in this script is requested.
-If ib_toolbars=False Then
+If Not ib_toolbars Then
 	//Finished restore process.		
 	Return 1
 End If
@@ -1941,7 +1941,7 @@ For li_cnt = 1 to li_upperbound
 	//Validate Toolbars values. 
 	If IsNull(lb_visible) Then lb_visible=True	
 	If IsNull(ls_title) Then ls_title=''	
-	If IsNull(ltb_alignment) or lb_toolbarposition=False Then 
+	If IsNull(ltb_alignment) or Not lb_toolbarposition Then 
 		//There was a problem with one value; Force Toolbar to appear TopLeft!
 		ltb_alignment = AlignAtLeft!
 		li_x = 1

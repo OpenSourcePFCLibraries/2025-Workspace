@@ -1987,7 +1987,7 @@ string		ls_initialdir
 if isnull( as_directorytree ) or as_directorytree = "" then return -1
 
 // Store current directory if requested to restore it at the end
-if ab_restorecurrentdirectory = true then
+if ab_restorecurrentdirectory then
 	ls_initialdir = GetCurrentDirectory()
 end if
 
@@ -2034,7 +2034,7 @@ do while ll_pos > 0
 	ls_tmp = trim(left( as_directorytree, ll_pos - 1))
 	if len(ls_tmp) = 0 then return -1
 	
-	if directoryexists( ls_tmp ) = false then
+	if Not directoryexists( ls_tmp ) then
 		if createdirectory( ls_tmp ) = -1 then return -1
 	end if
 	if changedirectory( ls_tmp ) = -1 then return -1
@@ -2046,14 +2046,14 @@ loop
 // Handle last directory specified without ending separator
 // Return error if directory creation failed
 if len( as_directorytree ) > 0 then
-	if directoryexists( as_directorytree  ) = false then
+	if Not directoryexists( as_directorytree  ) then
 		if createdirectory( as_directorytree  ) = -1 then return -1
 	end if
 	if changedirectory( as_directorytree ) = -1 then return -1
 end if
 
 // Restore initial directory if requested
-if ab_restorecurrentdirectory = true then
+if ab_restorecurrentdirectory then
 	if changedirectory( ls_initialdir ) = -1 then return -1
 end if
 

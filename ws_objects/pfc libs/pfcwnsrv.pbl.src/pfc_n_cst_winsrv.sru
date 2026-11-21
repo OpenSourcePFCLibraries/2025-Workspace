@@ -86,7 +86,7 @@ End If
 // Determine current screen resolution and validate
 li_screenheight = PixelsToUnits (lenv_obj.screenheight, YPixelsToUnits!)
 li_screenwidth = PixelsToUnits (lenv_obj.screenwidth, XPixelsToUnits!)
-If Not (li_screenheight > 0) or Not (li_screenwidth > 0) Then
+If li_screenheight <= 0 or li_screenwidth <= 0 Then
 	Return -1
 End If
 

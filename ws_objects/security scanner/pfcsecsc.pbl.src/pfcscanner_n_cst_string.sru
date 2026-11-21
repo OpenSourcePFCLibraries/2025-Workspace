@@ -1272,7 +1272,7 @@ boolean	lb_EntryFound = False
 ll_ArrayUpBound = UpperBound(as_source[])
 
 //Check parameters
-IF IsNull(as_delimiter) or (Not ll_ArrayUpBound>0) Then
+IF IsNull(as_delimiter) or (ll_ArrayUpBound <= 0) Then
 	Return -1
 End If
 

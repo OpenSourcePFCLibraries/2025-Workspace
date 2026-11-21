@@ -911,7 +911,7 @@ integer	li_index
 li_index = of_SearchItem(as_column)
 
 // Check if column was found.
-if not li_index >0 THEN return 0
+if li_index <= 0 THEN return 0
 
 // Delete the column from the array.
 Return of_DeleteItem(li_index)
