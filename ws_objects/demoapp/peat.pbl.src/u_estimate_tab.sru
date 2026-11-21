@@ -26,11 +26,11 @@ Private:
 end variables
 
 forward prototypes
-public function integer of_constructtabs (long al_projectid)
+public function long of_constructtabs (long al_projectid)
 public function string of_gettag (integer ai_tab)
 end prototypes
 
-public function integer of_constructtabs (long al_projectid);// Create the datastore for all categories assigned to this project.  Then
+public function long of_constructtabs (long al_projectid);// Create the datastore for all categories assigned to this project.  Then
 // create a tabpage for each of those categories.
 
 long			ll_Rows

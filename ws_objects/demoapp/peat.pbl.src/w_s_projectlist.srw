@@ -39,7 +39,7 @@ public function integer of_refresh ()
 public subroutine of_setexplorer (boolean ab_switch)
 public subroutine of_setlistview (treeviewitem atvi_old, treeviewitem atvi_new)
 public function long of_getprojectid ()
-public function integer of_addnewproject (string as_name)
+public function long of_addnewproject (string as_name)
 end prototypes
 
 event peat_estimate;call w_sheet::peat_estimate;OpenWithParm(w_r_estimates, il_ProjectId)
@@ -252,7 +252,7 @@ end subroutine
 public function long of_getprojectid ();Return il_ProjectId
 end function
 
-public function integer of_addnewproject (string as_name);long 				ll_ret, ll_handle
+public function long of_addnewproject (string as_name);long 				ll_ret, ll_handle
 treeviewitem	ltv_local
 
 //This function is called after a new project has been added to refresh
