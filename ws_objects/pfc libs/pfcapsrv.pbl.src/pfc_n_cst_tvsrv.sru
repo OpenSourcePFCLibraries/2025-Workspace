@@ -218,8 +218,7 @@ public function long of_finditem (string as_attribute, any aa_target, long al_be
 //////////////////////////////////////////////////////////////////////////////
 
 Integer			li_next
-Long				ll_handle, ll_parent, ll_queue[]
-Treeviewitem	ltvi_item
+Long				ll_handle, ll_queue[]
 
 If IsNull(as_attribute) or IsNull(al_begin) or IsNull(ai_level) or &
 	IsNull(ab_respectcase) or IsNull(ab_fullcompare) Then Return -1
@@ -980,7 +979,6 @@ public function long of_findfirstitemlevel (integer ai_level, long al_handle);//
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Long					ll_Handle, ll_Found
 Integer				li_items, li_idx
 TreeViewItem		ltvi_Item
 any					la_find

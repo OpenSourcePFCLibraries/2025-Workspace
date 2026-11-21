@@ -278,7 +278,6 @@ public function integer of_postupdate (powerobject apo_control[]);//////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Any			la_rc
 Integer		li_max
 Integer		li_i
 Integer		li_rc
@@ -667,10 +666,8 @@ public function integer of_save (powerobject apo_control[], n_tr atr_control[]);
 
 Integer		li_pending_rc = 1
 Integer		li_validation_rc = 1
-Integer		li_rc
 Integer		li_save_rc = 1
 Integer		li_endtran_rc = 1
-string 		ls_msgparm[]
 Boolean		lb_focusonerror = True
 PowerObject lpo_pending[]
 
@@ -1042,7 +1039,6 @@ PowerObject lpo_tocheck
 UserObject	luo_control
 Tab			ltab_control
 Window		lw_control
-DataWindow	ldw_nonpfc
 
 // If requested use the assist funtionality.
 If ib_assist Then 
@@ -1190,7 +1186,6 @@ PowerObject lpo_tocheck
 UserObject	luo_control
 Tab			ltab_control
 Window		lw_control
-DataWindow	ldw_nonpfc
 
 // If requested use the assist funtionality.
 If ib_assist Then 
@@ -1336,7 +1331,6 @@ public function integer of_update (powerobject apo_control[], boolean ab_acceptt
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Any			la_rc
 Integer		li_max
 Integer		li_i
 Integer		li_rc
@@ -1502,7 +1496,7 @@ protected function string of_getclassnames (powerobject apo_control[]);/////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer		li_newupper, li_max, li_i, li_rc
+Integer		li_max, li_i
 powerobject	lpo_tocheck
 string		ls_currentname
 string		ls_classnames
@@ -1862,8 +1856,6 @@ protected function integer of_endtranerror (n_tr atr_performed[], n_tr atr_secon
 Integer 	li_maxperformed
 Integer	li_maxsecondary
 Integer 	li_idx
-n_tr		ltr_obj[]
-string	ls_name
 string	ls_msg
 string	ls_msgheader
 string	ls_msgmainerror

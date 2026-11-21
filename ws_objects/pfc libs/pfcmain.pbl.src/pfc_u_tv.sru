@@ -620,8 +620,7 @@ public function long of_finditem (string as_attribute, any aa_target, long al_be
 //////////////////////////////////////////////////////////////////////////////
 
 Integer			li_next
-Long				ll_handle, ll_parent, ll_queue[]
-Treeviewitem	ltvi_item
+Long				ll_handle, ll_queue[]
 
 If IsNull(as_attribute) or IsNull(al_begin) or IsNull(ai_level) or &
 	IsNull(ab_respectcase) or IsNull(ab_fullcompare) Then Return -1
@@ -1411,7 +1410,6 @@ public function integer of_DiscardChildren (long al_handle);////////////////////
 
 Long					ll_Child, ll_Next, ll_Row
 n_ds			ads_obj
-TreeViewItem		ltvi_Item
 
 ll_Child = FindItem(ChildTreeItem!, al_Handle)
 Do While ll_Child > 0
@@ -1483,7 +1481,6 @@ public function long of_findfirstitemlevel (integer ai_level, long al_handle);//
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Long					ll_Handle, ll_Found
 Integer				li_items, li_idx
 TreeViewItem		ltvi_Item
 any					la_find
@@ -1703,7 +1700,6 @@ public function long of_InsertItem (long al_parent, ref n_ds ads_obj, long al_ro
 //
 //////////////////////////////////////////////////////////////////////////////
 Integer				li_NewLevel, li_Index
-Any					la_Arg[20]
 TreeViewItem		ltvi_Parent, ltvi_New
 
 If al_Parent <> 0 Then
@@ -2012,7 +2008,6 @@ protected function integer of_setitemattributes (integer ai_index, ref n_ds ads_
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer	li_Overlay
 
 SetPointer(Hourglass!)
 
@@ -2331,7 +2326,6 @@ public function integer of_setdatasource (integer ai_level, string as_datawindow
 //////////////////////////////////////////////////////////////////////////////
 
 Integer	li_NumDS, li_Cnt
-Boolean	lb_First
 String	ls_rc
 
 // Check arguments

@@ -840,10 +840,6 @@ public function boolean of_isregistered (string as_column);/////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-integer 			li_count, li_rc
-string			ls_editstyle, ls_coltype
-string			ls_displayvaluecolumn, ls_displayvaluecoltype
-datawindowchild ldwc_obj
 
 // Check arguments
 If IsNull(as_column) Or Len(Trim(as_column))=0 Then 

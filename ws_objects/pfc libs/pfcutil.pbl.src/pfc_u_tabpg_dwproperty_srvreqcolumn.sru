@@ -288,7 +288,6 @@ event pfc_propertyapply;call super::pfc_propertyapply;//////////////////////////
 integer	li_upper
 integer	li_cnt
 integer 	li_rc
-integer	li_index
 string	ls_column
 
 // Validate references.

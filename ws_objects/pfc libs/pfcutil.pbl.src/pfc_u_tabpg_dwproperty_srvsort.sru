@@ -350,7 +350,6 @@ integer	li_upper
 integer	li_cnt
 integer 	li_rc
 integer	li_stylecurrent, li_styledesired
-integer	li_index
 integer	li_excludecount=0
 string	ls_excludecols[]
 string	ls_headersuffixcurrent, ls_headersuffixdesired
@@ -468,11 +467,8 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 
 integer	li_upper
 integer	li_cnt
-integer 	li_rc
 integer	li_styledesired
-integer	li_index
 integer	li_excludecount=0
-string	ls_excludecols[]
 string	ls_exclude
 string	ls_syntax
 boolean	lb_desired

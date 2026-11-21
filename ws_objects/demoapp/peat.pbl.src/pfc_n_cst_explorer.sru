@@ -39,7 +39,6 @@ public function integer of_resize ();integer li_explrheight
 integer li_explrwidth
 integer li_leftY
 integer li_rightY
-integer li_X
 integer li_MicroHelpHeight
 w_frame lw_frame
 

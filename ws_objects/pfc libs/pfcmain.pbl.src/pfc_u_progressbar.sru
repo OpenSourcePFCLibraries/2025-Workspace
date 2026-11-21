@@ -1455,7 +1455,6 @@ public function integer of_increment (integer ai_inc);//////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-integer	li_completion
 
 if (ai_inc <= 0) or isnull(ai_inc) then
 	return -1
@@ -1739,11 +1738,10 @@ protected function string of_setfont (string as_fontface, integer ai_fontsize, i
 //
 //////////////////////////////////////////////////////////////////////////////
 
-String			ls_FontFace, ls_Modify, ls_Objects[], ls_Undo, ls_FontSize, &
+String			ls_FontFace, ls_Modify, ls_FontSize, &
 					ls_FontFamily, ls_OldFamily, ls_FontPitch, ls_OldPitch, ls_FontWeight, &
 					ls_OldWeight, ls_Italic, ls_OldItalic, ls_Underline, ls_OldUnderline, &
-					ls_FontCharSet, ls_name, ls_Return
-Integer			li_NumObjects, li_Count, li_Undo
+					ls_FontCharSet, ls_Return
 
 // Determine the DataWindow Modify parameters
 Choose Case aff_FontFamily

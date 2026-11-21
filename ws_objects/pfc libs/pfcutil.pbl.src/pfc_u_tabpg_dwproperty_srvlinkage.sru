@@ -260,7 +260,6 @@ integer	li_row
 integer	li_upper
 integer	li_cnt
 integer 	li_rc
-integer	li_index
 integer	li_style
 string	ls_details
 u_dw		ldw_temp
@@ -442,8 +441,6 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 
 integer	li_rowcount
 integer	li_row
-integer	li_cnt
-integer 	li_rc
 string	ls_syntax
 string	ls_mastercol
 string	ls_detailcol

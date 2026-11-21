@@ -242,7 +242,6 @@ event pfc_osversioninfodecode(osversioninfoex astr_ovix);///////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Boolean lb_SystemInfoIsOK
 Boolean lb_EditionDescExpected
 Integer li_RC
 UInt    lui_OSProductType
@@ -1122,11 +1121,7 @@ protected function integer of_getosinfo ();/////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 Boolean lb_SystemInfoIsOK
-UInt    lui_OSProductType
-ULong   lul_ProcessHandle
-n_cst_numerical lnv_num
 osversioninfoex lstr_ovix	// internal object structure
-system_info     lstr_si		// internal object structure
 
 // Initialization.
 is_OSVersionDesc = ''

@@ -405,7 +405,6 @@ event pfc_updatespending;///////////////////////////////////////////////////////
 constant integer NO_UPDATESPENDING =0
 Integer	li_rc
 PowerObject lpo_pending[]
-powerobject lpo_updatearray[]
 
 // Clear the pending by reference array.
 apo_pending = lpo_pending
@@ -3627,8 +3626,6 @@ public function integer of_reset ();////////////////////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-long 		ll_rootitem
-integer	li_index, li_level
 
 this.setredraw(false)
 

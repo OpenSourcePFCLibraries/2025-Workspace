@@ -288,7 +288,6 @@ Integer	li_x, li_y
 Integer	li_idx
 Integer	li_objheight
 Integer	li_parentx, li_parenty
-integer	li_rc
 Integer	li_colx, li_coly, li_colheight
 Integer	li_detailheight
 Integer	li_dwx, li_dwy, li_dwborder, li_dwtitlebar, li_dwtitleborder
@@ -302,7 +301,6 @@ Integer	li_group, li_groupcnt, li_breakcnt
 String	ls_colname
 String	ls_headerheight, ls_trailerheight
 Long		ll_rowsafterfirst	
-Integer	li_counter
 Integer	li_hsplit, li_hpos, li_hpos1, li_hpos2
 Integer	li_pointerx, li_pointery
 Integer	li_bordercheck

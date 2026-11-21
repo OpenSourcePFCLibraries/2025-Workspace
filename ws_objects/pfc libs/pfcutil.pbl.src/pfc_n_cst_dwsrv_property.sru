@@ -182,12 +182,9 @@ integer	li_rc
 integer	li_tabcnt
 integer	li_uppertab
 string	ls_pages
-string	ls_args[]
-boolean	lb_defined
 window	lw_parentwindow
 n_cst_propertyattrib	lnv_propertyattrib
 n_cst_dwpropertyattrib	lnv_attrib
-n_cst_metaclass	lnv_metaclass
 
 SetPointer(HourGlass!)
 

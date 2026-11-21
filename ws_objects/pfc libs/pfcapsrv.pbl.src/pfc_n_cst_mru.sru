@@ -1802,7 +1802,7 @@ public function integer of_restore (string as_id, window aw_window);////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 Integer		li_index, li_rc, li_rowcount, li_itemnumber
-Integer		li_menuitemnumber, li_registerindex, li_itemcount
+Integer		li_registerindex, li_itemcount
 String		ls_menuitemtext, ls_menuitem
 menu			lm_menu
 n_cst_menu			lnv_menu
@@ -2129,7 +2129,7 @@ public function integer of_unregister (string as_id, integer ai_itemcount);/////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-Integer	li_count, li_position
+Integer	li_position
 
 // check for valid values
 if IsNull(as_id) or (as_id = "") Then 

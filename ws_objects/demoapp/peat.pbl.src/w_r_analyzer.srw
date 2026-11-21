@@ -56,7 +56,7 @@ destroy(this.cb_print)
 destroy(this.cb_devation)
 end on
 
-event pfc_postopen;call w_response::pfc_postopen;decimal				test
+event pfc_postopen;call w_response::pfc_postopen;
 
 
 // Open the deviation window and let the user determine the % to

@@ -811,7 +811,7 @@ protected function integer of_parse (string as_request);////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-string	ls_line, ls_target, ls_query, ls_pair, ls_names[], ls_values[], ls_empty[]
+string	ls_line, ls_target, ls_query, ls_pair, ls_names[], ls_values[]
 long		ll_pos, ll_count
 boolean	lb_result
 

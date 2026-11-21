@@ -289,7 +289,6 @@ event pfc_propertyapply;call super::pfc_propertyapply;//////////////////////////
 integer	li_upper
 integer	li_cnt
 integer 	li_rc
-integer	li_index
 string	ls_column
 
 // Validate references.
@@ -372,15 +371,7 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 
 integer	li_upper
 integer	li_cnt
-integer 	li_rc
-integer	li_styledesired
-integer	li_index
-integer	li_excludecount=0
-string	ls_excludecols[]
-string	ls_exclude
 string	ls_syntax
-boolean	lb_desired
-n_cst_conversion lnv_conversion
 
 // Validate references.
 If IsNull(idw_requestor) or Not IsValid(idw_requestor) Then
