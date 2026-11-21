@@ -59,7 +59,6 @@ n_cst_examplecatalog	inv_catalog
 end variables
 
 forward prototypes
-public function integer of_openexample (window aw_window, n_cst_mruattrib anv_mruattrib)
 public function integer of_layoutclient ()
 public function integer of_setribbon (boolean ab_ribbon)
 protected function integer of_controltop ()
@@ -227,14 +226,6 @@ End If
 
 return 1
 end event
-
-public function integer of_openexample (window aw_window, n_cst_mruattrib anv_mruattrib);w_master			lw_window
-
-
-OpenWithParm(lw_window, anv_mruattrib.is_menuitemkey, anv_mruattrib.is_classname)
-
-Return 1
-end function
 
 public function integer of_layoutclient ();//////////////////////////////////////////////////////////////////////////////
 //
