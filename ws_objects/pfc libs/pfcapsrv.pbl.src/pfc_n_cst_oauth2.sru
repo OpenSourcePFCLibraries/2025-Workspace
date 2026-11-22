@@ -2808,23 +2808,36 @@ public function string of_jsonstring (string as_json, string as_key);///////////
 
 JSONParser	lnv_json
 long			ll_root, ll_idx, ll_count, ll_item
+boolean		lb_found
 string		ls_value
 
 If IsNull(as_json) Or Trim(as_json) = "" Then Return ""
 
+// Not JSON, or not a JSON object: no value
 lnv_json = Create JSONParser
-If lnv_json.LoadString(as_json) = "" Then
-	ll_root = lnv_json.GetRootItem()
-	If lnv_json.GetItemType(ll_root) = JsonObjectItem! Then
-		ll_count = lnv_json.GetChildCount(ll_root)
-		For ll_idx = 1 To ll_count
-			If lnv_json.GetChildKey(ll_root, ll_idx) = as_key Then
-				ll_item = lnv_json.GetChildItem(ll_root, ll_idx)
-				If lnv_json.GetItemType(ll_item) = JsonStringItem! Then ls_value = lnv_json.GetItemString(ll_item)
-				Exit
-			End If
-		Next
+If lnv_json.LoadString(as_json) <> "" Then
+	Destroy lnv_json
+	Return ""
+End If
+ll_root = lnv_json.GetRootItem()
+If lnv_json.GetItemType(ll_root) <> JsonObjectItem! Then
+	Destroy lnv_json
+	Return ""
+End If
+
+// Find the key among the top-level members
+ll_count = lnv_json.GetChildCount(ll_root)
+For ll_idx = 1 To ll_count
+	If lnv_json.GetChildKey(ll_root, ll_idx) = as_key Then
+		ll_item = lnv_json.GetChildItem(ll_root, ll_idx)
+		lb_found = True
+		Exit
 	End If
+Next
+
+// Only a string value counts
+If lb_found Then
+	If lnv_json.GetItemType(ll_item) = JsonStringItem! Then ls_value = lnv_json.GetItemString(ll_item)
 End If
 Destroy lnv_json
 
@@ -2876,32 +2889,43 @@ public function long of_jsonnumber (string as_json, string as_key);/////////////
 
 JSONParser	lnv_json
 long			ll_root, ll_idx, ll_count, ll_item, ll_value
+boolean		lb_found
 string		ls_value
 
 If IsNull(as_json) Or Trim(as_json) = "" Then Return 0
 
+// Not JSON, or not a JSON object: no value
 lnv_json = Create JSONParser
-If lnv_json.LoadString(as_json) = "" Then
-	ll_root = lnv_json.GetRootItem()
-	If lnv_json.GetItemType(ll_root) = JsonObjectItem! Then
-		ll_count = lnv_json.GetChildCount(ll_root)
-		For ll_idx = 1 To ll_count
-			If lnv_json.GetChildKey(ll_root, ll_idx) = as_key Then
-				ll_item = lnv_json.GetChildItem(ll_root, ll_idx)
-				Choose Case lnv_json.GetItemType(ll_item)
-					Case JsonNumberItem!
-						ll_value = lnv_json.GetItemNumber(ll_item)
-					Case JsonStringItem!
-						// some providers send numbers as strings
-						ls_value = lnv_json.GetItemString(ll_item)
-						If IsNumber(ls_value) Then ll_value = Long(ls_value)
-					Case Else
-						// Any other type is not a number: returns 0
-				End Choose
-				Exit
-			End If
-		Next
+If lnv_json.LoadString(as_json) <> "" Then
+	Destroy lnv_json
+	Return 0
+End If
+ll_root = lnv_json.GetRootItem()
+If lnv_json.GetItemType(ll_root) <> JsonObjectItem! Then
+	Destroy lnv_json
+	Return 0
+End If
+
+// Find the key among the top-level members
+ll_count = lnv_json.GetChildCount(ll_root)
+For ll_idx = 1 To ll_count
+	If lnv_json.GetChildKey(ll_root, ll_idx) = as_key Then
+		ll_item = lnv_json.GetChildItem(ll_root, ll_idx)
+		lb_found = True
+		Exit
 	End If
+Next
+
+// A number, or a string with a number (some providers send numbers as
+// strings); any other type is not a number: returns 0
+If lb_found Then
+	Choose Case lnv_json.GetItemType(ll_item)
+		Case JsonNumberItem!
+			ll_value = lnv_json.GetItemNumber(ll_item)
+		Case JsonStringItem!
+			ls_value = lnv_json.GetItemString(ll_item)
+			If IsNumber(ls_value) Then ll_value = Long(ls_value)
+	End Choose
 End If
 Destroy lnv_json
 
