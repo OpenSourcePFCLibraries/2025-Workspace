@@ -52,6 +52,7 @@ public function long of_weeknumber (date ad_source)
 public function long of_wait (datetime adtm_target)
 public function long of_dayofweek (date ad_source)
 public function integer of_wait (unsignedlong al_seconds)
+protected function integer of_year (date ad_source)
 end prototypes
 
 public function date of_gregorian (long al_julian);//////////////////////////////////////////////////////////////////////////////
@@ -76,6 +77,7 @@ public function date of_gregorian (long al_julian);/////////////////////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	Test leap years arithmetically so year 0000 counts as a leap year
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -139,7 +141,9 @@ ll_numq = al_julian / ll_quad
 li_year += int(ll_numq) * 4
 al_julian -= ll_numq* ll_quad
 
-If (of_IsLeapYear(Date(li_year, 1, 1))) Then
+// Test the year itself: Date(0000,01,01) is not a valid PowerBuilder date
+// (it gives 1900-01-01), so of_IsLeapYear can't be used for year 0000.
+If (Mod(li_year, 4) = 0 And Mod(li_year, 100) <> 0) Or (Mod(li_year, 400) = 0) Then
 	Choose Case al_julian
 		Case Is >= 366
 			al_julian -=366
@@ -332,6 +336,7 @@ public function long of_yearsafter (date ad_start, date ad_end);////////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -378,7 +383,7 @@ else
 	li_mult = 1
 End If
 
-li_year = year(ad_end) - year(ad_start)
+li_year = of_Year(ad_end) - of_Year(ad_start)
 
 adb_start = month(ad_start)
 adb_start = adb_start + day(ad_start) / 100
@@ -562,6 +567,7 @@ public function date of_firstdayofmonth (date ad_source);///////////////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -600,7 +606,7 @@ If Not of_IsValid(ad_source) Then
 End If
 
 // Date (Year, Month, Day)
-Return Date (Year(ad_source), Month(ad_source), 1)
+Return Date (of_Year(ad_source), Month(ad_source), 1)
 
 end function
 
@@ -1016,6 +1022,7 @@ public function long of_monthsafter (date ad_start, date ad_end);///////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1062,7 +1069,7 @@ else
 	li_mult = 1
 End If
 
-li_month = (year(ad_end) - year(ad_start) ) * 12
+li_month = (of_Year(ad_end) - of_Year(ad_start) ) * 12
 li_month = li_month + month(ad_end) - month(ad_start)
 
 If day(ad_start) > day(ad_end) Then 
@@ -1283,6 +1290,7 @@ public function boolean of_isvalid (date ad_source);////////////////////////////
 //	5.0   Initial version
 // 5.0.04 Enhanced for more complete checking.
 //	6.0.01 Remove invalid date comparison
+//	2025	Accept years before 1000 (Year() returns -1 for them)
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1313,7 +1321,7 @@ integer	li_month
 integer	li_day
 
 // Initialize test values.
-li_year = Year(ad_source)
+li_year = of_Year(ad_source)
 li_month = Month(ad_source)
 li_day = Day(ad_source)
 
@@ -1361,6 +1369,7 @@ public function date of_relativemonth (date ad_source, long al_month);//////////
 //			relying on the of_IsValid(date) function to find an invalid date.  
 //			In PB 5.0.03+ a date variable can only contain a Null or a valid date
 //			Used an ii_daysinmonth[] array instead.
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1420,7 +1429,7 @@ Else
 	li_month = li_temp_month
 End If
 
-li_year = Year(ad_source) + li_adjust_years
+li_year = of_Year(ad_source) + li_adjust_years
 li_day = Day(ad_source)
 
 // If the date is > than last in month set it to the last day
@@ -1462,6 +1471,7 @@ public function date of_relativeyear (date ad_source, long al_years);///////////
 //	5.0   Initial version
 //	5.0.03	Fixed - function would fail under some international date sets
 // 7.0	Fixed invalid date calculations
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1501,7 +1511,7 @@ If Not of_IsValid(ad_source) Then
 	Return ad_source
 End If
 
-li_year = Year(ad_source) + al_years
+li_year = of_Year(ad_source) + al_years
 li_month = Month(ad_source)
 li_day = Day(ad_source)
 
@@ -1601,6 +1611,7 @@ public function long of_juliandaynumber (date ad_source);///////////////////////
 //	Version
 //	5.0   Initial version
 // 5.0.03	Add date validity check
+//	2025	Use of_Year and count from 1 January; supports years before 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1638,8 +1649,10 @@ If Not of_IsValid(ad_source) Then
 	Return -1
 End If
 
-// Get the days after the last day of the Previous Year.
-Return daysafter(Date((Year(ad_source) - 1),12,31), ad_source)
+// Count from 1 January of the same year. Year 0000 (the day before
+// 0001-01-01) is not a valid PowerBuilder date, so the day before
+// 1 January can't be used for dates in year 0001.
+Return DaysAfter(Date(of_Year(ad_source), 01, 01), ad_source) + 1
 end function
 
 public function long of_julian (date ad_source);//////////////////////////////////////////////////////////////////////////////
@@ -1737,6 +1750,7 @@ public function date of_lastdayofmonth (date ad_source);////////////////////////
 //	5.0   Initial version
 //	5.0.03	Fixed - function would fail under some international date sets
 // 7.0	Removed a loop which relied on an invalid date.  
+//	2025	Use of_Year; Year() returns -1 before year 1000
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1776,7 +1790,7 @@ If Not of_IsValid(ad_source) Then
 	Return ad_source
 End If
 
-li_year = Year(ad_source)
+li_year = of_Year(ad_source)
 li_month = Month(ad_source)
 
 If li_month = 2 and of_isleapyear(date(li_year, 01, 01)) Then
@@ -1802,6 +1816,7 @@ public function long of_weeknumber (date ad_source);////////////////////////////
 //								5.0			Initial version
 //								8.0			Should return 1 for 1st week in January
 //											(Note: Number of weeks in year may exceed 53 )
+//								2025			Use of_Year; Year() returns -1 before year 1000
 //////////////////////////////////////////////////////////////////////////////
 /*
  * Open Source PowerBuilder Foundation Class Libraries
@@ -1840,7 +1855,7 @@ If Not of_IsValid(ad_source) Then
 End If
 
 //Set to the first of the same year. 
-ld_first_ofyear = Date(Year(ad_source), 01, 01)
+ld_first_ofyear = Date(of_Year(ad_source), 01, 01)
 
 //Get the number of weeks passed from the begining of the year.
 li_weeknumber = of_WeeksAfter (ld_first_ofyear, ad_source) + 1
@@ -2070,6 +2085,64 @@ ldtm_target = of_RelativeDatetime(DateTime(Today(),Now()), al_seconds)
 li_ret = of_Wait(ldtm_target)
 
 Return li_ret
+
+end function
+
+protected function integer of_year (date ad_source);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Year
+//
+//	Access:  		protected
+//
+//	Arguments:
+//	ad_source		Date to get the year of
+//
+//	Returns:  		integer
+//						The year of ad_source.
+//						If ad_source is NULL, function returns NULL.
+//
+//	Description:  	Returns the year of a date. Use it instead of Year():
+//						PowerBuilder's Year() returns -1 for years before 1000,
+//						though such dates are valid and date arithmetic works.
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+//	Revision History
+//
+//	Version
+//	2025	Initial version
+//
+//////////////////////////////////////////////////////////////////////////////
+//
+/*
+ * Open Source PowerBuilder Foundation Class Libraries
+ *
+ * Copyright (c) 2004-2017, All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted in accordance with the MIT License
+
+ *
+ * https://opensource.org/licenses/MIT
+ *
+ * ====================================================================
+ *
+ * This software consists of voluntary contributions made by many
+ * individuals and was originally based on software copyright (c) 
+ * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
+ * information on the Open Source PowerBuilder Foundation Class
+ * Libraries see https://github.com/OpenSourcePFCLibraries
+*/
+//
+//////////////////////////////////////////////////////////////////////////////
+
+If IsNull(ad_source) Then
+	integer li_null
+	SetNull(li_null)
+	Return li_null
+End If
+
+Return Integer(String(ad_source, "yyyy"))
 
 end function
 
