@@ -1353,7 +1353,9 @@ public function date of_relativemonth (date ad_source, long al_month);//////////
 //	Returns:  		date 
 //						The adjusted date.
 //						If any argument's value is NULL, function returns NULL.
-//						If any argument's value is Invalid, function returns 1900-01-01.
+//						If ad_source is invalid, function returns ad_source unchanged.
+//						If the result would be before 0001-01-01 or after
+//						9999-12-31, function returns NULL.
 //
 //	Description:  	Given a date, will return the date +/- the number of months passed
 //						in the second parameter.
@@ -1370,6 +1372,7 @@ public function date of_relativemonth (date ad_source, long al_month);//////////
 //			In PB 5.0.03+ a date variable can only contain a Null or a valid date
 //			Used an ii_daysinmonth[] array instead.
 //	2025	Use of_Year; Year() returns -1 before year 1000
+//	2025	Return NULL when the result is outside 0001-9999 instead of 1900-01-01
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1395,7 +1398,8 @@ public function date of_relativemonth (date ad_source, long al_month);//////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-integer li_adjust_months, li_adjust_years
+integer li_adjust_months
+long ll_adjust_years, ll_year
 integer li_month, li_year, li_day
 integer li_temp_month
 
@@ -1413,23 +1417,32 @@ End If
 	
 //Number 12 is for the Twelve months in a year.
 li_adjust_months = mod(al_month, 12)
-li_adjust_years = (al_month / 12)
+ll_adjust_years = (al_month / 12)
 
 li_temp_month = Month(ad_source) + li_adjust_months
 If li_temp_month > 12 Then
 	// Add one more year and adjust for the month
 	li_month = li_temp_month - 12
-	li_adjust_years ++
+	ll_adjust_years ++
 ElseIf li_temp_month <= 0 Then
 	// Subtract one more year and adjust for the month
 	li_month = li_temp_month + 12
-	li_adjust_years --
+	ll_adjust_years --
 Else
 	// No need for any adjustments
 	li_month = li_temp_month
 End If
 
-li_year = of_Year(ad_source) + li_adjust_years
+ll_year = of_Year(ad_source) + ll_adjust_years
+
+// Date() can only build years 0001 to 9999. Outside that range it
+// returns 1900-01-01, which looks like a real result, so return NULL.
+If ll_year < 1 Or ll_year > 9999 Then
+	date ld_outofrange
+	SetNull(ld_outofrange)
+	Return ld_outofrange
+End If
+li_year = ll_year
 li_day = Day(ad_source)
 
 // If the date is > than last in month set it to the last day
@@ -1458,7 +1471,9 @@ public function date of_relativeyear (date ad_source, long al_years);///////////
 //	Returns:  		date
 //						The adjusted date
 //						If any argument's value is NULL, function returns NULL.
-//						If any argument's value is Invalid, function returns 1900-01-01.
+//						If ad_source is invalid, function returns ad_source unchanged.
+//						If the result would be before 0001-01-01 or after
+//						9999-12-31, function returns NULL.
 //
 //	Description:  	Given a date, will return the date +/- the number of years passed
 //						in the second parameter.
@@ -1472,6 +1487,7 @@ public function date of_relativeyear (date ad_source, long al_years);///////////
 //	5.0.03	Fixed - function would fail under some international date sets
 // 7.0	Fixed invalid date calculations
 //	2025	Use of_Year; Year() returns -1 before year 1000
+//	2025	Return NULL when the result is outside 0001-9999 instead of 1900-01-01
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1498,6 +1514,7 @@ public function date of_relativeyear (date ad_source, long al_years);///////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer li_year, li_month, li_day
+long ll_year
 
 //Check parameters
 If IsNull(ad_source) or IsNull(al_years) Then
@@ -1511,7 +1528,22 @@ If Not of_IsValid(ad_source) Then
 	Return ad_source
 End If
 
-li_year = of_Year(ad_source) + al_years
+// No offset larger than 9998 years can stay inside 0001-9999; checking
+// it first also keeps the sum below from overflowing.
+If al_years < -9998 Or al_years > 9998 Then
+	ll_year = 0
+Else
+	ll_year = of_Year(ad_source) + al_years
+End If
+
+// Date() can only build years 0001 to 9999. Outside that range it
+// returns 1900-01-01, which looks like a real result, so return NULL.
+If ll_year < 1 Or ll_year > 9999 Then
+	date ld_outofrange
+	SetNull(ld_outofrange)
+	Return ld_outofrange
+End If
+li_year = ll_year
 li_month = Month(ad_source)
 li_day = Day(ad_source)
 
