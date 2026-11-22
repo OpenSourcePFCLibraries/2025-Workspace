@@ -47,9 +47,9 @@ global function integer f_setfilesrv (ref pfcscanner_n_cst_filesrv anv_filesrv, 
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted in accordance with the MIT License
- * 
+
  *
- * http://www.gnu.org/copyleft/lesser.html
+ * https://opensource.org/licenses/MIT
  *
  * ====================================================================
  *
