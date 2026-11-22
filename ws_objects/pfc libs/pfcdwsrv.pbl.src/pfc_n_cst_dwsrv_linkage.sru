@@ -4841,7 +4841,6 @@ integer	li_rc=0
 integer	li_upperbound
 string	ls_detailcolumn=''
 string	ls_find
-string	ls_coldata
 string	ls_filter=''
 long		ll_row=0
 boolean	lb_detailcolkey=False

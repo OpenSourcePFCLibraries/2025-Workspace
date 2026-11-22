@@ -1876,9 +1876,6 @@ If ii_style <0 or ii_barwidth <0 Then
 End If
 
 DragObject					ldrg_Resize
-Rectangle					lr_Resize
-RoundRectangle				lrr_Resize
-Oval							lov_Resize
 
 If ii_style = HORIZONTAL Then
 	// Redraw the objects above the Horizontal Split Bar.

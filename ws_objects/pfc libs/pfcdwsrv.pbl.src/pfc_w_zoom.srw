@@ -314,8 +314,6 @@ event pfc_apply;call super::pfc_apply;//////////////////////////////////////////
 */
 //////////////////////////////////////////////////////////////////////////////
 decimal {2} ldc_zoom
-string ls_zoom
-n_cst_string	lnv_string
 
 em_zoom.GetData ( ldc_zoom ) 
 inv_zoomattrib.ii_zoom =  Round ( ldc_zoom * 100, 0 ) 
