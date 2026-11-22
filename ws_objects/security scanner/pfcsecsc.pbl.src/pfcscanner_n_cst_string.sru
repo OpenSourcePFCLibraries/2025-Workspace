@@ -992,7 +992,6 @@ public function string of_removenonprint (string as_source);////////////////////
 //	Function:  		of_RemoveNonPrint
 //////////////////////////////////////////////////////////////////////////////
 char		lch_char
-boolean	lb_printable_char
 long		ll_pos = 1
 long		ll_loop
 string	ls_source
@@ -1132,7 +1131,6 @@ public function string of_removewhitespace (string as_source);//////////////////
 //	Function:  		of_RemoveWhiteSpace
 //////////////////////////////////////////////////////////////////////////////
 char		lch_char
-boolean	lb_printable_char
 long		ll_pos = 1
 long		ll_loop
 string	ls_source
@@ -1264,9 +1262,7 @@ end function
 public function long of_arraytostring (string as_source[], string as_delimiter, ref string as_ref_string);//////////////////////////////////////////////////////////////////////////////
 //	Function:  		of_ArrayToString
 //////////////////////////////////////////////////////////////////////////////
-long		ll_DelLen, ll_Pos, ll_Count, ll_ArrayUpBound
-string 	ls_holder
-boolean	lb_EntryFound = False
+long		ll_Count, ll_ArrayUpBound
 
 //Get the array size
 ll_ArrayUpBound = UpperBound(as_source[])

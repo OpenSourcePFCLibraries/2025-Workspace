@@ -388,13 +388,7 @@ event pfc_deleterow;call super::pfc_deleterow;//////////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-integer	li_numdetails
-integer	li_detail
 integer	li_rc
-string	ls_reset[]
-integer	li_option
-string	ls_option
-u_dw		ldw_root
 
 SetPointer(HourGlass!)
 
@@ -961,7 +955,6 @@ event type integer pfc_clicked(integer ai_xpos, integer ai_ypos, long al_row, dw
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-integer	li_i
 integer 	li_rc = 0
 integer	li_fnrc
 long		ll_currrow
@@ -2161,7 +2154,6 @@ protected function integer of_scrolldetails (long al_row);//////////////////////
 //////////////////////////////////////////////////////////////////////////////
 Integer	li_i
 Integer	li_numlinks
-String	ls_coldata
 String	ls_find
 Long		ll_row
 Long		ll_toprow
@@ -5035,8 +5027,6 @@ public function integer of_resetmaster ();//////////////////////////////////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-Integer	li_numdetails
-Integer	li_i
 Integer	li_rc=1
 u_dw		ldw_notvalid	//  Invalid master reference
 
@@ -5827,10 +5817,8 @@ constant	integer	NO_UPDATE = 2
 constant	integer	CANCEL = 3
 
 Integer 	li_rc
-integer 	li_i
 integer	li_option
 string	ls_msgparm[]
-string	ls_option
 long		ll_checkrow
 integer	li_checkcolumn
 string	ls_checkcolname
@@ -7061,8 +7049,6 @@ public function integer of_undomodified (boolean ab_all);///////////////////////
 //////////////////////////////////////////////////////////////////////////////
 Integer	li_numdetails, li_i, li_rc=1
 
-dwItemStatus le_rowstatus
-dwItemStatus le_colstatus
 
 /*  Undo modifications on this DW  */
 li_rc = of_UndoModified ( ) 
@@ -7148,7 +7134,6 @@ integer	li_rc
 long		ll_deletecount
 String	ls_find
 Long		ll_row
-Long		ll_toprow
 boolean	lb_keyfound
 string	ls_filter
 string	ls_expression

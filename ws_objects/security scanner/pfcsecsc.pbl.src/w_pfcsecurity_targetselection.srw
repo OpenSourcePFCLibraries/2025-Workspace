@@ -274,7 +274,7 @@ end type
 event clicked;//*-----------------------------------------------------------------*/
 //*    clicked:  Browse for library
 //*-----------------------------------------------------------------*/
-long ll_rc, ll_f, ll_files
+long ll_rc
 string ls_type, ls_filenames[], ls_path
 
 /*  Get the platform-specific extension of PowerBuilder library  */

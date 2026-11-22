@@ -152,7 +152,6 @@ protected function integer of_loadcontrols ();//////////////////////////////////
 // Libraries see https://github.com/OpenSourcePFCLibraries
 //
 //////////////////////////////////////////////////////////////////////////////
-integer li_rc
 long ll_row,ll_num_controls,ll_row_found,ll_num_rows
 string ls_control , ls_buffer, ls_row,ls_desc,ls_object_type,ls_exp
 boolean lb_filter

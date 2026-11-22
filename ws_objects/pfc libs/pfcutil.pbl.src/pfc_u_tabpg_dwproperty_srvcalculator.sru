@@ -78,8 +78,6 @@ event pfc_propertypopulate;call super::pfc_propertypopulate;////////////////////
 integer	li_upperall, li_upperreg
 integer	li_cntall, li_cntreg
 integer 	li_rc
-integer	li_style
-integer	li_index
 integer	li_row
 string	ls_allcols[]
 string	ls_registeredcols[]
@@ -308,8 +306,6 @@ event pfc_propertyapply;call super::pfc_propertyapply;//////////////////////////
 integer	li_rowcount
 integer	li_row
 integer 	li_rc
-integer	li_index
-integer	li_excludecount=0
 string	ls_column
 boolean	lb_current, lb_desired
 integer	li_desiredstyle, li_currentstyle
@@ -473,10 +469,6 @@ integer	li_rowcount
 integer	li_row
 string	ls_column
 integer	li_desiredstyle
-integer	li_upper
-integer	li_cnt
-integer 	li_rc
-integer	li_index
 string	ls_syntax
 boolean	lb_desired
 string	ls_desiredstyle

@@ -1426,10 +1426,8 @@ public function long of_dirlist (string as_filespec, ref string as_dirlist[]);//
 */
 //////////////////////////////////////////////////////////////////////////////
 Boolean					lb_Found
-Char						lc_Drive
-long						ll_Cnt, ll_Entries
+long						ll_Entries
 Long						ll_handle
-Time						lt_Time
 os_finddata				lstr_FindData
 string						ls_empty[]
 

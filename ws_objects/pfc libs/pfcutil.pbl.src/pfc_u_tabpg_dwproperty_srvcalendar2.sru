@@ -122,7 +122,6 @@ event pfc_propertypopulate;call super::pfc_propertypopulate;////////////////////
 
 integer	li_upper
 integer	li_cnt
-integer 	li_rc
 integer	li_row
 date		ld_registered[]
 date		ld_empty[]
@@ -635,13 +634,7 @@ event pfc_propertysyntax;call super::pfc_propertysyntax;////////////////////////
 integer	li_rowcount
 integer	li_row
 string	ls_register
-string	ld_registermarked
 integer	li_registercount
-integer	li_desired
-integer	li_upper
-integer	li_cnt
-integer 	li_rc
-integer	li_index
 string	ls_syntax
 boolean	lb_desired
 string	ls_desired

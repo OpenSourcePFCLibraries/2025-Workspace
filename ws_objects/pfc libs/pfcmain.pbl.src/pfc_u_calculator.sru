@@ -470,11 +470,6 @@ protected function integer of_setvalue (double adbl_value, boolean ab_setrequest
 //////////////////////////////////////////////////////////////////////////////
 
 Integer			li_rc = 1
-Integer 			li_month
-Integer 			li_year
-Integer 			li_day
-Integer  		li_FirstDayNum
-String			ls_newcell
 
 // Check the argument(s).
 If IsNull(adbl_value) Then
@@ -830,8 +825,6 @@ protected function integer of_dropdown ();//////////////////////////////////////
 Integer 	li_rc
 String	ls_colname
 String	ls_coltype
-Integer	li_x
-Integer	li_y
 
 // Check the required references.
 If IsNull(inv_dropdown) Or Not IsValid(inv_dropdown) or &
@@ -1851,7 +1844,6 @@ public function long of_getregistered (ref string as_dwcolumns[], ref integer ai
 //
 //////////////////////////////////////////////////////////////////////////////
 integer 	li_i
-integer	li_loop
 integer	li_upper
 integer	li_cnt
 string	ls_empty[]
@@ -1985,7 +1977,7 @@ public function long of_register (integer ai_style);////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-integer		li_colcount, li_i, li_count, li_rc
+integer		li_colcount, li_i, li_rc
 string		ls_colname
 string		ls_coltype
 string		ls_editstyle
@@ -2188,12 +2180,11 @@ public function long of_register (string as_dwcolumn, integer ai_style);////////
 */
 //
 //////////////////////////////////////////////////////////////////////////////
-integer 		li_cnt, li_rc
+integer 		li_cnt
 integer		li_availableentry
 integer		li_upperbound
 string		ls_coltype
 string		ls_modexp
-string		ls_descexp
 string		ls_descret
 string		ls_editstyle
 string		ls_storemodify=''
@@ -2701,7 +2692,6 @@ event buttonclicked;call super::buttonclicked;//////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer	li_rc
 String 	ls_buttonname
 String 	ls_buttontext
 

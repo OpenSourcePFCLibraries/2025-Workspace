@@ -1154,7 +1154,7 @@ protected function integer of_setattributes (long al_row, ref listviewitem alvi_
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer			li_Cnt, li_Cols, li_Overlay
+Integer			li_Cnt, li_Cols
 String			ls_Label, ls_Column
 
 // Determine how to handle the pictures

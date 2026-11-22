@@ -1948,7 +1948,6 @@ constant integer NO_UPDATESPENDING =0
 Integer	li_rc
 PowerObject lpo_empty[]
 PowerObject lpo_pending[]
-powerobject lpo_updatearray[]
 
 // Clear the pending by reference array.
 apo_pending = lpo_empty
@@ -3443,7 +3442,6 @@ public function integer of_updateprep ();///////////////////////////////////////
 
 powerobject lpo_updatearray[]
 powerobject lpo_pending[]
-powerobject lpo_empty[]
 
 // Make sure there is something to take action on.
 If Not of_IsUpdateable() Then Return NO_ACTION
@@ -3901,7 +3899,6 @@ public function integer of_update (boolean ab_accepttext, boolean ab_resetflag);
 
 powerobject lpo_updatearray[]
 powerobject lpo_pending[]
-powerobject lpo_empty[]
 
 // Make sure there is something to take action on.
 If Not of_IsUpdateable() Then Return NO_ACTION

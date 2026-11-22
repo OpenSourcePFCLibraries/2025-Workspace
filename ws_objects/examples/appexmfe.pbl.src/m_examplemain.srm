@@ -1029,8 +1029,6 @@ event clicked;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_return
-menu		lm_menu
-n_cst_menu	lnv_menu
 
 if IsNull(gnv_app.inv_debug) or not IsValid(gnv_app.inv_debug) then
 	// Start the Debug Service.
@@ -1063,8 +1061,6 @@ on m_sqlspyservices.destroy
 end on
 
 event clicked;integer		li_return
-menu			lm_menu
-n_cst_menu	lnv_menu
 
 if IsNull(gnv_app.inv_debug) or not &
 	IsValid(gnv_app.inv_debug) then
@@ -1145,8 +1141,6 @@ event clicked;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer 		li_return
-menu			lm_menu
-n_cst_menu	lnv_menu
 
 if IsNull(gnv_app.inv_debug) or &
 	not IsValid(gnv_app.inv_debug) then
@@ -1229,8 +1223,6 @@ event clicked;//////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer 		li_return
-menu			lm_menu
-n_cst_menu	lnv_menu
 
 if IsNull(gnv_app.inv_debug) or &
 	not IsValid(gnv_app.inv_debug) then

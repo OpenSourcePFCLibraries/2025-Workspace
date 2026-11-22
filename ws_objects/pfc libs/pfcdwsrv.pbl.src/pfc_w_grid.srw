@@ -283,7 +283,6 @@ protected function integer of_refresh ();///////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer 	li_rc = success
-integer	li_limit
 
 // Populate Dialog
 li_rc = idw_requestor.inv_grid.of_populate()

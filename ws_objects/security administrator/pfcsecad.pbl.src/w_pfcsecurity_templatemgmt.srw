@@ -41,7 +41,7 @@ end variables
 event ue_delete_window;// if a window is deleted then we have to also delete any rows in the template table and the security_info table
 // we are assuming that there is no cascading delete referntial integrity rules or triggers in place
 int li_rc
-long ll_handle,ll_cnt
+long ll_cnt
 
 if len(is_window) = 0 then
 	messagebox(this.title,'No object is currently selected')
@@ -125,7 +125,6 @@ event open;call super::open;////////////////////////////////////////////////////
 // Libraries see https://github.com/OpenSourcePFCLibraries
 //
 //////////////////////////////////////////////////////////////////////////////
-integer li_rc
 
 // Register the datasource for each level of the tree
 tv_apps.inv_levelsource.of_register(1, "description", "", "d_pfcsecurity_applications", gnv_app.inv_trans, "")

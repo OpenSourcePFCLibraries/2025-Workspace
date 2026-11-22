@@ -86,10 +86,7 @@ event open;call super::open;////////////////////////////////////////////////////
 long	ll_rowcount
 long	ll_width
 long	ll_height
-long	 ll_loop
 integer	li_pass
-string ls_rownumbertype
-long	ll_rownumbers[]
 
 SetPointer (hourglass!)
 
@@ -268,10 +265,7 @@ long	ll_focusrow
 long	ll_restored
 long	ll_originalrow
 long	ll_currrow
-long	ll_rowcount
-long	ll_idx
 integer	li_rc
-boolean lb_done
 
 SetPointer (hourglass!) 
 

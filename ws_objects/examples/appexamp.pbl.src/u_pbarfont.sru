@@ -315,8 +315,6 @@ event constructor;call super::constructor;//////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-boolean	lb_bold
-boolean	lb_italics
 integer	li_index
 integer  li_size
 long		ll_black
@@ -326,7 +324,6 @@ long		ll_dkblue
 long		ll_dkgreen
 long		ll_dkred
 long		ll_green
-long		ll_index
 long		ll_red
 long		ll_white
 long		ll_yellow

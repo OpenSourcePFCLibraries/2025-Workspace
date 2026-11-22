@@ -193,8 +193,6 @@ event pfc_propertypopulate;call super::pfc_propertypopulate;////////////////////
 integer	li_upperall, li_upperreg
 integer	li_cntall, li_cntreg
 integer 	li_rc
-integer	li_style
-integer	li_index
 integer	li_row
 string	ls_allobjects[]
 string	ls_registeredobjects[]
@@ -305,12 +303,7 @@ boolean  lb_currscale
 integer	li_upper
 integer	li_row
 integer 	li_rc
-integer	li_stylecurrent, li_styledesired
-integer	li_index
-integer	li_excludecount=0
-string	ls_excludecols[]
 string	ls_object
-boolean	lb_current, lb_desired
 
 // Validate references.
 If IsNull(idw_requestor) or Not IsValid(idw_requestor) Then
@@ -488,15 +481,7 @@ string	ls_object
 boolean	lb_scale
 integer	li_upper
 integer	li_row
-integer 	li_rc
-integer	li_styledesired
-integer	li_index
-integer	li_excludecount=0
-string	ls_excludecols[]
-string	ls_exclude
 string	ls_syntax
-boolean	lb_desired
-n_cst_conversion lnv_conversion
 
 // Validate references.
 If IsNull(idw_requestor) or Not IsValid(idw_requestor) Then

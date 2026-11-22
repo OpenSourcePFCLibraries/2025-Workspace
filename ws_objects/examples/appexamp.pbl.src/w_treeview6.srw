@@ -111,8 +111,6 @@ string facename = "Segoe UI"
 end type
 
 event ue_update;integer		li_rc, li_msg
-long			ll_handle, ll_row
-n_ds			lds_source
 
 // Check for any changes
 li_rc = dw_1.event pfc_accepttext(True)

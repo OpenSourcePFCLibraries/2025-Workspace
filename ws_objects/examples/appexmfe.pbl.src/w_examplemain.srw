@@ -127,7 +127,7 @@ event ue_statusbarclicked;choose case as_name
 end choose
 end event
 
-event ue_statusbarrbuttonup;integer	li_rc
+event ue_statusbarrbuttonup;
 integer	li_x
 integer	li_y
 m_utilityproperties	lm_popmenu
@@ -514,7 +514,7 @@ event pfc_postopen;call super::pfc_postopen;////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 integer	li_rc
-long		ll_itemhandle, ll_leveltwoitemhandle
+long		ll_itemhandle
 
 setpointer(hourglass!)
 
@@ -826,7 +826,7 @@ event doubleclicked;////////////////////////////////////////////////////////////
 
 integer		 	li_level
 long			 	ll_currenttvitem, ll_lvrow, ll_selectedtreehandle
-string			ls_lvlabel, ls_windowname
+string			ls_lvlabel
 listviewitem 	llvi_selectedlvitem
 treeviewitem 	ltvi_newtreeitem, ltvi_startingtreeitem
 n_ds			 	lds_lvdatastore
@@ -942,7 +942,6 @@ event pfc_populate;/////////////////////////////////////////////////////////////
 //	override ancestor script
 //
 //////////////////////////////////////////////////////////////////////////////
-integer	li_rc
 long		ll_level, ll_row, ll_key
 string	ls_label
 n_ds		lds_data
@@ -1088,7 +1087,6 @@ event ue_selectionchange;call super::ue_selectionchange;////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 //	
 //////////////////////////////////////////////////////////////////////////////
-Integer			li_rc
 long				ll_row
 treeviewitem	ltvi_selecteditem
 n_ds				lds_datastore

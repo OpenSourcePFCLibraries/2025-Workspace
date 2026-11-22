@@ -530,7 +530,6 @@ string		ls_importfile
 boolean		lb_initialload=True
 datawindow	ldw_control
 powerobject lpo_obj[]
-n_tr			ltr_obj
 datastore	lds_control
 
 Return  of_Register (RETRIEVE, lb_initialload, as_id, &
@@ -570,7 +569,7 @@ public function long of_refresh ();/////////////////////////////////////////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-Integer 	li_upper=0, li_cnt=0, li_rc
+Integer 	li_upper=0, li_cnt=0
 Long		ll_refreshcnt=0, ll_refresh
 
 // Loop around all objects and retrieve on those that have the capabilities.
@@ -776,10 +775,8 @@ public function integer of_register (string as_id, string as_dwobjectname, n_tr 
 any			la_args[20]
 string		ls_sql
 string		ls_importfile
-boolean		lb_initialload=False
 datawindow	ldw_control
 powerobject lpo_obj[]
-n_tr			ltr_obj
 datastore	lds_control
 
 Return  of_Register (RETRIEVE, ab_initialload, as_id, &
@@ -881,7 +878,6 @@ public function integer of_register (string as_id, string as_dwobjectname, n_tr 
 //////////////////////////////////////////////////////////////////////////////
 string 		ls_importfile
 string		ls_sql
-boolean		lb_initialload=True
 datawindow	ldw_control
 powerobject lpo_obj[]
 datastore	lds_control
@@ -923,7 +919,7 @@ public function integer of_registerargs (string as_id, any aa_args[20]);////////
  * Libraries see https://github.com/OpenSourcePFCLibraries
 */
 //////////////////////////////////////////////////////////////////////////////
-Integer	li_rc, li_upper=0, li_cnt=0, li_index=0
+Integer	li_upper=0, li_cnt=0, li_index=0
 
 // Trim and Convert the ID to lower case.
 as_id = Trim(Lower(as_id))

@@ -668,7 +668,7 @@ public function integer of_getpicturesize (string as_pictname, ref integer ai_he
 //
 //////////////////////////////////////////////////////////////////////////////
 
-Integer		li_Size, li_Height, li_Width, li_Len, li_Return
+Integer		li_Return
 Picture		lp_Temp
 Window		lw_parent
 
@@ -788,7 +788,7 @@ public function string of_prepprint (boolean ab_convertheader);/////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 
-String			ls_Objects[], ls_Modify, ls_Return, ls_Undo, ls_Type, ls_Color
+String			ls_Objects[], ls_Modify, ls_Return, ls_Undo, ls_Color
 Integer			li_NumObjects, li_Count, li_Undo
 Border			lbo_Border
 n_cst_string	lnv_String
@@ -2256,9 +2256,9 @@ protected function string of_addcompute (string as_expr, string as_band, alignme
 //
 //////////////////////////////////////////////////////////////////////////////
 
-String			ls_Return, ls_Modify, ls_Undo, ls_Line[], ls_Text
-Integer			li_NewLines, li_Cnt, li_Line, li_Height, li_Width, &
-					li_CurrentHeight, li_DwWidth, li_Shift
+String			ls_Return, ls_Modify, ls_Undo, ls_Text
+Integer			li_NewLines, li_Height, li_Width, &
+					li_CurrentHeight, li_Shift
 n_cst_string	lnv_String
 
 // Verify that DataWindow units are either PowerBuild Units or Pixels
@@ -2548,10 +2548,9 @@ protected function string of_AddText (string as_text, string as_band, alignment 
 //
 //////////////////////////////////////////////////////////////////////////////
 
-String			ls_Return, ls_Modify, ls_Undo, ls_Line[]
-Integer			li_NewLines, li_CurrentHeight, li_dwWidth, li_Shift, &
-					li_Cnt, li_Line, li_Height, li_Width
-n_cst_string	lnv_String
+String			ls_Return, ls_Modify, ls_Undo
+Integer			li_NewLines, li_CurrentHeight, li_Shift, &
+					li_Height, li_Width
 
 // Verify that DataWindow units are either PowerBuild Units or Pixels
 If idw_Requestor.Object.DataWindow.Units > "1" Then Return "Error!  Invalid DW Unit"
@@ -3116,7 +3115,7 @@ public function integer of_createcomposite (string as_datawindow[], boolean ab_v
 //
 //////////////////////////////////////////////////////////////////////////////
 
-String	ls_Modify, ls_Version, ls_TrailFooter, ls_NewPage, ls_Slide, ls_Border
+String	ls_Modify, ls_Version, ls_TrailFooter, ls_Slide, ls_Border
 Integer	li_Return, li_NumDWs, li_Count, li_Width, li_X = 1, li_Y = 1, &
 			li_NumTrail, li_NumSlide, li_NumBorder
 

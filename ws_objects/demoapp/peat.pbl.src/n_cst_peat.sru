@@ -93,7 +93,6 @@ call super::destroy
 end on
 
 event pfc_open;call super::pfc_open;
-integer	li_return
 string	ls_inifile
 string	ls_securityinifile
 string	ls_theme

@@ -112,10 +112,7 @@ event pfc_open;call super::pfc_open;////////////////////////////////////////////
 //											when application was launched.
 //	Returns:		None
 //////////////////////////////////////////////////////////////////////////////
-integer		li_rc
-long    		ll_return
 string			ls_initpath
-string			ls_regkey
 string			ls_temp
 String			ls_inifile
 

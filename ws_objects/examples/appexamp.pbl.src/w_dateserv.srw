@@ -355,7 +355,7 @@ string minmax = ""
 string facename = "Segoe UI"
 end type
 
-event ue_changed;date ld_date, ld_calcdate, ld_date2
+event ue_changed;date ld_date, ld_calcdate
 int li_day
 long ll_julian, ll_week
 string ls_day, ls_month, ls_daynum, ls_year
@@ -880,7 +880,7 @@ string facename = "Segoe UI"
 string text = "Wait"
 end type
 
-event clicked;date ld_date, ld_calcdate
+event clicked;
 double ll_seconds
 
 st_waitmessage.Text = "Waiting...."
