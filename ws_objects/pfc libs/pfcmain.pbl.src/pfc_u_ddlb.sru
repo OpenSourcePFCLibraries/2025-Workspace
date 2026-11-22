@@ -763,7 +763,7 @@ integer 	li_limit
 
 li_limit = UpperBound( as_items )
 
-if ab_append = false then
+if Not ab_append then
 	this.reset( )
 end if
 

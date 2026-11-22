@@ -2254,7 +2254,7 @@ ls_coltype = Lower(ids_Requestor.Describe ( as_column + ".ColType" ))
 CHOOSE CASE Left ( ls_coltype , 5 )
 
 		CASE "char(", "char"				//  CHARACTER DATATYPE
-			IF lb_editmask_used = TRUE THEN 
+			IF lb_editmask_used THEN 
 				/*  Need to replace 'EditMask' characters with 'Format' characters */
 				ls_string_format = lnv_string.of_GlobalReplace ( ls_string_format, "^", "@", FALSE ) //Lowercase
 				ls_string_format = lnv_string.of_GlobalReplace ( ls_string_format, "!", "@", FALSE)	//Uppercase

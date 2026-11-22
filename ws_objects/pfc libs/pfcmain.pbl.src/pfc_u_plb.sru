@@ -132,7 +132,7 @@ If this.MultiSelect Then
 	li_totalitems = this.TotalItems()
 	//Loop through all items - Inverting each item
 	For ll_item = 1 to li_totalitems
-		this.SetState(ll_item, (Not this.State(ll_item)=1) )
+		this.SetState(ll_item, (this.State(ll_item) <> 1) )
 	Next
 	//Number of selected items
 	Return this.TotalSelected()

@@ -662,7 +662,7 @@ end if
 lw_sheet = iw_requestor.GetFirstSheet ()
 if IsValid (lw_sheet) then
 	do
-		if ab_partialmatch = false then
+		if Not ab_partialmatch then
 			if lw_sheet.title = as_title then
 				li_counter++
 				aw_sheet[li_counter] = lw_sheet
