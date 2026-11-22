@@ -199,7 +199,6 @@ public subroutine of_unrgb (long vl_color, ref integer ri_red, ref integer ri_gr
 public function long of_3ddkshadow ()
 public function long of_infobackground ()
 public function long of_3dlight ()
-private function long of_getcolor (string vs_getcolor)
 public function long of_inactivecaption ()
 public function long of_captiontext ()
 public function long of_inactivecaptiontext ()
@@ -1888,75 +1887,6 @@ IF il_3DLight = -1 THEN
 END IF
 
 Return(il_3DLight)
-end function
-
-private function long of_getcolor (string vs_getcolor);/////////////////////////////////////////////////////////////////////////
-//
-//	Function:  		of_getColor
-//
-//	Access:  		public
-//
-//	Arguments:		vs_getColor		by value, registry key used to locate color
-//
-//	Returns:  		Long				Registry RGB color requested converted to
-//											a numeric
-//
-//	Description: 	Returns color stored in the registry as a long
-//
-/////////////////////////////////////////////////////////////////////////
-//
-//	Revision History
-//
-//	Version			12.5				Initial version
-//
-/////////////////////////////////////////////////////////////////////////
-//
-// Open Source PowerBuilder Foundation Class Libraries
-//
-// Copyright (c) 2004-2017, All rights reserved.
-// 
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted in accordance with the MIT License
-// 
-// 
-// https://opensource.org/licenses/MIT
-// 
-// This software consists of voluntary contributions made by many
-// individuals and was originally based on software copyright (c) 
-// 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
-// information on the Open Source PowerBuilder Foundation Class
-// Libraries see https://github.com/OpenSourcePFCLibraries
-//
-/////////////////////////////////////////////////////////////////////////
-
-Long							ll_Color	= -1
-String						ls_Color	= ''
-
-IF RegistryGet("HKEY_CURRENT_USER\Control Panel\Colors", vs_GetColor, RegString!, ls_Color) = 1 THEN
-		
-//	TRY
-		IF ls_color = '' THEN
-			ll_color			= -1
-		ELSE
-			
-			String			ls_RGB[]
-			
-			n_cst_String	lnvo_string
-			lnvo_string.of_ParseToArray(Trim(ls_Color), ' ', ls_RGB[])
-				
-			IF UpperBound(ls_RGB[]) = 3 THEN
-				ll_Color		= RGB(Integer(ls_RGB[1]), Integer(ls_RGB[2]), Integer(ls_RGB[3]))
-			END IF
-			
-		END IF
-		
-//	CATCH (RunTimeError	RunError)
-//		ll_color				= -1
-//	END TRY
-		
-END IF
-
-Return(ll_Color)
 end function
 
 public function long of_inactivecaption ();/////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,6 @@ end variables
 
 forward prototypes
 public function integer of_setappend (boolean ab_append)
-public function boolean of_getappend ()
 end prototypes
 
 public function integer of_setappend (boolean ab_append);//////////////////////////////////////////////////////////////////////////////
@@ -77,53 +76,6 @@ end if
 
 ib_append = ab_append
 return 1
-end function
-
-public function boolean of_getappend ();//////////////////////////////////////////////////////////////////////////////
-//
-//	Function:  of_GetAppend
-//
-//	Access:  public
-//
-//	Arguments:  none
-//
-//	Returns:  boolean
-//
-//	Description:
-//	Returns whether data is appended to existing data when retrieving
-//
-//////////////////////////////////////////////////////////////////////////////
-//
-//	Revision History
-//
-//	Version
-//	5.0   Initial version
-//
-//////////////////////////////////////////////////////////////////////////////
-//
-/*
- * Open Source PowerBuilder Foundation Class Libraries
- *
- * Copyright (c) 2004-2017, All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted in accordance with the MIT License
-
- *
- * https://opensource.org/licenses/MIT
- *
- * ====================================================================
- *
- * This software consists of voluntary contributions made by many
- * individuals and was originally based on software copyright (c) 
- * 1996-2004 Sybase, Inc. http://www.sybase.com.  For more
- * information on the Open Source PowerBuilder Foundation Class
- * Libraries see https://github.com/OpenSourcePFCLibraries
-*/
-//
-//////////////////////////////////////////////////////////////////////////////
-
-return ib_append
 end function
 
 event retrievestart;//////////////////////////////////////////////////////////////////////////////
