@@ -2686,7 +2686,25 @@ ids_items.sort()
 Return li_numset
 end function
 
-private function integer of_scancontrolarray_datawindow (string as_win_name, windowobject ao_object, string as_object_name);String		ls_name, ls_object_type, ls_desc
+private function integer of_scancontrolarray_datawindow (string as_win_name, windowobject ao_object, string as_object_name);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_ScanControlArray_DataWindow
+//
+//	Access:  		private
+//
+//	Arguments:
+//	as_win_name		The name of the window being scanned.
+//	ao_object		The control to scan.
+//	as_object_name		The names of its parent controls, ending in a period.
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Adds a DataWindow control to the security objects of the window
+//						if it isn't there yet, then scans its columns.
+//
+//////////////////////////////////////////////////////////////////////////////
+String		ls_name, ls_object_type, ls_desc
 DataWindow	ldw_scan
 
 ls_name = as_object_name+lower(classname(ao_object))
@@ -2698,7 +2716,25 @@ of_ScanDatawindow(as_win_name,ldw_scan,as_object_name)
 Return 1
 end function
 
-private function integer of_scancontrolarray_userobject (string as_win_name, windowobject ao_object, string as_object_name);String	ls_name, ls_object_type, ls_desc
+private function integer of_scancontrolarray_userobject (string as_win_name, windowobject ao_object, string as_object_name);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_ScanControlArray_UserObject
+//
+//	Access:  		private
+//
+//	Arguments:
+//	as_win_name		The name of the window being scanned.
+//	ao_object		The control to scan.
+//	as_object_name		The names of its parent controls, ending in a period.
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Adds a user object to the security objects of the window if it
+//						isn't there yet, then scans the controls inside it.
+//
+//////////////////////////////////////////////////////////////////////////////
+String	ls_name, ls_object_type, ls_desc
 UserObject	lu_uo
 
 ls_name = as_object_name+lower(classname(ao_object))
@@ -2715,7 +2751,26 @@ of_ScanControlArray(as_win_name,lu_uo.control,ls_name)
 Return 1
 end function
 
-private function integer of_scancontrolarray_tab (string as_win_name, windowobject ao_object, string as_object_name);int   li_tab_idx, li_tab_cnt
+private function integer of_scancontrolarray_tab (string as_win_name, windowobject ao_object, string as_object_name);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_ScanControlArray_Tab
+//
+//	Access:  		private
+//
+//	Arguments:
+//	as_win_name		The name of the window being scanned.
+//	ao_object		The control to scan.
+//	as_object_name		The names of its parent controls, ending in a period.
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Adds a Tab control and each of its tab pages to the security
+//						objects of the window if they aren't there yet, then scans the
+//						controls on each tab page.
+//
+//////////////////////////////////////////////////////////////////////////////
+int   li_tab_idx, li_tab_cnt
 String	ls_name, ls_object_type, ls_desc, ls_tab_name
 tab	l_tab
 userobject	lu_uo

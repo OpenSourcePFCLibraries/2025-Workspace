@@ -95,7 +95,25 @@ aa_returnval = lnv_sel.ia_returnval
 return li_rc
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[]);n_tr	ltr_object
+public function integer of_open (string as_dataobject, ref any aa_returnval[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window with no transaction object, using
+//						the default title and returning the values of every column.
+//
+//////////////////////////////////////////////////////////////////////////////
+n_tr	ltr_object
 string	ls_colreturn[]
 any	la_argument[]
 
@@ -103,40 +121,175 @@ SetNull (ltr_object)
 return of_open (as_dataobject, aa_returnval[], ltr_object, ls_colreturn[], la_argument[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object);string	ls_colreturn[]
+public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	atr_object		Transaction object to use to populate the selection DW
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window, using the default title and
+//						returning the values of every column.
+//
+//////////////////////////////////////////////////////////////////////////////
+string	ls_colreturn[]
 any	la_argument[]
 
 return of_open (as_dataobject, aa_returnval[], atr_object, ls_colreturn[], la_argument[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object, string as_colreturn[]);any	la_argument[]
+public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object, string as_colreturn[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	atr_object		Transaction object to use to populate the selection DW
+//	as_colreturn[]		Column names to return the values for
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window, using the default title.
+//
+//////////////////////////////////////////////////////////////////////////////
+any	la_argument[]
 
 return of_open (as_dataobject, aa_returnval[], atr_object, as_colreturn[], la_argument[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object, string as_colreturn[], any aa_argument[20]);return of_open (as_dataobject, aa_returnval[], atr_object, as_colreturn[], aa_argument[], is_defaulttitle)
+public function integer of_open (string as_dataobject, ref any aa_returnval[], ref n_tr atr_object, string as_colreturn[], any aa_argument[20]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	atr_object		Transaction object to use to populate the selection DW
+//	as_colreturn[]		Column names to return the values for
+//	aa_argument[20]		Retrieval argument values for the selection DW
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window, using the default title.
+//
+//////////////////////////////////////////////////////////////////////////////
+return of_open (as_dataobject, aa_returnval[], atr_object, as_colreturn[], aa_argument[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], string as_colreturn[]);any	la_argument[]
+public function integer of_open (string as_dataobject, ref any aa_returnval[], string as_colreturn[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	as_colreturn[]		Column names to return the values for
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window with no transaction object, using
+//						the default title.
+//
+//////////////////////////////////////////////////////////////////////////////
+any	la_argument[]
 n_tr	ltr_object
 
 SetNull (ltr_object)
 return of_open (as_dataobject, aa_returnval[], ltr_object, as_colreturn[], la_argument[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], string as_colreturn[], string as_title);any	la_argument[]
+public function integer of_open (string as_dataobject, ref any aa_returnval[], string as_colreturn[], string as_title);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	as_colreturn[]		Column names to return the values for
+//	as_title		Title of the selection window
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window with no transaction object.
+//
+//////////////////////////////////////////////////////////////////////////////
+any	la_argument[]
 n_tr	ltr_object
 
 SetNull (ltr_object)
 return of_open (as_dataobject, aa_returnval[], ltr_object, as_colreturn[], la_argument[], as_title)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], readonly powerobject apo_object[]);string	ls_colreturn[]
+public function integer of_open (string as_dataobject, ref any aa_returnval[], readonly powerobject apo_object[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	apo_object[]		Array of data to be used to populate the DW
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window on an array of data, using the
+//						default title and returning the values of every column.
+//
+//////////////////////////////////////////////////////////////////////////////
+string	ls_colreturn[]
 
 return of_open (as_dataobject, aa_returnval[], apo_object, ls_colreturn[], is_defaulttitle)
 end function
 
-public function integer of_open (string as_dataobject, ref any aa_returnval[], readonly powerobject apo_object[], string as_colreturn[]);return of_open (as_dataobject, aa_returnval[], apo_object, as_colreturn[], is_defaulttitle)
+public function integer of_open (string as_dataobject, ref any aa_returnval[], readonly powerobject apo_object[], string as_colreturn[]);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Open
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_dataobject		DataWindow object to use for selection
+//	aa_returnval[]		Return values that were selected (by REF)
+//	apo_object[]		Array of data to be used to populate the DW
+//	as_colreturn[]		Column names to return the values for
+//
+//	Returns:  		integer
+//						# of values returned
+//						-1 = error
+//
+//	Description:  	Opens the selection window on an array of data, using the
+//						default title.
+//
+//////////////////////////////////////////////////////////////////////////////
+return of_open (as_dataobject, aa_returnval[], apo_object, as_colreturn[], is_defaulttitle)
 
 end function
 

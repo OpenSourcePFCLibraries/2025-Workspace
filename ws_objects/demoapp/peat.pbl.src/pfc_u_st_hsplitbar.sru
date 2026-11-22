@@ -39,7 +39,19 @@ event lbuttondown;ib_dragable = TRUE
 this.SetPosition (ToTop!)
 end event
 
-event mousemove;IF ib_dragable THEN
+event mousemove;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:  		mousemove
+//
+//	Arguments:		None
+//
+//	Returns:  		(None)
+//
+//	Description:  	While the split bar is being dragged, moves it to follow the
+//						pointer, keeping it at least 150 units from each side of the window.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF ib_dragable THEN
 	integer li_pointerx
 	integer li_workspacewidth
 	WINDOW lw_parent

@@ -1239,7 +1239,26 @@ End If
 Return 1
 end function
 
-private function integer of_getminmaxpoints_oval (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);oval	loval_cntrl
+private function integer of_getminmaxpoints_oval (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_GetMinMaxPoints_oval
+//
+//	Access:  		private
+//
+//	Arguments:
+//	awo_control		The oval control.
+//	ai_x		Its X position (by reference).
+//	ai_y		Its Y position (by reference).
+//	ai_width		Its width (by reference).
+//	ai_height		Its height (by reference).
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Gets the position and size of a oval control.
+//
+//////////////////////////////////////////////////////////////////////////////
+oval	loval_cntrl
 
 loval_cntrl = awo_control
 ai_x = loval_cntrl.X
@@ -1250,7 +1269,26 @@ ai_height = loval_cntrl.Height
 Return 1
 end function
 
-private function integer of_getminmaxpoints_rect (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);rectangle  lrec_cntrl
+private function integer of_getminmaxpoints_rect (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_GetMinMaxPoints_rect
+//
+//	Access:  		private
+//
+//	Arguments:
+//	awo_control		The rectangle control.
+//	ai_x		Its X position (by reference).
+//	ai_y		Its Y position (by reference).
+//	ai_width		Its width (by reference).
+//	ai_height		Its height (by reference).
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Gets the position and size of a rectangle control.
+//
+//////////////////////////////////////////////////////////////////////////////
+rectangle  lrec_cntrl
 
 lrec_cntrl = awo_control
 ai_x = lrec_cntrl.X
@@ -1261,7 +1299,26 @@ ai_height = lrec_cntrl.Height
 Return 1
 end function
 
-private function integer of_getminmaxpoints_round_rect (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);roundrectangle	 lrrec_cntrl
+private function integer of_getminmaxpoints_round_rect (windowobject awo_control, ref integer ai_x, ref integer ai_y, ref integer ai_width, ref integer ai_height);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_GetMinMaxPoints_round_rect
+//
+//	Access:  		private
+//
+//	Arguments:
+//	awo_control		The round rectangle control.
+//	ai_x		Its X position (by reference).
+//	ai_y		Its Y position (by reference).
+//	ai_width		Its width (by reference).
+//	ai_height		Its height (by reference).
+//
+//	Returns:  		integer
+//						1
+//
+//	Description:  	Gets the position and size of a round rectangle control.
+//
+//////////////////////////////////////////////////////////////////////////////
+roundrectangle	 lrrec_cntrl
 
 lrrec_cntrl = awo_control
 ai_x = lrrec_cntrl.X

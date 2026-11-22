@@ -3335,10 +3335,46 @@ next
 return true
 end function
 
-public function boolean of_issurroundedby (string as_source, string as_surroundedby, string as_tobe_surrounded);return this.of_issurroundedby( as_source , as_surroundedby , as_surroundedby , as_tobe_surrounded )
+public function boolean of_issurroundedby (string as_source, string as_surroundedby, string as_tobe_surrounded);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_IsSurroundedBy
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_source		The source string to check.
+//	as_surroundedby		The string found before and after the characters to check.
+//	as_tobe_surrounded		The characters allowed between them.
+//
+//	Returns:  		boolean
+//						True, Ok
+//						False, Not ok
+//
+//	Description:  	Same as of_IsSurroundedBy with the same beginning and ending
+//						surrounding string.
+//
+//////////////////////////////////////////////////////////////////////////////
+return this.of_issurroundedby( as_source , as_surroundedby , as_surroundedby , as_tobe_surrounded )
 end function
 
-public function boolean of_iswellformedemailaddress (string as_emailaddress);return this.of_iswellformedemailaddress( as_emailaddress , this.cst_hotmail_rule  )
+public function boolean of_iswellformedemailaddress (string as_emailaddress);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_IsWellFormedEmailAddress
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_emailaddress		The Email address to check.
+//
+//	Returns:  		boolean
+//						True, Ok
+//						False, Not ok
+//
+//	Description:  	Checks that the Email address is well formed, using the HotMail
+//						validation rule (cst_hotmail_rule).
+//
+//////////////////////////////////////////////////////////////////////////////
+return this.of_iswellformedemailaddress( as_emailaddress , this.cst_hotmail_rule  )
 end function
 
 public function string of_trimspecificleadchars (string as_source, string as_totrim);//////////////////////////////////////////////////////////////////////////////

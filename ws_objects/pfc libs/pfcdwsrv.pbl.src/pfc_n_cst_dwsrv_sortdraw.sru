@@ -58,7 +58,24 @@ protected subroutine of_drawdescending (datawindow vdw_sort, integer vi_x, integ
 protected subroutine of_drawdescending (integer vi_x, integer vi_y)
 end prototypes
 
-public subroutine of_draw (datawindow vdw_sort, string vs_dwobject);IF IsNull(vs_DWObject) OR Trim(vs_DWObject) = '' THEN RETURN
+public subroutine of_draw (datawindow vdw_sort, string vs_dwobject);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Draw
+//
+//	Access:  		public
+//
+//	Arguments:
+//	vdw_sort		The DataWindow to draw on.
+//	vs_dwobject		The column header text object, its column or its #number.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Removes the current sort indicator, then draws an ascending or
+//						descending one on the header when the DataWindow is sorted
+//						on that column first.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF IsNull(vs_DWObject) OR Trim(vs_DWObject) = '' THEN RETURN
                                                                         &
 //	IF the object to sort on is in number format, then convert it to the
 //	object name.
@@ -157,12 +174,40 @@ RETURN
 
 end subroutine
 
-public subroutine of_draw (string vs_dwobject);IF isValid(idw_requestor) THEN of_draw(idw_requestor, vs_DWObject)
+public subroutine of_draw (string vs_dwobject);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Draw
+//
+//	Access:  		public
+//
+//	Arguments:
+//	vs_dwobject		The column header text object, its column or its #number.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Draws the sort indicator for the column on the requesting DataWindow.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF isValid(idw_requestor) THEN of_draw(idw_requestor, vs_DWObject)
 
 RETURN
 end subroutine
 
-public subroutine of_draw ();IF isValid(idw_requestor) THEN of_draw(idw_requestor, of_getSortDWObject())
+public subroutine of_draw ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Draw
+//
+//	Access:  		public
+//
+//	Arguments:		None
+//
+//	Returns:  		(None)
+//
+//	Description:  	Redraws the sort indicator on the requesting DataWindow for the
+//						header it was last drawn on.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF isValid(idw_requestor) THEN of_draw(idw_requestor, of_getSortDWObject())
 
 RETURN
 end subroutine
@@ -177,7 +222,21 @@ ii_alignment						= vi_alignment
 RETURN
 end subroutine
 
-public subroutine of_drawnone (datawindow vdw_sort);IF vdw_Sort.Describe('sort_ln1_xyzzy.type') = 'line' THEN
+public subroutine of_drawnone (datawindow vdw_sort);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawNone
+//
+//	Access:  		public
+//
+//	Arguments:
+//	vdw_sort		The DataWindow to remove the indicator from.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Removes the sort indicator from the DataWindow.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF vdw_Sort.Describe('sort_ln1_xyzzy.type') = 'line' THEN
 	
 	of_setSortDWObject("")
 
@@ -192,7 +251,20 @@ END IF
 RETURN
 end subroutine
 
-public subroutine of_drawnone ();IF isValid(idw_requestor) THEN of_drawNone(idw_requestor)
+public subroutine of_drawnone ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawNone
+//
+//	Access:  		public
+//
+//	Arguments:		None
+//
+//	Returns:  		(None)
+//
+//	Description:  	Removes the sort indicator from the requesting DataWindow.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF isValid(idw_requestor) THEN of_drawNone(idw_requestor)
 
 RETURN
 end subroutine
@@ -238,7 +310,24 @@ ls_ID							= Lower(Left(vs_DWObject, Len('sort_lnx_xyzzy')))
 Return(ls_ID = 'sort_ln1_xyzzy' OR ls_ID = 'sort_ln2_xyzzy' OR ls_ID = 'sort_ln3_xyzzy')
 end function
 
-protected subroutine of_drawascending (datawindow vdw_sort, integer vi_x, integer vi_y);Long									ll_X1,	ll_Y1,	ll_X2,	ll_Y2,	ll_X3,	ll_Y3,	ll_X4,	ll_Y4
+protected subroutine of_drawascending (datawindow vdw_sort, integer vi_x, integer vi_y);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawAscending
+//
+//	Access:  		protected
+//
+//	Arguments:
+//	vdw_sort		The DataWindow to draw on.
+//	vi_x		The X position, in DataWindow units.
+//	vi_y		The Y position, in DataWindow units.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Creates the three lines of the upward sort indicator triangle
+//						in the header band at the specified position.
+//
+//////////////////////////////////////////////////////////////////////////////
+Long									ll_X1,	ll_Y1,	ll_X2,	ll_Y2,	ll_X3,	ll_Y3,	ll_X4,	ll_Y4
 
 vi_X									= invo_conversion.of_ConvertUnitsX(vi_X, Long(vdw_sort.Describe('DataWindow.Units')), invo_conversion.Pixels)
 vi_Y									= invo_conversion.of_ConvertUnitsY(vi_Y, Long(vdw_sort.Describe('DataWindow.Units')), invo_conversion.Pixels)
@@ -307,12 +396,44 @@ vdw_Sort.Modify(ls_Modify)
 RETURN
 end subroutine
 
-protected subroutine of_drawascending (integer vi_x, integer vi_y);IF IsValid(idw_requestor) THEN of_drawAscending(idw_requestor, vi_X, vi_Y)
+protected subroutine of_drawascending (integer vi_x, integer vi_y);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawAscending
+//
+//	Access:  		protected
+//
+//	Arguments:
+//	vi_x		The X position, in DataWindow units.
+//	vi_y		The Y position, in DataWindow units.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Draws the ascending sort indicator on the requesting DataWindow.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF IsValid(idw_requestor) THEN of_drawAscending(idw_requestor, vi_X, vi_Y)
 
 RETURN
 end subroutine
 
-protected subroutine of_drawdescending (datawindow vdw_sort, integer vi_x, integer vi_y);Long									ll_X1,	ll_Y1,	ll_X2,	ll_Y2,	ll_X3,	ll_Y3,	ll_X4,	ll_Y4
+protected subroutine of_drawdescending (datawindow vdw_sort, integer vi_x, integer vi_y);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawDescending
+//
+//	Access:  		protected
+//
+//	Arguments:
+//	vdw_sort		The DataWindow to draw on.
+//	vi_x		The X position, in DataWindow units.
+//	vi_y		The Y position, in DataWindow units.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Creates the three lines of the downward sort indicator triangle
+//						in the header band at the specified position.
+//
+//////////////////////////////////////////////////////////////////////////////
+Long									ll_X1,	ll_Y1,	ll_X2,	ll_Y2,	ll_X3,	ll_Y3,	ll_X4,	ll_Y4
 
 vi_X									= invo_conversion.of_ConvertUnitsX(vi_X, Long(vdw_sort.Describe('DataWindow.Units')), invo_conversion.Pixels)
 vi_Y									= invo_conversion.of_ConvertUnitsY(vi_Y, Long(vdw_sort.Describe('DataWindow.Units')), invo_conversion.Pixels)
@@ -381,7 +502,22 @@ vdw_Sort.Modify(ls_Modify)
 RETURN
 end subroutine
 
-protected subroutine of_drawdescending (integer vi_x, integer vi_y);IF isValid(idw_requestor) THEN of_drawDescending(idw_requestor, vi_X, vi_Y)
+protected subroutine of_drawdescending (integer vi_x, integer vi_y);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_DrawDescending
+//
+//	Access:  		protected
+//
+//	Arguments:
+//	vi_x		The X position, in DataWindow units.
+//	vi_y		The Y position, in DataWindow units.
+//
+//	Returns:  		(None)
+//
+//	Description:  	Draws the descending sort indicator on the requesting DataWindow.
+//
+//////////////////////////////////////////////////////////////////////////////
+IF isValid(idw_requestor) THEN of_drawDescending(idw_requestor, vi_X, vi_Y)
 
 RETURN
 end subroutine

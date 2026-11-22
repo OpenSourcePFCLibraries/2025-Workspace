@@ -3450,7 +3450,21 @@ public function long of_darkcyan ();////////////////////////////////////////////
 Return(DARK_CYAN)
 end function
 
-public subroutine of_reset ();il_ActiveBorder								= -1
+public subroutine of_reset ();//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_Reset
+//
+//	Access:  		public
+//
+//	Arguments:		None
+//
+//	Returns:  		(None)
+//
+//	Description:  	Clears the cached system colors, so the next call to each of_Get
+//						function reads the current color from Windows again.
+//
+//////////////////////////////////////////////////////////////////////////////
+il_ActiveBorder								= -1
 il_ActiveCaption								= -1
 il_AppWorkSpace								= -1
 il_Background									= -1
