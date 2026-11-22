@@ -437,30 +437,32 @@ If lnv_Platform.of_gettextsize(lw_this, "X", ls_FontFace, &
 										mle_message.Underline, li_height, li_width) > 0 Then 
 										
 	// If appropriate, update the character width value.
-	If li_width >= 14 Then
-		ii_charwidth *= 2.1		
-	ElseIf li_width >= 13 Then
-		ii_charwidth *= 1.7		
-	ElseIf li_width >= 11 Then
-		ii_charwidth *= 1.3		
-	ElseIf li_width >= 10 Then
-		ii_charwidth *= 1.1				
-	Else
-		//No Action
-	End If			
+	Choose Case li_width
+		Case Is >= 14
+			ii_charwidth *= 2.1
+		Case Is >= 13
+			ii_charwidth *= 1.7
+		Case Is >= 11
+			ii_charwidth *= 1.3
+		Case Is >= 10
+			ii_charwidth *= 1.1
+		Case Else
+			//No Action
+	End Choose
 
 	// If appropriate, update the line length value.
-	If li_height >= 25 Then
-		ii_lineheight *= 1.9	
-	ElseIf li_height >= 22 Then
-		ii_lineheight *= 1.7		
-	ElseIf li_height >= 20 Then
-		ii_lineheight *= 1.3		
-	ElseIf li_height >= 16 Then
-		ii_lineheight *= 1.1				
-	Else
-		//No Action
-	End If		
+	Choose Case li_height
+		Case Is >= 25
+			ii_lineheight *= 1.9
+		Case Is >= 22
+			ii_lineheight *= 1.7
+		Case Is >= 20
+			ii_lineheight *= 1.3
+		Case Is >= 16
+			ii_lineheight *= 1.1
+		Case Else
+			//No Action
+	End Choose
 Else
 	// Set up an Error return value.
 	li_rc = -1

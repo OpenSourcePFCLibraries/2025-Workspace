@@ -197,17 +197,18 @@ If ls_coleditstatus = 'editable' Then
 	If idw_requestor.GetColumnName() = ls_colname Then
 		//Attempt to replace the selected text.
 		li_rc = of_replace(ll_currrow, ls_colname, inv_findattrib.is_replacewith)
-		If li_rc = 1 Then
-			/* Replace was successful. */
-			ib_replaced = True
-		ElseIf li_rc = 0 Then
-			/* Replacing of text was not appropriate. Not an error*/
-		ElseIf li_rc <= -1 Then
-			/* An unappropriate action was selected */
-			Return li_rc
-		Else
-			//No Action
-		End If
+		Choose Case li_rc
+			Case 1
+				/* Replace was successful. */
+				ib_replaced = True
+			Case 0
+				/* Replacing of text was not appropriate. Not an error*/
+			Case Is <= -1
+				/* An unappropriate action was selected */
+				Return li_rc
+			Case Else
+				//No Action
+		End Choose
 	End If
 	
 End If
