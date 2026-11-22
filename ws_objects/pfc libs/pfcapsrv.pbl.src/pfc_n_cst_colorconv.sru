@@ -975,31 +975,32 @@ else
    ldec_var_2 = astr_from.V * ( 1 - astr_from.S * ( ldec_var_h - ldec_var_i ) )
    ldec_var_3 = astr_from.V * ( 1 - astr_from.S * ( 1 - ( ldec_var_h - ldec_var_i ) ) )
 
-   if ( ldec_var_i = 0 ) then
-		ldec_var_r = astr_from.V 
-		ldec_var_g = ldec_var_3
-		ldec_var_b = ldec_var_1
-   elseif ( ldec_var_i = 1 ) then 
-		ldec_var_r = ldec_var_2
-		ldec_var_g = astr_from.V
-		ldec_var_b = ldec_var_1
-   elseif ( ldec_var_i = 2 ) then 
-		ldec_var_r = ldec_var_1
-		ldec_var_g = astr_from.V
-		ldec_var_b = ldec_var_3
-   elseif ( ldec_var_i = 3 ) then 
-		ldec_var_r = ldec_var_1
-		ldec_var_g = ldec_var_2 
-		ldec_var_b = astr_from.V 
-   elseif ( ldec_var_i = 4 ) then 
-		ldec_var_r = ldec_var_3
-		ldec_var_g = ldec_var_1
-		ldec_var_b = astr_from.V
-   else
-		ldec_var_r = astr_from.V
-		ldec_var_g = ldec_var_1 
-		ldec_var_b = ldec_var_2 
-	end if
+	choose case ldec_var_i
+		case 0
+			ldec_var_r = astr_from.V
+			ldec_var_g = ldec_var_3
+			ldec_var_b = ldec_var_1
+		case 1
+			ldec_var_r = ldec_var_2
+			ldec_var_g = astr_from.V
+			ldec_var_b = ldec_var_1
+		case 2
+			ldec_var_r = ldec_var_1
+			ldec_var_g = astr_from.V
+			ldec_var_b = ldec_var_3
+		case 3
+			ldec_var_r = ldec_var_1
+			ldec_var_g = ldec_var_2
+			ldec_var_b = astr_from.V
+		case 4
+			ldec_var_r = ldec_var_3
+			ldec_var_g = ldec_var_1
+			ldec_var_b = astr_from.V
+		case else
+			ldec_var_r = astr_from.V
+			ldec_var_g = ldec_var_1
+			ldec_var_b = ldec_var_2
+	end choose
 	
 	// Complete conversion
    	astr_to.R = ldec_var_r * 255                  //RGB results from 0 to 255

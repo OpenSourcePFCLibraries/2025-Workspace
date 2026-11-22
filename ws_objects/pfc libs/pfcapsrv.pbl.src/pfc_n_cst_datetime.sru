@@ -140,18 +140,19 @@ li_year += int(ll_numq) * 4
 al_julian -= ll_numq* ll_quad
 
 If (of_IsLeapYear(Date(li_year, 1, 1))) Then
-	If al_julian >= 366 Then
-		al_julian -=366
-		li_year ++
-	elseif (al_julian = 59) Then
-		li_month = 2
-		li_day = 29
-		Return Date(li_year,li_month,li_day)
-	elseif (al_julian > 59) Then
-		al_julian --
-	else
-		//No Action
-	end if
+	Choose Case al_julian
+		Case Is >= 366
+			al_julian -=366
+			li_year ++
+		Case 59
+			li_month = 2
+			li_day = 29
+			Return Date(li_year,li_month,li_day)
+		Case Is > 59
+			al_julian --
+		Case Else
+			//No Action
+	End Choose
 end if
 
 Do While al_julian >= 365

@@ -2682,24 +2682,26 @@ w_frame	lw_framerequestor
 string	ls_os
 
 // Determine the "environment"
-If ienv_object.ostype = Windows! Then
-	If ienv_object.osMajorRevision <= 3 and ienv_object.osMinorRevision < 95 Then
-		ls_os = 'windows3x'
-	Else
-		ls_os = 'windows95'
-	End If
-ElseIf ienv_object.ostype = WindowsNT! Then
-	If ienv_object.osMajorRevision <= 3 Then
-		ls_os = 'windowsnt3x'
-	ElseIf ienv_object.osMajorRevision >= 10 Then
-		ls_os = 'windows10'
-	Else
+Choose Case ienv_object.ostype
+	Case Windows!
+		If ienv_object.osMajorRevision <= 3 and ienv_object.osMinorRevision < 95 Then
+			ls_os = 'windows3x'
+		Else
+			ls_os = 'windows95'
+		End If
+	Case WindowsNT!
+		Choose Case ienv_object.osMajorRevision
+			Case Is <= 3
+				ls_os = 'windowsnt3x'
+			Case Is >= 10
+				ls_os = 'windows10'
+			Case Else
+				ls_os = 'windowsnt4x'
+		End Choose
+	Case Else
+		//Default
 		ls_os = 'windowsnt4x'
-	End If
-Else
-	//Default
-	ls_os = 'windowsnt4x'	
-End If
+End Choose
 
 // Default Micro Help Start Value Height.
 li_microhelpheight = ii_microhelpstartvalue
@@ -2714,15 +2716,16 @@ End If
 li_microhelpheight = li_microhelpheight - ii_microhelpsubtractvalue
 
 // Allow for the extra spacing on Win3x GUI.
-If ls_os = 'windows3x' Then
-	li_microhelpheight = li_microhelpheight - ii_microhelpwin3xsubtractvalue
-ElseIf ls_os = 'windowsnt3x' Then
-	li_microhelpheight = li_microhelpheight - ii_microhelpwinnt3xsubtractvalue
-ElseIf ls_os = 'windows10' Then
-	li_microhelpheight = li_microhelpheight - ii_microhelpwin10subtractvalue
-Else
-	//Default - No further adjustment
-End If
+Choose Case ls_os
+	Case 'windows3x'
+		li_microhelpheight = li_microhelpheight - ii_microhelpwin3xsubtractvalue
+	Case 'windowsnt3x'
+		li_microhelpheight = li_microhelpheight - ii_microhelpwinnt3xsubtractvalue
+	Case 'windows10'
+		li_microhelpheight = li_microhelpheight - ii_microhelpwin10subtractvalue
+	Case Else
+		//Default - No further adjustment
+End Choose
 
 Return li_microhelpheight
 end function
