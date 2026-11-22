@@ -45,10 +45,7 @@ public function string of_wordcap (string as_source)
 public function string of_removenonprint (string as_source)
 public function boolean of_isempty (string as_source)
 public function boolean of_isprintable (string as_source)
-public function boolean of_isformat (string as_source)
 public function string of_removewhitespace (string as_source)
-public function boolean of_IsComparisonOperator (string as_source)
-public function boolean of_IsArithmeticOperator (string as_source)
 public function long of_arraytostring (string as_source[], string as_delimiter, ref string as_ref_string)
 end prototypes
 
@@ -1078,55 +1075,6 @@ loop
 return True
 end function
 
-public function boolean of_isformat (string as_source);//////////////////////////////////////////////////////////////////////////////
-//	Function:  		of_IsFormat
-//////////////////////////////////////////////////////////////////////////////
-long		ll_count=0
-long		ll_length
-char		lc_char[]
-integer	li_ascii
-
-//Check parameters
-If IsNull(as_source) Then
-	boolean lb_null
-	SetNull(lb_null)
-	Return lb_null
-End If
-
-//Get the length
-ll_length = Len (as_source)
-
-//Check for at least one character
-If ll_length=0 Then
-	Return False
-End If
-
-//Move string into array of chars
-lc_char = as_source
-
-//Perform loop around all characters
-//Quit loop if Non Operator character is found
-do while ll_count<ll_length
-	ll_count ++
-	
-	//Get ASC code of character.
-	li_ascii = Asc (lc_char[ll_count])
-	
-	If (li_ascii>=33 and li_ascii<=47) or &
-		(li_ascii>=58 and li_ascii<=64) or &
-		(li_ascii>=91 and li_ascii<=96) or &
-		(li_ascii>=123 and li_ascii<=126) Then
-		//Character is a Format.
-		//Continue with the next character.
-	Else
-		Return False
-	End If
-loop
-	
-// Entire string is made of Format characters.
-return True
-end function
-
 public function string of_removewhitespace (string as_source);//////////////////////////////////////////////////////////////////////////////
 //	Function:  		of_RemoveWhiteSpace
 //////////////////////////////////////////////////////////////////////////////
@@ -1157,106 +1105,6 @@ FOR ll_loop = 1 TO ll_source_len
 NEXT
 
 Return ls_source
-end function
-
-public function boolean of_IsComparisonOperator (string as_source);//////////////////////////////////////////////////////////////////////////////
-//	Function:  		of_IsComparisonOperator
-//////////////////////////////////////////////////////////////////////////////
-long		ll_count=0
-long		ll_length
-char		lc_char[]
-integer	li_ascii
-
-//Check parameters
-If IsNull(as_source) Then
-	boolean lb_null
-	SetNull(lb_null)
-	Return lb_null
-End If
-
-//Get the length
-ll_length = Len (as_source)
-
-//Check for at least one character
-If ll_length=0 Then
-	Return False
-End If
-
-//Move string into array of chars
-lc_char = as_source
-
-//Perform loop around all characters
-//Quit loop if Non Operator character is found
-do while ll_count<ll_length
-	ll_count ++
-	
-	//Get ASC code of character.
-	li_ascii = Asc (lc_char[ll_count])
-	
-	If li_ascii=60 or			/* < less than */	 & 
-		li_ascii=61 or			/* = equal */		 & 
-		li_ascii=62 Then		/* > greater than */
-		//Character is an Comparison Operator.
-		//Continue with the next character.
-	Else
-		Return False
-	End If
-loop
-	
-// Entire string is made of Comparison Operators.
-return True
-end function
-
-public function boolean of_IsArithmeticOperator (string as_source);//////////////////////////////////////////////////////////////////////////////
-//	Function:  		of_IsArithmeticOperator
-//////////////////////////////////////////////////////////////////////////////
-long		ll_count=0
-long		ll_length
-char		lc_char[]
-integer	li_ascii
-
-//Check parameters
-If IsNull(as_source) Then
-	boolean lb_null
-	SetNull(lb_null)
-	Return lb_null
-End If
-
-//Get the length
-ll_length = Len (as_source)
-
-//Check for at least one character
-If ll_length=0 Then
-	Return False
-End If
-
-//Move string into array of chars
-lc_char = as_source
-
-//Perform loop around all characters
-//Quit loop if Non Operator character is found
-do while ll_count<ll_length
-	ll_count ++
-	
-	//Get ASC code of character.
-	li_ascii = Asc (lc_char[ll_count])
-	
-	If li_ascii=40 or			/* ( left parenthesis */	 & 
-		li_ascii=41 or			/* ) right parenthesis */	 & 
-		li_ascii=43 or			/* + addition */				 & 
-		li_ascii=45 or			/* - subtraction */			 & 
-		li_ascii=42 or			/* * multiplication */		 & 
-		li_ascii=47 or			/* / division */				 & 
-		li_ascii=94 Then		/* ^ power */	
-		//Character is an operator.
-		//Continue with the next character.
-	Else
-		Return False
-	End If
-loop
-	
-// Entire string is made of arithmetic operators.
-return True
 end function
 
 public function long of_arraytostring (string as_source[], string as_delimiter, ref string as_ref_string);//////////////////////////////////////////////////////////////////////////////
