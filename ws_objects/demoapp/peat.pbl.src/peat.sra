@@ -11,8 +11,6 @@ end forward
 global variables
 //Application Attributes and Services
 n_cst_peat	 gnv_app
-
-n_tr		gnv_trans_security
 end variables
 
 global type peat from application

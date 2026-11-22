@@ -17,7 +17,7 @@ Then point the `[Database]` section of `peat.ini`, in this folder, at it. Keep y
 
 ### Logon and security
 
-PEAT runs without a logon. To try OpenID Connect logon with the PFC security service, copy `peat_security.ini.example` to `peat_security.ini`, next to `peat.ini`, and fill it in; it describes the settings. `peat_security.ini` is ignored by git.
+PEAT runs without a logon and without PFC security. OpenID Connect logon, and PFC security with the groups from an identity provider, are in the OpenID Connect demo: see [openid demo/README.md](../openid%20demo/README.md).
 
 ### The images
 
