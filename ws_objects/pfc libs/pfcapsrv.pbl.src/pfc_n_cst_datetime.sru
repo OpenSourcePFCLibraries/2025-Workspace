@@ -1665,6 +1665,7 @@ public function long of_julian (date ad_source);////////////////////////////////
 //
 //	Version
 //	5.0   Initial version
+//	2025	Count from a representable date; Date(0000,01,01) gave 1900-01-01
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -1702,7 +1703,13 @@ If Not of_IsValid(ad_source) Then
 	Return -1
 End If
 
-Return DaysAfter(Date(0000,01,01),ad_source)
+// PowerBuilder dates cannot represent year 0000: Date(0000,01,01) is not a
+// valid date and returns 1900-01-01, so counting from it was off by 1900 years.
+// Count from 2000-01-01 instead and add its day number counted from
+// 1 January 0000 (day 0), the same epoch of_Gregorian uses.
+Constant Long JULIAN_2000_01_01 = 730485
+
+Return DaysAfter(Date(2000,01,01),ad_source) + JULIAN_2000_01_01
 
 end function
 
