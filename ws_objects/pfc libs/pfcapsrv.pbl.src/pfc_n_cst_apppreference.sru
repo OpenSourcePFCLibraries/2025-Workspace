@@ -2900,7 +2900,23 @@ end choose
 return this.of_save( ii_filetype, ls_keyoriniorxml, as_inisectionxmlroot, as_subkeyelement,as_value )
 end function
 
-public function integer of_setcontext (string as_key, any aa_value);n_cst_linkedlistnode	lnv_listnode
+public function integer of_setcontext (string as_key, any aa_value);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_SetContext
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_key		The key to store the value under.
+//	aa_value		The value to store.
+//
+//	Returns:  		integer
+//						1 if it succeeds and -1 if an error occurs.
+//
+//	Description:  	Stores a value in the context list under the specified key.
+//
+//////////////////////////////////////////////////////////////////////////////
+n_cst_linkedlistnode	lnv_listnode
 
 if isnull( as_key ) or len(trim(as_key)) = 0 then return failure
 
@@ -2910,7 +2926,22 @@ lnv_listnode.of_setdata( aa_value)
 return inv_context.of_add( lnv_listnode )
 end function
 
-public function integer of_getcontext (string as_key, ref any aa_value);
+public function integer of_getcontext (string as_key, ref any aa_value);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_GetContext
+//
+//	Access:  		public
+//
+//	Arguments:
+//	as_key		The key the value was stored under.
+//	aa_value		The value found (by reference).
+//
+//	Returns:  		integer
+//						1 if it succeeds and -1 if the key is empty or not found.
+//
+//	Description:  	Gets the value stored in the context list under the specified key.
+//
+//////////////////////////////////////////////////////////////////////////////
 n_cst_linkedlistnode	lnv_keynode
 n_cst_linkedlistnode	lnv_valuenode
 

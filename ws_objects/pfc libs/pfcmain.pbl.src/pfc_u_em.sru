@@ -410,7 +410,20 @@ any	la_temp
 la_temp = am_edit
 end event
 
-event pfc_ddcalendar;If IsValid(iuo_calendar) Then
+event pfc_ddcalendar;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:  		pfc_ddcalendar
+//
+//	Arguments:		None
+//
+//	Returns:  		integer
+//						The return value of the calendar's pfc_dropdown event,
+//						or 0 if the drop-down calendar is not enabled.
+//
+//	Description:  	Drops down the calendar when the drop-down calendar is enabled.
+//
+//////////////////////////////////////////////////////////////////////////////
+If IsValid(iuo_calendar) Then
 	Return iuo_calendar.Event pfc_dropdown()
 End If
 
@@ -418,7 +431,19 @@ Return 0
 
 end event
 
-event pfc_ddcalculator;
+event pfc_ddcalculator;//////////////////////////////////////////////////////////////////////////////
+//
+//	Event:  		pfc_ddcalculator
+//
+//	Arguments:		None
+//
+//	Returns:  		integer
+//						The return value of the calculator's pfc_dropdown event,
+//						or 0 if the drop-down calculator is not enabled.
+//
+//	Description:  	Drops down the calculator when the drop-down calculator is enabled.
+//
+//////////////////////////////////////////////////////////////////////////////
 If IsValid(iuo_calculator) Then
 	Return iuo_calculator.Event pfc_dropdown()
 End If

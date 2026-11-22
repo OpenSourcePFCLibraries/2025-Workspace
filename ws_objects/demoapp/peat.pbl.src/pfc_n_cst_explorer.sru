@@ -86,7 +86,22 @@ ist_hsplit_bar.Y = idrg_leftpane.Y
 RETURN 0
 end function
 
-public function integer of_setleftpane (dragobject adrg_left_pane);integer li_rtnvalue
+public function integer of_setleftpane (dragobject adrg_left_pane);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_SetLeftPane
+//
+//	Access:  		public
+//
+//	Arguments:
+//	adrg_left_pane		The control to use as the left pane.
+//
+//	Returns:  		integer
+//						1 if it succeeds and -1 if the control is not valid.
+//
+//	Description:  	Sets the control the explorer uses as its left pane.
+//
+//////////////////////////////////////////////////////////////////////////////
+integer li_rtnvalue
 
 IF IsValid (adrg_left_pane) THEN
 	idrg_leftpane = adrg_left_pane
@@ -98,7 +113,22 @@ END IF
 RETURN li_rtnvalue
 end function
 
-public function integer of_setrightpane (dragobject adrg_right_pane);integer li_rtnvalue
+public function integer of_setrightpane (dragobject adrg_right_pane);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_SetRightPane
+//
+//	Access:  		public
+//
+//	Arguments:
+//	adrg_right_pane		The control to use as the right pane.
+//
+//	Returns:  		integer
+//						1 if it succeeds and -1 if the control is not valid.
+//
+//	Description:  	Sets the control the explorer uses as its right pane.
+//
+//////////////////////////////////////////////////////////////////////////////
+integer li_rtnvalue
 
 IF IsValid (adrg_right_pane) THEN
 	idrg_rightpane = adrg_right_pane
@@ -110,14 +140,49 @@ END IF
 RETURN li_rtnvalue
 end function
 
-public function integer of_setcontrols (dragobject adrg_leftpane, dragobject adrg_rightpane);DRAGOBJECT ldrg_null1, ldrg_null2
+public function integer of_setcontrols (dragobject adrg_leftpane, dragobject adrg_rightpane);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_SetControls
+//
+//	Access:  		public
+//
+//	Arguments:
+//	adrg_leftpane		The control to use as the left pane.
+//	adrg_rightpane		The control to use as the right pane.
+//
+//	Returns:  		integer
+//						0
+//
+//	Description:  	Sets the explorer's left and right panes, with no headers.
+//
+//////////////////////////////////////////////////////////////////////////////
+DRAGOBJECT ldrg_null1, ldrg_null2
 
 of_setControls(adrg_leftpane, adrg_rightpane, ldrg_null1, ldrg_null2)
 
 RETURN 0
 end function
 
-public function integer of_setcontrols (dragobject adrg_leftpane, dragobject adrg_rightpane, dragobject adrg_leftheader, dragobject adrg_rightheader);INTEGER li_controlMax
+public function integer of_setcontrols (dragobject adrg_leftpane, dragobject adrg_rightpane, dragobject adrg_leftheader, dragobject adrg_rightheader);//////////////////////////////////////////////////////////////////////////////
+//
+//	Function:  		of_SetControls
+//
+//	Access:  		public
+//
+//	Arguments:
+//	adrg_leftpane		The control to use as the left pane.
+//	adrg_rightpane		The control to use as the right pane.
+//	adrg_leftheader		The control to use as the left header.
+//	adrg_rightheader		The control to use as the right header.
+//
+//	Returns:  		integer
+//						0
+//
+//	Description:  	Sets the explorer's panes and headers, then opens the split bar
+//						between the panes on the window.
+//
+//////////////////////////////////////////////////////////////////////////////
+INTEGER li_controlMax
 
 idrg_leftpane = adrg_leftpane
 idrg_rightpane = adrg_rightpane
