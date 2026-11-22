@@ -45,9 +45,9 @@ event constructor;call super::constructor;//////////////////////////////////////
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted in accordance with the MIT License
- * 
+
  *
- * http://www.gnu.org/copyleft/lesser.html
+ * https://opensource.org/licenses/MIT
  *
  * ====================================================================
  *
