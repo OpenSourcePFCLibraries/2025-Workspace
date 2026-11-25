@@ -135,6 +135,8 @@ Choose Case lr_button.Text
 		parent.event pfc_tilevertical()
 	Case "Layer"
 		parent.event pfc_layer()
+	Case Else
+		// No other Arrange buttons
 End Choose
 Return 1
 end event

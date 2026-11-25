@@ -145,6 +145,8 @@ Choose Case ai_type
 		Return "a page forward"
 	Case tab_1.tabpg_trackbars.htb_1.CST_MOVED
 		Return "moved"
+	Case Else
+		// Any other trackbar event: its number, below
 End Choose
 Return "type " + String(ai_type)
 end function
@@ -161,10 +163,13 @@ public function u_oc of_olecontrol ();//////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////////////
 integer	li_i
-u_oc	loc_none
+u_oc	loc_ole, loc_none
 
 For li_i = 1 To UpperBound(tab_1.tabpg_ole.Control)
-	If tab_1.tabpg_ole.Control[li_i].TypeOf() = OLEControl! Then Return tab_1.tabpg_ole.Control[li_i]
+	If tab_1.tabpg_ole.Control[li_i].TypeOf() = OLEControl! Then
+		loc_ole = tab_1.tabpg_ole.Control[li_i]
+		Return loc_ole
+	End If
 Next
 Return loc_none
 end function

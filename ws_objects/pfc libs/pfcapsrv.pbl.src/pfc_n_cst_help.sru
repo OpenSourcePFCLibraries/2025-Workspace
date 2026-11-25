@@ -667,6 +667,8 @@ Choose Case ls_program
 	Case "sumatrapdf.exe"
 		If ls_dest = "" Then Return '"' + as_viewer + '" "' + as_path + '"'
 		Return '"' + as_viewer + '" -named-dest ' + ls_dest + ' "' + as_path + '"'
+	Case Else
+		// Any other viewer: no command for it, below
 End Choose
 Return ""
 end function

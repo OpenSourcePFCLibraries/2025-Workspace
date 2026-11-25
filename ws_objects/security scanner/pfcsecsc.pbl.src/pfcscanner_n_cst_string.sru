@@ -817,15 +817,9 @@ If IsNull(as_source) or IsNull(ab_remove_spaces) or IsNull(ab_remove_nonprint) T
 	Return ls_null
 End If
 
-If ab_remove_spaces and ab_remove_nonprint Then
-	// Remove spaces and nonprintable characters from the beginning and end 
-	// of a string.
-	as_source = of_LeftTrim (as_source, ab_remove_spaces, ab_remove_nonprint)
-	as_source = of_RightTrim(as_source, ab_remove_spaces, ab_remove_nonprint)
-
-ElseIf ab_remove_nonprint Then
-	// Remove nonprintable characters from the beginning and end
-	// of a string.
+If ab_remove_nonprint Then
+	// Remove nonprintable characters, and spaces when ab_remove_spaces is
+	// True, from the beginning and end of a string.
 	as_source = of_LeftTrim (as_source, ab_remove_spaces, ab_remove_nonprint)
 	as_source = of_RightTrim(as_source, ab_remove_spaces, ab_remove_nonprint)
 

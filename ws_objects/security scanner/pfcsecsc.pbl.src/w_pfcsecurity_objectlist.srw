@@ -44,7 +44,7 @@ pfcscanner_n_cst_sourcelibrary	inv_source
 end variables
 
 event ue_scanlist;long ll_r, ll_rows, ll_rc, ll_objects, ll_controls, ll_failed
-string ls_title, ls_object, ls_type, ls_library, ls_failed, ls_summary
+string ls_title, ls_object, ls_type, ls_failed, ls_summary
 boolean lb_error
 pfcscanner_n_cst_securityscanner lnv_security
 
@@ -81,10 +81,9 @@ For ll_r = 1 to ll_rows
 	dw_1.SelectRow ( ll_r, True )
 	ls_object = dw_1.GetItemString ( ll_r, "name" )
 	ls_type = Lower ( dw_1.GetItemString ( ll_r, "otype" ) )
-	ls_library = dw_1.object.pbl[ll_r]
 
 	// windows, menus and user objects, with what they inherit; DataWindow objects' columns
-	ll_rc = lnv_security.of_ScanObject ( ls_object, ls_library )
+	ll_rc = lnv_security.of_ScanObject ( ls_object )
 	Yield ( )
 	If ll_rc = -2 Then
 		MessageBox ( this.Title, "Error reading the security template for " + ls_type + " - " + ls_object, StopSign! )

@@ -264,6 +264,8 @@ Choose Case ddlb_list.Text
 		li_count = inv_metaclass.of_GetInstanceVariables(lcd_class, ls_list)
 	Case "Nested Classes"
 		li_count = inv_metaclass.of_GetNestedClasses(lcd_class, ls_list)
+	Case Else
+		// No other lists
 End Choose
 
 For li_i = 1 To li_count
