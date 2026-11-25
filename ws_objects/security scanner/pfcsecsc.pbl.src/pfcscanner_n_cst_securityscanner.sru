@@ -41,18 +41,18 @@ string							is_removed[]
 end variables
 
 forward prototypes
-public function integer of_scandatawindow (string as_dataobjectname)
+public function long of_scandatawindow (string as_dataobjectname)
 public function integer of_initscanprocess (transaction a_trans, string as_app, string as_lib_list[])
 public function integer of_initscanprocess (transaction a_trans, string as_app, pfcscanner_n_cst_sourcelibrary anv_source)
 protected function string of_getdesc (string as_text, string as_tag)
 protected function string of_getmenudesc (string as_text)
 protected function string of_gettag (string as_tag)
-protected function integer of_scandataobject (string as_dataobject, string as_dwname, string as_object)
+protected function integer of_scandataobject (string as_dwname, string as_object)
 protected function integer of_setsyntax (string as_dataobject, datastore ads_datastore)
 public function integer of_update ()
-protected function integer of_addobject (string as_app, string as_winname, string as_object, string as_objecttype, string as_desc)
+protected function integer of_addobject (string as_object, string as_objecttype, string as_desc)
 protected function long of_scancontrols (string as_object, pfcscanner_n_cst_classinfo anv_class, string as_within, string as_prefix, boolean ab_menu)
-public function integer of_scanobject (string as_object, string as_library)
+public function long of_scanobject (string as_object)
 protected function boolean of_checkscantable (transaction a_trans)
 protected function long of_merge (string as_object)
 protected subroutine of_resetfound ()
@@ -61,7 +61,7 @@ public function boolean of_isscantableavailable ()
 public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls)
 end prototypes
 
-public function integer of_scandatawindow (string as_dataobjectname);//////////////////////////////////////////////////////////////////////////////
+public function long of_scandatawindow (string as_dataobjectname);//////////////////////////////////////////////////////////////////////////////
 //	Function: 		of_ScanDatawindow
 //	Description:  	Scans the datawindow object and captures the information about each column
 //						called from the scan window for an individual dw selection
@@ -70,7 +70,7 @@ public function integer of_scandatawindow (string as_dataobjectname);///////////
 //////////////////////////////////////////////////////////////////////////////
 as_dataobjectname = Lower ( Trim ( as_dataobjectname ) )
 of_ResetFound ( )
-If of_ScanDataObject ( as_dataobjectname, as_dataobjectname, "" ) < 0 Then Return -1
+If of_ScanDataObject ( as_dataobjectname, "" ) < 0 Then Return -1
 
 Return of_Merge ( as_dataobjectname )
 end function
@@ -183,7 +183,7 @@ If ls_value = "" Then ls_value = as_tag
 Return ls_value
 end function
 
-protected function integer of_scandataobject (string as_dataobject, string as_dwname, string as_object);//////////////////////////////////////////////////////////////////////////////
+protected function integer of_scandataobject (string as_dwname, string as_object);//////////////////////////////////////////////////////////////////////////////
 //	Function:				of_ScanDataObject
 //	Description:  		Scans the datawindow object and captures the information about each column
 //////////////////////////////////////////////////////////////////////////////
@@ -221,7 +221,7 @@ Do While Len ( ls_query )  > 0
 				// get the descriptive info
 				ls_ans =ids_info.Describe ( ls_token + ".dbName " )  + " : " + &
 					ids_info.Describe ( ls_token + ".ColType" )  
-					of_addobject ( is_app, as_dataobject, ls_name, "Column", ls_ans )   
+					of_addobject ( ls_name, "Column", ls_ans )   
 				li_colcnt++
 			End If
 		End If
@@ -289,7 +289,7 @@ Else
 End If
 end function
 
-protected function integer of_addobject (string as_app, string as_winname, string as_object, string as_objecttype, string as_desc);//////////////////////////////////////////////////////////////////////////////
+protected function integer of_addobject (string as_object, string as_objecttype, string as_desc);//////////////////////////////////////////////////////////////////////////////
 //	Function:	of_addobject
 //	Description:	Record a control the scan found.  The template is updated
 //					when the object's scan is done (of_Merge).
@@ -341,7 +341,7 @@ For ll_i = 1 To anv_class.il_count
 	ls_from = anv_class.is_nfrom[ll_i]
 	If ab_menu Then
 		ls_name = anv_class.is_nname[ll_i]
-		of_AddObject ( is_app, as_object, ls_name, "menuitem", of_GetMenuDesc ( anv_class.is_ntext[ll_i] ) )
+		of_AddObject ( ls_name, "menuitem", of_GetMenuDesc ( anv_class.is_ntext[ll_i] ) )
 		ll_count++
 		ll_count += of_ScanControls ( as_object, anv_class, anv_class.is_nname[ll_i], "", True )
 		Continue
@@ -353,7 +353,7 @@ For ll_i = 1 To anv_class.il_count
 	If ls_type = "" Then ls_type = ls_from
 
 	ls_name = as_prefix + anv_class.is_nname[ll_i]
-	of_AddObject ( is_app, as_object, ls_name, ls_type, of_GetDesc ( anv_class.is_ntext[ll_i], anv_class.is_ntag[ll_i] ) )
+	of_AddObject ( ls_name, ls_type, of_GetDesc ( anv_class.is_ntext[ll_i], anv_class.is_ntag[ll_i] ) )
 	ll_count++
 
 	// the controls on it, declared by this class (such as a tab's pages) ...
@@ -370,14 +370,14 @@ For ll_i = 1 To anv_class.il_count
 	End If
 
 	If ls_type = "datawindow" And ls_dataobject <> "" Then
-		ll_count += Max ( of_ScanDataObject ( as_object, ls_dataobject, ls_name ), 0 )
+		ll_count += Max ( of_ScanDataObject ( ls_dataobject, ls_name ), 0 )
 	End If
 Next
 
 Return ll_count
 end function
 
-public function integer of_scanobject (string as_object, string as_library);//////////////////////////////////////////////////////////////////////////////
+public function long of_scanobject (string as_object);//////////////////////////////////////////////////////////////////////////////
 //	Function:			of_scanobject
 //	Description:  	Capture information about the controls and other classes on the object.
 //						The object is read from its source, with the controls it
@@ -415,14 +415,16 @@ If ls_type = "window" Then
 	//  the window's menu, and its items
 	ls_menu = lnv_class.is_menuname
 	If Len ( ls_menu ) > 0 Then
-		of_AddObject ( is_app, as_object, ls_menu, "menuitem", "Top Level Menu Object" )
+		of_AddObject ( ls_menu, "menuitem", "Top Level Menu Object" )
 		lnv_menu = inv_source.of_GetClass ( ls_menu )
 		If IsValid ( lnv_menu ) Then of_ScanControls ( as_object, lnv_menu, "", "", True )
 	End If
 ElseIf il_found = 0 Then
 	// does not have any controls so record the object itself
-	of_AddObject ( is_app, as_object, as_object, inv_source.of_GetSystemType ( as_object ), &
+	of_AddObject ( as_object, inv_source.of_GetSystemType ( as_object ), &
 						of_GetDesc ( lnv_class.is_text, lnv_class.is_tag ) )
+Else
+	// Has controls: they were recorded by of_ScanControls
 End If
 
 // add them to the template

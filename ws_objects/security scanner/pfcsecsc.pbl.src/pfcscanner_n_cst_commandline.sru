@@ -202,7 +202,7 @@ For ll_i = 1 To ll_rows
 	ls_type = lds_objects.GetItemString(ll_i, "otype")
 	ll_selected++
 
-	ll_rc = lnv_scan.of_ScanObject(ls_name, lds_objects.GetItemString(ll_i, "pbl"))
+	ll_rc = lnv_scan.of_ScanObject(ls_name)
 	If ll_rc = -2 Then
 		of_Log("Error reading the security template for " + ls_type + " " + ls_name + ": " + atr_trans.SQLErrText)
 		li_rc = -1

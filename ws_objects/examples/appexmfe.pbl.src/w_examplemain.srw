@@ -754,6 +754,8 @@ If ll_handle > 0 And IsValid(tv_1.inv_levelsource) Then
 				ia_helptypeid = 100 + lds_source.GetItemNumber(ll_row, "category_id")
 			Case 3
 				ia_helptypeid = inv_catalog.of_GetHelpContext(lds_source.GetItemNumber(ll_row, "example_id"))
+			Case Else
+				// Any other level: no help context
 		End Choose
 	End If
 End If

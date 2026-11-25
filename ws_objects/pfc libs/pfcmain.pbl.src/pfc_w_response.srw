@@ -112,6 +112,8 @@ For li_i = 1 To li_count
 		Case Line!, Oval!, Rectangle!, RoundRectangle!
 			// Drawing objects (a line has no position or size of its own)
 			Continue
+		Case Else
+			// Any other control: fitted below
 	End Choose
 	ldo_control = this.Control[li_i]
 	If Not ldo_control.Visible Then Continue

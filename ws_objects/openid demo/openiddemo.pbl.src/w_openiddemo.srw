@@ -298,6 +298,8 @@ Do While FileRead(li_file, ls_line) >= 0
 			as_keys[li_count] = Trim(Left(ls_line, ll_pos - 1))
 			as_values[li_count] = Trim(Mid(ls_line, ll_pos + 1))
 		End If
+	Else
+		// A comment, a blank line, or a key in another section
 	End If
 Loop
 FileClose(li_file)
@@ -405,6 +407,8 @@ For ll_i = 1 To ll_len
 			lb_escape = True
 		ElseIf ls_char = "~"" Then
 			lb_string = False
+		Else
+			// Any other character in a string: copied as it is
 		End If
 		Continue
 	End If
@@ -518,6 +522,8 @@ Choose Case tab_1.tabpg_oauth2.ddlb_flow.FindItem(tab_1.tabpg_oauth2.ddlb_flow.T
 		Return inv_oauth2.DEVICECODE
 	Case 3
 		Return inv_oauth2.CLIENTCREDENTIALS
+	Case Else
+		// The authorization code flow, below
 End Choose
 Return inv_oauth2.AUTHORIZATIONCODE
 end function
@@ -749,6 +755,8 @@ Choose Case ai_rc
 		Return "The identity provider's response is not valid."
 	Case -6
 		Return ls_error
+	Case Else
+		// Any other code: the error, below
 End Choose
 Return "Error " + String(ai_rc) + ": " + ls_error
 end function

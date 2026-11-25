@@ -130,6 +130,8 @@ Do While ll_pos <= ll_len
 				is_ntext[ll_event] = of_Value(Mid(Trim(ls_line), ll_end + 1))
 			End If
 		End If
+	Else
+		// Neither in a property block nor in an event script: skip the line
 	End If
 Loop
 
@@ -218,6 +220,8 @@ For ll_i = 1 To anv_class.il_count
 		// declared again from another class
 		is_nfrom[ll_index] = anv_class.is_nfrom[ll_i]
 		is_nwithin[ll_index] = anv_class.is_nwithin[ll_i]
+	Else
+		// Declared in this class already: keep its declaration
 	End If
 	If anv_class.is_ntext[ll_i] <> "" Then is_ntext[ll_index] = anv_class.is_ntext[ll_i]
 	If anv_class.is_ntag[ll_i] <> "" Then is_ntag[ll_index] = anv_class.is_ntag[ll_i]
@@ -252,6 +256,8 @@ Do While ll_i <= ll_len
 				ls_char = "~r"
 			Case "n"
 				ls_char = "~n"
+			Case Else
+				// Any other escaped character: kept as it is
 		End Choose
 	End If
 	ls_value += ls_char

@@ -401,6 +401,8 @@ For li_i = 1 To li_count
 				ldo_right = ldo_control
 			ElseIf ldo_control.X < ldo_right.X Then
 				ldo_right = ldo_control
+			Else
+				// Not nearer than the control already found
 			End If
 		End If
 	ElseIf ldo_control.Y > this.Y Then
@@ -410,8 +412,12 @@ For li_i = 1 To li_count
 				ldo_below = ldo_control
 			ElseIf ldo_control.Y < ldo_below.Y Then
 				ldo_below = ldo_control
+			Else
+				// Not nearer than the control already found
 			End If
 		End If
+	Else
+		// Above the label: not a target
 	End If
 Next
 

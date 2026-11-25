@@ -104,6 +104,8 @@ Choose Case Lower(Mid(as_file, LastPos(as_file, ".") + 1))
 		Return of_OpenProject(as_file, as_app, as_libs)
 	Case "pbt"
 		Return of_OpenTarget(as_file, as_app, as_libs)
+	Case Else
+		// Any other file type: not supported, below
 End Choose
 Return -1
 end function
@@ -281,6 +283,8 @@ Do While ll_pos <= ll_len
 		as_app = of_TargetValue(ls_line)
 	ElseIf Lower(Left(ls_line, 8)) = "liblist " Then
 		ls_liblist = of_TargetValue(ls_line)
+	Else
+		// Any other line of the target: not needed
 	End If
 Loop
 
