@@ -213,7 +213,7 @@ public function string of_AddPicture (string as_filename, string as_band, alignm
 //						avta_VAlign are both "center".  In this case, the picture will overlay
 //						the existing objects.
 //
-//						This function overloads the real of_AddPicture, wich is protected.
+//						This function overloads the real of_AddPicture, which is protected.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -4177,7 +4177,7 @@ public function string of_AddPicture (string as_filename, string as_band, alignm
 //						avta_VAlign are both "center".  In this case, the picture will overlay
 //						the existing objects.
 //
-//						This function overloads the real of_AddPicture, wich is protected.
+//						This function overloads the real of_AddPicture, which is protected.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -4239,7 +4239,7 @@ public function string of_AddPicture (string as_filename, string as_band, alignm
 //						avta_VAlign are both "center".  In this case, the picture will overlay
 //						the existing objects.
 //
-//						This function overloads the real of_AddPicture, wich is protected.
+//						This function overloads the real of_AddPicture, which is protected.
 //
 //////////////////////////////////////////////////////////////////////////////
 //
