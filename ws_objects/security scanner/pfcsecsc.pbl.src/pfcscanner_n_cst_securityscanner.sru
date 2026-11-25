@@ -32,7 +32,7 @@ string							is_foundcontrol[]
 string							is_foundtype[]
 string							is_founddesc[]
 
-// What the scans changed in security_template (of_GetSummary)
+// What the scans changed in security_template (of_GetSummaryText)
 long								il_added
 long								il_changed
 long								il_deleted
@@ -56,8 +56,6 @@ public function long of_scanobject (string as_object)
 protected function boolean of_checkscantable (transaction a_trans)
 protected function long of_merge (string as_object)
 protected subroutine of_resetfound ()
-public function integer of_getsummary (ref long al_added, ref long al_changed, ref long al_deleted, ref long al_removed, ref string as_removed[])
-public function boolean of_isscantableavailable ()
 public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls)
 end prototypes
 
@@ -470,7 +468,7 @@ protected function long of_merge (string as_object);////////////////////////////
 //						   last scan found it too: then it was deleted in Template
 //						   Management, and stays deleted;
 //						 - a control the template has but the object no longer has
-//						   is reported (of_GetSummary), and kept: it may have
+//						   is reported (of_GetSummaryText), and kept: it may have
 //						   security settings.
 //						security_scan then has the controls found.
 //	Returns:			The number of controls found, -2 if the security database
@@ -561,41 +559,13 @@ is_foundtype = ls_empty
 is_founddesc = ls_empty
 end subroutine
 
-public function integer of_getsummary (ref long al_added, ref long al_changed, ref long al_deleted, ref long al_removed, ref string as_removed[]);//////////////////////////////////////////////////////////////////////////////
-//	Function:		of_GetSummary
-//	Description:	What the scans changed in the template:
-//						al_added		controls added
-//						al_changed	controls whose type changed
-//						al_deleted	controls deleted in Template Management after the
-//										last scan, which stay deleted
-//						al_removed	controls the objects no longer have, kept in the
-//										template; as_removed[] has them (object.control)
-//	Returns:			1
-//////////////////////////////////////////////////////////////////////////////
-al_added = il_added
-al_changed = il_changed
-al_deleted = il_deleted
-al_removed = il_removed
-as_removed = is_removed
-Return 1
-end function
-
-public function boolean of_isscantableavailable ();//////////////////////////////////////////////////////////////////////////////
-//	Function:		of_IsScanTableAvailable
-//	Description:	Whether security_scan, the controls found by the last scan of
-//						each object, is available.  Without it, a re-scan adds again the
-//						controls deleted in Template Management.
-//////////////////////////////////////////////////////////////////////////////
-Return ib_scantable
-end function
-
 public function string of_getsummarytext (string as_app, long al_scanned, long al_selected, long al_controls);//////////////////////////////////////////////////////////////////////////////
 //	Function:		of_GetSummaryText
 //	Arguments:		as_app			The application
 //						al_scanned		The objects scanned
 //						al_selected		The objects selected to scan
 //						al_controls		The controls the scanned objects have
-//	Description:	The summary of the scans (of_GetSummary), to show or log
+//	Description:	The summary of the scans, to show or log
 //////////////////////////////////////////////////////////////////////////////
 long		ll_i
 string	ls_summary
