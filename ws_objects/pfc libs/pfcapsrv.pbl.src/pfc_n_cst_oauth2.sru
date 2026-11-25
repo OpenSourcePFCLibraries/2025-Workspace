@@ -2916,15 +2916,17 @@ For ll_idx = 1 To ll_count
 	End If
 Next
 
-// A number, or a string with a number (some providers send numbers as
-// strings); any other type is not a number: returns 0
+// A number, or a string with a number
 If lb_found Then
 	Choose Case lnv_json.GetItemType(ll_item)
 		Case JsonNumberItem!
 			ll_value = lnv_json.GetItemNumber(ll_item)
 		Case JsonStringItem!
+			// some providers send numbers as strings
 			ls_value = lnv_json.GetItemString(ll_item)
 			If IsNumber(ls_value) Then ll_value = Long(ls_value)
+		Case Else
+			// Any other type is not a number: returns 0
 	End Choose
 End If
 Destroy lnv_json
