@@ -273,7 +273,7 @@ public function string of_padleft (string as_source, long al_length);///////////
 //	al_length		The desired length of the string.
 //
 //	Returns:  		String
-//						A string of length al_length wich contains as_source with
+//						A string of length al_length which contains as_source with
 //						spaces added to its left.
 //						If any argument's value is NULL, function returns NULL.
 //						If al_length is less or equal to length of as_source, the 
@@ -346,7 +346,7 @@ public function string of_padright (string as_source, long al_length);//////////
 //	al_length		The desired length of the string.
 //
 //	Returns:  		String
-//						A string of length al_length wich contains as_source with
+//						A string of length al_length which contains as_source with
 //						spaces added to its right.
 //						If any argument's value is NULL, function returns NULL.
 //						If al_length is less or equal to length of as_source, the 
